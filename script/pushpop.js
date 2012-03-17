@@ -1,6 +1,5 @@
 var game = null;
 
-
 function genGame(numStacks, depth) {
 	if (!numStacks) numStacks = 4;
 	if (!depth) depth = 4;
@@ -35,22 +34,24 @@ function genGame(numStacks, depth) {
 			var lastPiece = this.guess.length > 0 ? this.guess[this.guess.length-1] : null;
 			var piece = this.stacks[stack].pop();
 			if (lastPiece == null || lastPiece.matches(piece)) {
-				this.pushToGuessStack(stack, piece);
+				this.pushToGuessStack(piece);
 				this.render();
 			} else {
 				this.stacks[stack].push(piece);
 				alert("doesn't match");
 			}
 		},
-		pushToGuessStack: function(stack, piece) {
+		pushToGuessStack: function(piece) {
 			this.guess.push(piece);
 			$("#pushPop_game-stack").append('<div class="piece color_'+piece.color+'" style="z-index:'+this.guess.length+'"><div class="shape">'+piece.shape+'</div></div>');
-			$("#pushPop_game-stack .piece").filter(":last").click( this.popGuessStack.bind(this, stack) );
+			$("#pushPop_game-stack .piece").filter(":last").click( this.popGuessStack.bind(this, this.guess.length) );
 		},
-		popGuessStack: function(stack) {
-			var piece = this.guess.pop();
-			$("#pushPop_game-stack .piece").filter(":last").remove();
-			this.stacks[stack].push(piece);
+		popGuessStack: function(until) {
+			while (this.guess.length >= until) {
+				var piece = this.guess.pop();
+				$("#pushPop_game-stack .piece").filter(":last").remove();
+				this.stacks[piece.stack].push(piece);
+			}
 			this.render();
 		},
 		generateSolution: function() {
@@ -85,7 +86,9 @@ function genGame(numStacks, depth) {
 			for (var i = 0; i < this.solution.length; i++) {
 				var index;
 				while( this.stacks[(index = Math.floor(Math.random() * this.numStacks))].length >= this.depth);
-				this.stacks[index].push(this.solution[i]);
+				var piece = this.solution[i];
+				piece.stack = index;
+				this.stacks[index].push(piece);
 			}
 		},
 		init: function(numStacks, depth) {
@@ -107,12 +110,4 @@ function genGame(numStacks, depth) {
 
 	g.init(numStacks, depth);
 	return g;
-}
-
-if (!Array.prototype.shuffle) {
-	Array.prototype.shuffle = function() {
-		var o = this;
-		for(var j, x, i = o.length; i; j = parseInt(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
-		return o;
-	};
 }
