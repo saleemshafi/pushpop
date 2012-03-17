@@ -1,10 +1,10 @@
 {
-	"id": "com.palm.app.fzami",
+	"id": "com.palm.app.pushpop",
 	"version": "1.0.0",
-	"vendor": "Fzami",
+	"vendor": "Saleem Shafi",
 	"type": "web",
 	"main": "index.html",
-	"title": "fzami",
+	"title": "PushPop",
 	"icon": "icon.png",
 	"uiRevision": 2
 }
