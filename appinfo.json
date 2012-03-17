@@ -1,0 +1,10 @@
+{
+	"id": "com.palm.app.fzami",
+	"version": "1.0.0",
+	"vendor": "Fzami",
+	"type": "web",
+	"main": "index.html",
+	"title": "fzami",
+	"icon": "icon.png",
+	"uiRevision": 2
+}
