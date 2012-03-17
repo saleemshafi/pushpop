@@ -44,12 +44,12 @@ function genGame(numStacks, depth) {
 		},
 		pushToGuessStack: function(stack, piece) {
 			this.guess.push(piece);
-			$("#pushPop_game-stack").prepend('<div class="piece color_'+piece.color+'" style="z-index:'+this.guess.length+'"><div class="shape">'+piece.shape+'</div></div>');
-			$("#pushPop_game-stack .piece").filter(":first").click( this.popGuessStack.bind(this, stack) );
+			$("#pushPop_game-stack").append('<div class="piece color_'+piece.color+'" style="z-index:'+this.guess.length+'"><div class="shape">'+piece.shape+'</div></div>');
+			$("#pushPop_game-stack .piece").filter(":last").click( this.popGuessStack.bind(this, stack) );
 		},
 		popGuessStack: function(stack) {
 			var piece = this.guess.pop();
-			$("#pushPop_game-stack .piece").filter(":first").remove();
+			$("#pushPop_game-stack .piece").filter(":last").remove();
 			this.stacks[stack].push(piece);
 			this.render();
 		},
