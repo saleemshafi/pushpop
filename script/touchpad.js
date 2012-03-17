@@ -8,11 +8,15 @@ enyo.kind({
 			   {kind: "AppMenu",
 					  components: [
 					  	// Ctrl+~
+					  	  {caption: "New Puzzle", onclick: "newPuzzle"},
 						  {caption: "Preferences", onclick: "showPreferences"},
 					  ]
 				}
              ],
   windowRotated: function() {},
+  newPuzzle: function() {
+  	genGame(4,4).render();
+  },
   showPreferences: function() {
 	alert("prefs");
   }

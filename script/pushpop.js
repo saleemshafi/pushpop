@@ -1,5 +1,3 @@
-var game = null;
-
 function genGame(numStacks, depth) {
 	if (!numStacks) numStacks = 4;
 	if (!depth) depth = 4;
