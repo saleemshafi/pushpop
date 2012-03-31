@@ -28,6 +28,7 @@ enyo.kind({
   },
   windowRotated: function() {},
   newPuzzle: function() {
+  	this.game.shutdown();
   	this.game = genGame(4,4);
   	this.game.start();
   },

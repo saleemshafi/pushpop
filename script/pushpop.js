@@ -47,12 +47,23 @@ function genGame(numStacks, depth) {
 		stacks: [],
 		guess: [],
 		solution: [],
-		timer: new Timer(),
+		timer: null,
 		timerRefresh: 0,
 		start: function() {
 			this.render();
+			this.timer = new Timer();
 			this.timer.start();
 			this.timerRefresh = setInterval(this.updateTimer, 500, this.timer);
+		},
+		shutdown: function() {
+			clearInterval(this.timerRefresh);
+			this.timer = null;
+			this.stacks = [];
+			this.guess = [];
+			this.solution = [];
+			$("#pushPop_game-stack").empty();
+			$("#pushPop_game-board").empty();
+			$("#pushPop_solution").empty();
 		},
 		updateTimer: function(timer) {
 			$("#pushPop_timer").text(timer.toString());
