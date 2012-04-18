@@ -21,7 +21,12 @@ enyo.kind({
              ],
   create: function() {
 	this.inherited(arguments);
-  	this.game = genGame(4,4);
+	var id = null;
+	if (window.location.hash) {
+		id = window.location.hash.substring(1);
+	}
+  	this.game = genGame(4,4, id);
+  	window.location.hash = this.game.id;
   },
   rendered: function() {
   	this.render();
@@ -35,6 +40,7 @@ enyo.kind({
 	$("#pushPop_solution").empty();
  	
   	this.game = genGame(4,4);
+  	window.location.hash = this.game.id;
   	this.render();
   	this.game.start(this.updateTimer);
   },
@@ -62,6 +68,7 @@ enyo.kind({
 		render: function() {
 				var gb = $('#pushPop_game-board');
 				gb.empty();
+				gb.append("<h2>"+this.game.id+"</h2>");
 				var index = 0;
 				for(var i=0; i < this.game.stacks.length; i++) {
 					gb.append('<div class="stack" id="stack'+i+'"></div>');

@@ -1,9 +1,21 @@
 
-function genGame(numStacks, depth) {
+function genGame(numStacks, depth, id) {
 	if (!numStacks) numStacks = 4;
 	if (!depth) depth = 4;
+	if (!id) id = null;
 
-	return new PushPop().init(numStacks, depth);
+	return new PushPop().init(numStacks, depth, id);
+}
+
+var Piece = function(color, shape) {
+	this.color = color;
+	this.shape = shape;
+}
+
+Piece.prototype = {
+	matches: function(piece) { 
+		return this.color == piece.color || this.shape == piece.shape;
+	}
 }
 
 var PushPop = function() {}
@@ -24,7 +36,7 @@ PushPop.prototype = {
 			var pieces = [];
 			for (var i = 0; i < this.numStacks; i++)
 				for (var j=0; j < this.depth; j++)
-					pieces.push({color: i, shape: j, matches: function(piece) { return this.color == piece.color || this.shape == piece.shape; } });
+					pieces.push(new Piece(i, j));
 
 			var tries = 0;
 			while (true) {
@@ -60,7 +72,30 @@ PushPop.prototype = {
 			this.assignGameId();
 		},
 		assignGameId: function() {
-			
+			this.id = "";
+			for (var i = 0; i < this.stacks.length; i++) {
+				var bitId = 0;
+				var stack = this.stacks[i];
+				for (var j = 0; j < stack.length; j++) {
+					var piece = stack[j];
+					bitId <<= 2;
+					bitId += piece.color;
+					bitId <<= 2;
+					bitId += piece.shape;
+				}
+				this.id += bitId.toString(16);
+			}
+		},
+		rememberBoard: function(boardId) {
+			this.stacks = [];
+			for (var i = 0 ; i < boardId.length; i++) {
+				if (i % 4 == 0) {
+					this.stacks.push([]);
+				}
+				var pieceNum = parseInt(boardId.charAt(i), 16);
+				this.stacks[this.stacks.length-1].push(new Piece((pieceNum >> 2 & 0x3), pieceNum & 0x3));
+			}
+			this.id = boardId;
 		},
 		init: function(numStacks, depth, id) {
 			this.numStacks = numStacks;
