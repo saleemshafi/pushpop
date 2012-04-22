@@ -7,9 +7,10 @@ function genGame(numStacks, depth, id) {
 	return new PushPop().init(numStacks, depth, id);
 }
 
-var Piece = function(color, shape) {
+var Piece = function(color, shape, stack) {
 	this.color = color;
 	this.shape = shape;
+	this.stack = stack;
 }
 
 Piece.prototype = {
@@ -93,7 +94,8 @@ PushPop.prototype = {
 					this.stacks.push([]);
 				}
 				var pieceNum = parseInt(boardId.charAt(i), 16);
-				this.stacks[this.stacks.length-1].push(new Piece((pieceNum >> 2 & 0x3), pieceNum & 0x3));
+				var stackNum = this.stacks.length-1;
+				this.stacks[stackNum].push(new Piece((pieceNum >> 2 & 0x3), pieceNum & 0x3, stackNum));
 			}
 			this.id = boardId;
 		},
