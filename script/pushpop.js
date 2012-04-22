@@ -7,6 +7,14 @@ function genGame(numStacks, depth, id) {
 	return new PushPop().init(numStacks, depth, id);
 }
 
+function range(begin, end){
+	var range = [];
+    for (var i = 0; i < end; ++i){
+        range[i]=i;
+    }
+    return range;
+}
+
 var Piece = function(color, shape, stack) {
 	this.color = color;
 	this.shape = shape;
@@ -16,6 +24,15 @@ var Piece = function(color, shape, stack) {
 Piece.prototype = {
 	matches: function(piece) { 
 		return this.color == piece.color || this.shape == piece.shape;
+	},
+	findMatchingPieces: function(pieces) {
+		var matching = [];
+		for (var i = 0; i < pieces.length; i++) {
+			if (this.matches(pieces[i])) {
+				matching.push(i);
+			}
+		}
+		return matching;
 	}
 }
 
@@ -48,7 +65,7 @@ PushPop.prototype = {
 				var lastPiece = null;
 				
 				while (canContinue) {
-					var matchingIndexes = this.findMatchingPieces(remainingPieces, lastPiece);
+					var matchingIndexes = lastPiece == null ? range(0, remainingPieces.length-1) : lastPiece.findMatchingPieces(remainingPieces);
 					if (matchingIndexes.length != 0) {
 						var pieceIndex = matchingIndexes[Math.floor(Math.random()*matchingIndexes.length)];
 						lastPiece = remainingPieces.splice(pieceIndex, 1)[0];
@@ -113,13 +130,24 @@ PushPop.prototype = {
 		start: function(timerListener) {
 			this.timer = new Timer();
 			this.timer.start();
+			if (this.timerRefresh) {
+				clearInterval(this.timerRefresh);
+			}
 			this.timerRefresh = setInterval(timerListener, 500, this.timer);
 		},
 		shutdown: function() {
-			clearInterval(this.timerRefresh);
+			if (this.timerRefresh) {
+				clearInterval(this.timerRefresh);
+			}
 			this.timer = null;
 			this.stacks = [];
 			this.guess = [];
+		},
+		puzzleFinished: function() {
+			for (var i = 0; i < this.stacks.length; i++) {
+				if (this.stacks[i].length != 0) return false;
+			}
+			return true;
 		},
 		popStack: function(stack) {
 			var lastPiece = this.guess.length > 0 ? this.guess[this.guess.length-1] : null;
@@ -131,15 +159,6 @@ PushPop.prototype = {
 				this.stacks[stack].push(piece);
 				return false;
 			}
-		},
-		findMatchingPieces: function(pieces, lastPiece) {
-			var matching = [];
-			for (var i = 0; i < pieces.length; i++) {
-				if (lastPiece == null || lastPiece.matches(pieces[i])) {
-					matching.push(i);
-				}
-			}
-			return matching;
 		}
 	};	
 

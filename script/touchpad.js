@@ -11,6 +11,12 @@ enyo.kind({
                		{name: "pauseButton", kind: "Button", caption:"Pause", onclick: "pauseTimer"},
                		{name: "resumeButton", kind: "Button", caption:"Resume", onclick: "resumeTimer"}
                ]},
+               {name: "gameOver", kind: "enyo.Popup", centered: true, modal: true, dismissWithClick: false, dismissWithEscape: false, floating: true, classes:"gameOver", components: [
+               		{content: "Congratulations!"},
+               		{name:"stats", content:""},
+               		{kind:"Button",caption: "New Puzzle", onclick: "newPuzzle"},
+               		{name: "socialChallenge"}
+               ]},
 			   {kind: "AppMenu",
 					  components: [
 					  	// Ctrl+~
@@ -34,6 +40,8 @@ enyo.kind({
   },
   windowRotated: function() {},
   newPuzzle: function() {
+  	this.$.gameOver.hide();
+  	
   	this.game.shutdown();
 	$("#pushPop_game-stack").empty();
 	$("#pushPop_game-board").empty();
@@ -88,9 +96,18 @@ enyo.kind({
 			if (piece) {
 				this.renderPushToGuessStack(piece);
 				this.render();
+				if (this.game.puzzleFinished()) {
+					this.onPuzzleFinished();
+				}
 			} else {
 				alert("invalid move");
 			}
+		},
+		onPuzzleFinished: function() {
+			var stats = this.$.gameOver.components[1];
+			stats.content = "You completed "+this.game.id+" in "+this.game.timer.toString();
+			this.game.shutdown();
+			this.$.gameOver.openAtCenter();
 		},
 		renderPushToGuessStack: function(piece) {
 			$("#pushPop_game-stack").append('<div class="piece color_'+piece.color+'" style="z-index:'+this.game.guess.length+'"><div class="shape">'+piece.shape+'</div></div>');
