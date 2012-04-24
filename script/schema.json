@@ -1,0 +1,11 @@
+[
+    {
+        "table": "puzzleHistory",
+        "columns": [
+            { "column": "rowId", "type": "INTEGER", "constraints": ["PRIMARY KEY"] },
+            { "column": "puzzleId", "type": "TEXT" },
+            { "column": "attemptedOn", "type": "INTEGER" },
+            { "column": "finishTime", "type": "INTEGER" }
+        ]
+    }
+]

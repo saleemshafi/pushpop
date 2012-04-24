@@ -1,7 +1,8 @@
 enyo.kind({
-  name: "MyApps.PushPop",
-  kind: "Control",
+  name: "enyo.MyApps.PushPop",
+  kind: enyo.Control,
   game: null,
+  
   components: [
                {name: "game-stack", classes:"stack"},
                {name: "game-board", classes:"game_board"},
@@ -15,16 +16,43 @@ enyo.kind({
                		{content: "Congratulations!"},
                		{name:"stats", content:""},
                		{kind:"Button",caption: "New Puzzle", onclick: "newPuzzle"},
+               		{kind:"Button",caption: "See History", onclick: "showHistory"},
                		{name: "socialChallenge"}
                ]},
+               {name: "historyList", kind: "VirtualList", // style: "height:100px",
+				      onSetupRow: "setupRow", components: [
+				          {kind: "Item", layoutKind: "HFlexLayout", components: [
+				              {name: "puzzleId", flex: 1},
+				              {name: "finishTime", flex: 1}
+				          ]}
+				      ]
+				},	
+
+
 			   {kind: "AppMenu",
-					  components: [
-					  	// Ctrl+~
-					  	  {caption: "New Puzzle", onclick: "newPuzzle"},
-						  {caption: "Preferences", onclick: "showPreferences"},
-					  ]
-				}
-             ],
+				  components: [
+				  	// Ctrl+~
+				  	  {caption: "New Puzzle", onclick: "newPuzzle"},
+				  	  {caption: "See History", onclick: "showHistory"},
+					  {caption: "Preferences", onclick: "showPreferences"},
+				  ]
+			   },
+		    {
+		        name: "db",
+		        kind: "onecrayon.Database",
+		        database: 'ext:MyDatabase',
+		        version: "",
+		        debug: false
+		    } ],
+
+  constructor: function() {
+    this.inherited(arguments);
+	this.puzzleHistory = null;
+    this.runningQuery = false;
+    this.bound = {
+        finishFirstRun: enyo.bind(this, this.finishFirstRun)
+    };
+  },
   create: function() {
 	this.inherited(arguments);
 	var id = null;
@@ -33,14 +61,55 @@ enyo.kind({
 	}
   	this.game = genGame(4,4, id);
   	window.location.hash = this.game.id;
+
+	if (!this.runningQuery) {
+       this.populateDatabase();
+    }  	
+  },
+  populateDatabase: function() {
+    this.runningQuery = true;
+    // Run the table creation schema and populate our items list
+    this.$.db.setSchemaFromURL('script/schema.json', {
+        onSuccess: this.bound.finishFirstRun
+    });
   },
   rendered: function() {
+	this.inherited(arguments);
   	this.render();
   	this.game.start(this.updateTimer);
   },
+  finishFirstRun: function() {
+    this.$.db.changeVersion('1.0');
+    this.loadHistory( (function(results) { 
+    	this.puzzleHistory = results;
+    	this.$.historyList.refresh();
+    }).bind(this));
+    this.runningQuery = false;
+  },
+  loadHistory: function(callback) {
+    var sql = 'SELECT * FROM puzzleHistory';
+    this.$.db.query(sql, { "onSuccess": callback });
+  },
+  showHistory: function() {
+  	this.$.historyList.refresh();
+  },
+  
+  setupRow: function(sender, index) {
+  	if (!this.puzzleHistory) return false;
+  	if (index == 0) {
+  		this.$.puzzleId.setContent("Puzzle");
+  		this.$.finishTime.setContent("Finish Time");
+  		return true;
+  	} else if (index-1 < this.puzzleHistory.length) {
+  		this.$.puzzleId.setContent(this.puzzleHistory[index-1].puzzleId);
+  		this.$.finishTime.setContent(new Timer(this.puzzleHistory[index-1].finishTime).toString());
+  		return true;
+  	}
+  	return false;
+  },
   windowRotated: function() {},
   newPuzzle: function() {
-  	this.$.gameOver.hide();
+  	this.$.gameOver.close();
   	
   	this.game.shutdown();
 	$("#pushPop_game-stack").empty();
@@ -105,6 +174,13 @@ enyo.kind({
 		},
 		onPuzzleFinished: function() {
 			var stats = this.$.gameOver.components[1];
+			var data = { "table": "puzzleHistory",
+						"data": [ {
+							"puzzleId": this.game.id,
+							"attemptedOn": 0,
+							"finishTime": this.game.timer.getTime()
+						} ] };
+			this.$.db.insertData(data);
 			stats.content = "You completed "+this.game.id+" in "+this.game.timer.toString();
 			this.game.shutdown();
 			this.$.gameOver.openAtCenter();
@@ -124,4 +200,3 @@ enyo.kind({
 		},
   
 });
-

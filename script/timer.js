@@ -1,5 +1,7 @@
-function Timer() {
-  var baseline, elapsed = 0, instance = this;
+function Timer(time) {
+  var baseline = (typeof time !== 'undefined') ? time : 0;
+  var elapsed = 0;
+  var instance = this;
   var paused = true;
   
   this.clear = function() { elapsed = 0; }
@@ -12,8 +14,7 @@ function Timer() {
   }
   
   this.getTime = function() {
-  	var now = new Date().getTime();
-  	return (paused ? 0 : now-baseline) + elapsed;
+  	return (paused ? 0 : (new Date().getTime())-baseline) + elapsed;
   }
 
   this.getSeconds = function(){
