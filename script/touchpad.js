@@ -4,19 +4,28 @@ enyo.kind({
   game: null,
   
   components: [
+			   {kind: "onyx.Toolbar",
+				  components: [
+				      {classes: "divider", content: "PushPop"},
+				  	  {kind: "onyx.Button", content: "New", ontap: "newPuzzle"},
+				  	  {kind: "onyx.Button",content: "History", ontap: "showHistory"},
+					  {kind: "onyx.Button",content: "Settings", ontap: "showPreferences"},
+		               {name: "timerPanel", classes:"timer", style: "margin:0 100px 0 0; float:right;", components: [
+		               		{content: "Timer:", style:"display:inline-block"},
+		               		{name: "timer", kind: "onyx.Button", classes: "active", style: "font-size:18px; padding:3px 10px; width:90px; margin:0 5px; "},
+		               		{name: "pauseButton", kind: "onyx.Button", content:"Pause", onclick: "pauseTimer"},
+		               		{name: "resumeButton", kind: "onyx.Button", content:"Resume", onclick: "resumeTimer"}
+		               ]},
+				  ]
+			   },
                {name: "game-stack", classes:"stack"},
                {name: "game-board", classes:"game_board"},
                {name: "solution", classes:"stack"},
-               {name: "timerPanel", classes:"timer", components: [
-               		{name: "timer"},
-               		{name: "pauseButton", kind: "Button", caption:"Pause", onclick: "pauseTimer"},
-               		{name: "resumeButton", kind: "Button", caption:"Resume", onclick: "resumeTimer"}
-               ]},
-               {name: "gameOver", kind: "enyo.Popup", centered: true, modal: true, dismissWithClick: false, dismissWithEscape: false, floating: true, classes:"gameOver", components: [
+               {name: "gameOver", kind: "onyx.Popup", centered: true, modal: true, dismissWithClick: false, dismissWithEscape: false, floating: true, classes:"gameOver", components: [
                		{content: "Congratulations!"},
                		{name:"stats", content:""},
-               		{kind:"Button",caption: "New Puzzle", onclick: "newPuzzle"},
-               		{kind:"Button",caption: "See History", onclick: "showHistory"},
+               		{kind:"Button",content: "New Puzzle", onclick: "newPuzzle"},
+               		{kind:"Button",content: "See History", onclick: "showHistory"},
                		{name: "socialChallenge"}
                ]},
                {name: "historyList", kind: "VirtualList", // style: "height:100px",
@@ -27,16 +36,6 @@ enyo.kind({
 				          ]}
 				      ]
 				},	
-
-
-			   {kind: "AppMenu",
-				  components: [
-				  	// Ctrl+~
-				  	  {caption: "New Puzzle", onclick: "newPuzzle"},
-				  	  {caption: "See History", onclick: "showHistory"},
-					  {caption: "Preferences", onclick: "showPreferences"},
-				  ]
-			   },
 		    {
 		        name: "db",
 		        kind: "onecrayon.Database",
@@ -109,7 +108,7 @@ enyo.kind({
   },
   windowRotated: function() {},
   newPuzzle: function() {
-  	this.$.gameOver.close();
+  	this.$.gameOver.hide();
   	
   	this.game.shutdown();
 	$("#pushPop_game-stack").empty();
@@ -123,10 +122,10 @@ enyo.kind({
   },
   pauseTimer: function() {
   	this.game.timer.pause();
-  	$("#pushPop_timerPanel").addClass("paused");
+  	$("#pushPop").addClass("paused");
   },
   resumeTimer: function() {
-  	$("#pushPop_timerPanel").removeClass("paused");
+  	$("#pushPop").removeClass("paused");
   	this.game.timer.start(this.updateTimer);
   },
   showPreferences: function() {
@@ -145,7 +144,7 @@ enyo.kind({
 		render: function() {
 				var gb = $('#pushPop_game-board');
 				gb.empty();
-				gb.append("<h2>"+this.game.id+"</h2>");
+				//gb.append("<h2>"+this.game.id+"</h2>");
 				var index = 0;
 				for(var i=0; i < this.game.stacks.length; i++) {
 					gb.append('<div class="stack" id="stack'+i+'"></div>');
@@ -183,7 +182,7 @@ enyo.kind({
 			this.$.db.insertData(data);
 			stats.content = "You completed "+this.game.id+" in "+this.game.timer.toString();
 			this.game.shutdown();
-			this.$.gameOver.openAtCenter();
+			this.$.gameOver.show();
 		},
 		renderPushToGuessStack: function(piece) {
 			$("#pushPop_game-stack").append('<div class="piece color_'+piece.color+'" style="z-index:'+this.game.guess.length+'"><div class="shape">'+piece.shape+'</div></div>');

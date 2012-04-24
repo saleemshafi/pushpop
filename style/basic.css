@@ -86,18 +86,7 @@ body {
 #pushPop_resumeButton {
   display: none; }
 
-#pushPop_timerPanel.paused {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  background-color: black; }
-
 .paused #pushPop_resumeButton {
-  display: block; }
+  display: inline-block; }
 .paused #pushPop_pauseButton {
   display: none; }
-.paused #pushPop_timer {
-  font-size: 72px;
-  margin-top: 25%; }

@@ -762,7 +762,7 @@ enyo.kind({
 	 * Used to read in external JSON files
 	 */
 	_readURL: function(url, callback, options) {
-		enyo.xhrGet({
+		new enyo.Ajax({
 			'url': url,
 			load: enyo.bind(this, function(responseText, response) {
 				// I have no idea why status can be zero when reading file locally, but it can
@@ -777,7 +777,7 @@ enyo.kind({
 					this.error('Database: failed to read JSON at URL `' + url + '`');
 				}
 			})
-		});
+		}).go();
 	},
 	
 	/**
