@@ -84,6 +84,13 @@ enyo.kind({
   rendered: function() {
 	this.inherited(arguments);
   	this.render();
+	
+	if (window.PalmSystem) {
+		setTimeout(function() {
+			PalmSystem.stageReady();
+		}, 1);
+	}
+  	
   	this.game.start(this.updateTimer);
   },
   finishFirstRun: function() {
