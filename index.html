@@ -19,6 +19,13 @@
 	<script>
 $(document).ready(function() {
 	new enyo.MyApps.PushPop().renderInto(document.body);
+	
+	if (window.PalmSystem) {
+		setTimeout(function() {
+			PalmSystem.stageReady();
+		}, 1);
+	}
+	
 });
 	</script>
 </body>
