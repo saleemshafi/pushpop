@@ -102,3 +102,13 @@ body {
     font-size: 36px;
     color: #EDEDED;
     text-align: center; }
+
+.slider {
+  width: auto;
+  height: 300px;
+  position: absolute;
+  left: 0;
+  background-color: #3A3A3A;
+  border: 1px solid #1A1A1A;
+  border-radius: 0 0 10px 0;
+  box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.3); }

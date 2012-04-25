@@ -163,8 +163,8 @@ enyo.kind({
 		// Run the actual merge for our options, making sure there's a default values array
 		options = this._getOptions(options, {"values": []});
 		// Trim whitespace to make sure we can accurately check character positions
-		sql = enyo.string.trim(sql);
-		if (sql.lastIndexOf(';') !== sql.length - 1) {
+		sql = sql.replace(/^\s\s*/, '').replace(/\s\s*$/, '');   // trim
+ 		if (sql.lastIndexOf(';') !== sql.length - 1) {
 			sql = sql + ';';
 		}
 		// Run the transaction
@@ -764,18 +764,15 @@ enyo.kind({
 	_readURL: function(url, callback, options) {
 		new enyo.Ajax({
 			'url': url,
-			load: enyo.bind(this, function(responseText, response) {
-				// I have no idea why status can be zero when reading file locally, but it can
-				if (response.status === 200 || response.status === 0) {
+			respond: enyo.bind(this, function(responseJson) {
 					try {
-						var json = enyo.json.parse(responseText);
-						callback(json, options);
+						callback(responseJson, options);
 					} catch (e) {
 						this.error('JSON request error:', e);
 					}
-				} else {
+			}),
+			fail: enyo.bind(this, function(status) {
 					this.error('Database: failed to read JSON at URL `' + url + '`');
-				}
 			})
 		}).go();
 	},

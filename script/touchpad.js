@@ -21,6 +21,12 @@ enyo.kind({
 			   {name: "scrim", classes:"scrim", onclick: "resumeTimer", components: [
 			   		{content:"PushPop Paused"}
 			   ]},
+			   {name: "historyPanel", classes:"slider", kind:"onyx.Slideable", unit:"%", min:-100, value:-100,components: [
+			   		{kind: "onyx.Grabber", classes: "pullout-grabbutton"},
+			   		{name:"historyList", kind:"enyo.Repeater", rows:3, onSetupRow:"getPuzzleHistory", components: [
+			   			{kind:"enyo.Control", components: [ {name:"puzzleId"}, {name:"finishTime"}]}
+			   		]}
+			   ]},
                {name: "game-stack", classes:"stack"},
                {name: "game-board", classes:"game_board"},
                {name: "solution", classes:"stack"},
@@ -31,14 +37,14 @@ enyo.kind({
                		{kind:"Button",content: "See History", onclick: "showHistory"},
                		{name: "socialChallenge"}
                ]},
-               {name: "historyList", kind: "VirtualList", // style: "height:100px",
-				      onSetupRow: "setupRow", components: [
-				          {kind: "Item", layoutKind: "HFlexLayout", components: [
-				              {name: "puzzleId", flex: 1},
-				              {name: "finishTime", flex: 1}
-				          ]}
-				      ]
-				},	
+//               {name: "historyList", kind: "VirtualList", // style: "height:100px",
+//				      onSetupRow: "setupRow", components: [
+//				          {kind: "Item", layoutKind: "HFlexLayout", components: [
+//				              {name: "puzzleId", flex: 1},
+//				              {name: "finishTime", flex: 1}
+//				          ]}
+//				      ]
+//				},	
 		    {
 		        name: "db",
 		        kind: "onecrayon.Database",
@@ -84,7 +90,7 @@ enyo.kind({
     this.$.db.changeVersion('1.0');
     this.loadHistory( (function(results) { 
     	this.puzzleHistory = results;
-    	this.$.historyList.refresh();
+  		this.$.historyList.build();
     }).bind(this));
     this.runningQuery = false;
   },
@@ -93,21 +99,21 @@ enyo.kind({
     this.$.db.query(sql, { "onSuccess": callback });
   },
   showHistory: function() {
-  	this.$.historyList.refresh();
+  		this.$.historyPanel.toggleMinMax();
+  		this.$.historyList.render();
   },
   
-  setupRow: function(sender, index) {
+  getPuzzleHistory: function(sender, inEvent) {
+  	var index = inEvent.index;
+  	var row = inEvent.row;
   	if (!this.puzzleHistory) return false;
   	if (index == 0) {
-  		this.$.puzzleId.setContent("Puzzle");
-  		this.$.finishTime.setContent("Finish Time");
-  		return true;
+  		row.$.puzzleId.setContent("Puzzle");
+  		row.$.finishTime.setContent("Finish Time");
   	} else if (index-1 < this.puzzleHistory.length) {
-  		this.$.puzzleId.setContent(this.puzzleHistory[index-1].puzzleId);
-  		this.$.finishTime.setContent(new Timer(this.puzzleHistory[index-1].finishTime).toString());
-  		return true;
+  		row.$.puzzleId.setContent(this.puzzleHistory[index-1].puzzleId);
+  		row.$.finishTime.setContent(new Timer(this.puzzleHistory[index-1].finishTime).toString());
   	}
-  	return false;
   },
   windowRotated: function() {},
   newPuzzle: function() {
@@ -185,6 +191,7 @@ enyo.kind({
 			this.$.db.insertData(data);
 			stats.content = "You completed "+this.game.id+" in "+this.game.timer.toString();
 			this.game.shutdown();
+	  		this.$.historyList.build();
 			this.$.gameOver.show();
 		},
 		renderPushToGuessStack: function(piece) {

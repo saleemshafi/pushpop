@@ -14,7 +14,7 @@ function Timer(time) {
   }
   
   this.getTime = function() {
-  	return (paused ? 0 : (new Date().getTime())-baseline) + elapsed;
+  	return (paused ? baseline : (new Date().getTime())-baseline) + elapsed;
   }
 
   this.getSeconds = function(){
@@ -37,6 +37,6 @@ function Timer(time) {
   	var min = Math.floor(time / (1000*60));
   	time = time % (1000*60);
   	var sec = Math.floor(time / 1000);
-  	return (hours<10?"0":"")+hours+":"+(min<10?"0":"")+min+":"+(sec<10?"0":"")+sec;
+  	return (hours > 0 ? (hours<10?"0":"") +hours+":" : "")+(min<10?"0":"")+min+":"+(sec<10?"0":"")+sec;
   }
 }
