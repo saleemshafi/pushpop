@@ -23,11 +23,12 @@ $pieceWidth: 100px;
 $pieceHeight: 100px;
 $pieceBorder: 5px;
 $solutionOverlap: 0.80;
+$backgroundColor: #121212;
 
 body {
   width: 1024px;
   height: 768px;
-  background-color: #000;
+  background-color: $backgroundColor;
   margin: 10px;
   font-family: Segoe UI, Arial, Helvetica, sans-serif;
   overflow: scroll;
@@ -60,7 +61,6 @@ body {
   height: $pieceHeight; 
   margin-bottom: 4px; 
   position: relative; 
-  opacity:0.75;
 
   .shape { 
     position:absolute; 
@@ -80,14 +80,13 @@ body {
 .color_3 { @include colored-piece(green); }
 
 #pushPop_game-stack {
-  padding-bottom: 30px;
+  padding: 20px $pieceWidth*$solutionOverlap 30px 0;
   margin: 0 auto;
   width: (($pieceWidth * (1-$solutionOverlap)) + ($pieceBorder * 2)) * 16;
   clear: both;
   white-space: nowrap;
   overflow: hidden;
   height: $pieceHeight + ($pieceBorder*2);
-  padding-right: $pieceWidth*$solutionOverlap;
 
   .piece {
     float:right;
@@ -100,7 +99,6 @@ body {
 
 #pushPop_timerPanel { 
   width: 150px;
-  z-index:999;
 }
 
 #pushPop_timer {
@@ -116,4 +114,21 @@ body {
 .paused {
   #pushPop_resumeButton { display: inline-block; }
   #pushPop_pauseButton { display: none; }
+  .scrim { display: block; }
+}
+
+.scrim {
+  display: none;
+  height: 100%;
+  z-index: 9999;
+  background-color: $backgroundColor;
+  
+  div {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    font-size: 36px;
+    color: #EDEDED;
+    text-align: center;
+  }
 }

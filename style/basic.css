@@ -1,7 +1,7 @@
 body {
   width: 1024px;
   height: 768px;
-  background-color: #000;
+  background-color: #121212;
   margin: 10px;
   font-family: Segoe UI, Arial, Helvetica, sans-serif;
   overflow: scroll; }
@@ -31,8 +31,7 @@ body {
   width: 100px;
   height: 100px;
   margin-bottom: 4px;
-  position: relative;
-  opacity: 0.75; }
+  position: relative; }
   .piece .shape {
     position: absolute;
     top: 50%;
@@ -60,14 +59,13 @@ body {
   border-color: green; }
 
 #pushPop_game-stack {
-  padding-bottom: 30px;
+  padding: 20px 80px 30px 0;
   margin: 0 auto;
   width: 480.0px;
   clear: both;
   white-space: nowrap;
   overflow: hidden;
-  height: 110px;
-  padding-right: 80px; }
+  height: 110px; }
   #pushPop_game-stack .piece {
     float: right;
     cursor: pointer;
@@ -75,8 +73,7 @@ body {
     opacity: 1; }
 
 #pushPop_timerPanel {
-  width: 150px;
-  z-index: 999; }
+  width: 150px; }
 
 #pushPop_timer {
   color: #DEDEDE;
@@ -90,3 +87,18 @@ body {
   display: inline-block; }
 .paused #pushPop_pauseButton {
   display: none; }
+.paused .scrim {
+  display: block; }
+
+.scrim {
+  display: none;
+  height: 100%;
+  z-index: 9999;
+  background-color: #121212; }
+  .scrim div {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    font-size: 36px;
+    color: #EDEDED;
+    text-align: center; }

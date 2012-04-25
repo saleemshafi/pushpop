@@ -18,6 +18,9 @@ enyo.kind({
 		               ]},
 				  ]
 			   },
+			   {name: "scrim", classes:"scrim", onclick: "resumeTimer", components: [
+			   		{content:"PushPop Paused"}
+			   ]},
                {name: "game-stack", classes:"stack"},
                {name: "game-board", classes:"game_board"},
                {name: "solution", classes:"stack"},
