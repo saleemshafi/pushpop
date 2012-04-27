@@ -21,7 +21,7 @@ var Piece = function(color, shape, stack) {
 	this.stack = stack;
 }
 
-Piece.prototype = {
+$.extend(Piece.prototype, {
 	matches: function(piece) { 
 		return this.color == piece.color || this.shape == piece.shape;
 	},
@@ -34,17 +34,17 @@ Piece.prototype = {
 		}
 		return matching;
 	}
+});
+
+var PushPop = function() {
+		this.stacks = [];
+		this.guess = [];
+		this.timer = null;
+		this.timerRefresh = 0;
+		this.id = null;
 }
 
-var PushPop = function() {}
-
-PushPop.prototype = {
-		stacks: [],
-		guess: [],
-		timer: null,
-		timerRefresh: 0,
-		id: null,
-		
+$.extend(PushPop.prototype, {
 		popGuessStack: function() {
 			var piece = this.guess.pop();
 			this.stacks[piece.stack].push(piece);
@@ -160,7 +160,7 @@ PushPop.prototype = {
 				return false;
 			}
 		}
-	};	
+	});	
 
 
 
