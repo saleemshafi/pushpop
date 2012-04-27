@@ -101,7 +101,9 @@ $.extend(PushPop.prototype, {
 					bitId <<= 2;
 					bitId += piece.shape;
 				}
-				this.id += bitId.toString(16);
+				var chunk = bitId.toString(16);
+				if (chunk.length < 2) chunk = "0"+chunk; 
+				this.id += chunk;
 			}
 		},
 		rememberBoard: function(boardId) {

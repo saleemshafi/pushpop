@@ -96,6 +96,23 @@ body {
   }
 }
 
+.onyx-toolbar {
+  .title {
+    position: absolute;
+    width: 100%;
+    font-size: 26px;
+    text-align: center;
+    left: 0;
+    margin: 0;
+    padding: 0;
+    z-index: 0;
+  }
+  
+  button {
+    position: relative;
+    z-index: 1;
+  }
+}
 
 #pushPop_timerPanel { 
   width: 150px;
