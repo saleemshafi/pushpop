@@ -12,32 +12,35 @@ enyo.kind({
 		               {name: "timerPanel", classes:"timer", style: "margin:0 100px 0 0; float:right;", components: [
 		               		{content: "Timer:", style:"display:inline-block"},
 		               		{name: "timer", kind: "onyx.Button", classes: "active", style: "font-size:18px; padding:3px 10px; width:90px; margin:0 5px; "},
-		               		{name: "pauseButton", kind: "onyx.Button", content:"Pause", onclick: "pauseTimer"},
-		               		{name: "resumeButton", kind: "onyx.Button", content:"Resume", onclick: "resumeTimer"}
+		               		{name: "pauseButton", kind: "onyx.Button", content:"Pause", onclick: "pauseTimer"}
 		               ]},
 				      {classes: "title", content: "PushPop"}
 				  ]
 			   },
-			   {name: "scrim", classes:"scrim", onclick: "resumeTimer", components: [
-			   		{content:"PushPop Paused"}
-			   ]},
-			   {name: "historyPanel", classes:"slider", kind:"onyx.Slideable", unit:"%", min:-100, value:-100,components: [
-			   		{kind: "onyx.Grabber", classes: "pullout-grabbutton"},
-			   		{name:"historyList", kind:"enyo.Repeater", rows:3, onSetupRow:"getPuzzleHistory", components: [
-			   			{kind:"enyo.Control", components: [ {name:"puzzleId"}, {name:"finishTime"}]}
-			   		]}
-			   ]},
-			   {name: "game", components: [
-	               {name: "game-stack", classes:"stack"},
-	               {name: "game-board", classes:"game_board"},
-	               {name: "solution", classes:"stack"},
-	               {name: "gameOver", kind: "onyx.Popup", centered: true, modal: true, dismissWithClick: false, dismissWithEscape: false, floating: true, classes:"gameOver", components: [
-	               		{content: "Congratulations!"},
-	               		{name:"stats", content:""},
-	               		{kind:"Button",content: "New Puzzle", onclick: "newPuzzle"},
-	               		{kind:"Button",content: "See History", onclick: "showHistory"},
-	               		{name: "socialChallenge"}
-	               ]},
+			   {classes: "workarea", components: [
+				   {name: "scrim", classes:"scrim", components: [
+				   		{classes:"scrimContent", components: [
+							{content:"PushPop Paused"},
+				            {name: "resumeButton", kind: "onyx.Button", content:"Resume", onclick: "resumeTimer"}
+				   		]} 
+				   ]},
+				   {name: "historyPanel", classes:"slider", kind:"onyx.Slideable", unit:"%", axis:"v", min:-100, value:-100, components: [
+				   		{name:"historyList", kind:"enyo.Repeater", rows:3, onSetupRow:"getPuzzleHistory", components: [
+				   			{kind:"enyo.Control", components: [ {name:"puzzleId"}, {name:"finishTime"}]}
+				   		]}
+				   ]},
+				   {classes: "game", components: [
+		               {name: "game-stack", classes:"stack"},
+		               {name: "game-board", classes:"game_board"},
+		               {name: "solution", classes:"stack"},
+		               {name: "gameOver", kind: "onyx.Popup", centered: true, modal: true, dismissWithClick: false, dismissWithEscape: false, floating: true, classes:"gameOver", components: [
+		               		{content: "Congratulations!"},
+		               		{name:"stats", content:""},
+		               		{kind:"Button",content: "New Puzzle", onclick: "newPuzzle"},
+		               		{kind:"Button",content: "See History", onclick: "showHistory"},
+		               		{name: "socialChallenge"}
+		               ]},
+				   ]}
 			   ]},
 		    {
 		        name: "db",
@@ -100,8 +103,13 @@ enyo.kind({
     this.$.db.query(sql, { "onSuccess": callback });
   },
   showHistory: function() {
+  		if (this.$.historyPanel.isAtMin()) {
+  			this.pauseTimer();
+	  		this.$.historyList.render();
+  		} else {
+  			this.resumeTimer();
+  		}
   		this.$.historyPanel.toggleMinMax();
-  		this.$.historyList.render();
   },
   
   getPuzzleHistory: function(sender, inEvent) {

@@ -97,6 +97,9 @@ body {
 }
 
 .onyx-toolbar {
+  position: relative;
+  z-index: 5;
+  border-bottom: 1px solid #000;
   .title {
     position: absolute;
     width: 100%;
@@ -105,12 +108,12 @@ body {
     left: 0;
     margin: 0;
     padding: 0;
-    z-index: 0;
+    z-index: 6;
   }
   
   button {
     position: relative;
-    z-index: 1;
+    z-index: 7;
   }
 }
 
@@ -124,39 +127,55 @@ body {
   text-align: center;
 }
 
-#pushPop_resumeButton {
-  display: none;
+.paused {
+  #pushPop_pauseButton { display: none; }
+  .game { display: none; }
 }
 
-.paused {
-  #pushPop_resumeButton { display: inline-block; }
-  #pushPop_pauseButton { display: none; }
-  .scrim { display: block; }
+.workarea {
+  position: relative;
+  height: 100%;
+  width: 100%;
 }
 
 .scrim {
-  display: none;
   height: 100%;
+  width: 100%;
   z-index: 9999;
   background-color: $backgroundColor;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
   
-  div {
+  .scrimContent {
     position: absolute;
     top: 50%;
     width: 100%;
     font-size: 36px;
     color: #EDEDED;
+    margin-top: -75px;
     text-align: center;
   }
 }
 
+.game {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  left: 0;
+  z-index: 2;
+  background-color: $backgroundColor;
+}
+
 .slider {
   width:auto;
-  height:300px;
+  height:100%;
+  width:100%;
   position:absolute;
+  top:0;
   left:0;
   background-color: #3A3A3A;
-  border: 1px solid #1A1A1A;
-  border-radius: 0 0 10px 0;
-  box-shadow: 4px 4px 4px rgba(0,0,0,0.3);  
+  z-index: 4; 
 }
