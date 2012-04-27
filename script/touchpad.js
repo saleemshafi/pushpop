@@ -6,7 +6,6 @@ enyo.kind({
   components: [
 			   {kind: "onyx.Toolbar",
 				  components: [
-				      {classes: "divider", content: "PushPop"},
 				  	  {kind: "onyx.Button", content: "New", ontap: "newPuzzle"},
 				  	  {kind: "onyx.Button",content: "History", ontap: "showHistory"},
 					  {kind: "onyx.Button",content: "Settings", ontap: "showPreferences"},
@@ -16,6 +15,7 @@ enyo.kind({
 		               		{name: "pauseButton", kind: "onyx.Button", content:"Pause", onclick: "pauseTimer"},
 		               		{name: "resumeButton", kind: "onyx.Button", content:"Resume", onclick: "resumeTimer"}
 		               ]},
+				      {classes: "title", content: "PushPop"}
 				  ]
 			   },
 			   {name: "scrim", classes:"scrim", onclick: "resumeTimer", components: [
@@ -27,24 +27,18 @@ enyo.kind({
 			   			{kind:"enyo.Control", components: [ {name:"puzzleId"}, {name:"finishTime"}]}
 			   		]}
 			   ]},
-               {name: "game-stack", classes:"stack"},
-               {name: "game-board", classes:"game_board"},
-               {name: "solution", classes:"stack"},
-               {name: "gameOver", kind: "onyx.Popup", centered: true, modal: true, dismissWithClick: false, dismissWithEscape: false, floating: true, classes:"gameOver", components: [
-               		{content: "Congratulations!"},
-               		{name:"stats", content:""},
-               		{kind:"Button",content: "New Puzzle", onclick: "newPuzzle"},
-               		{kind:"Button",content: "See History", onclick: "showHistory"},
-               		{name: "socialChallenge"}
-               ]},
-//               {name: "historyList", kind: "VirtualList", // style: "height:100px",
-//				      onSetupRow: "setupRow", components: [
-//				          {kind: "Item", layoutKind: "HFlexLayout", components: [
-//				              {name: "puzzleId", flex: 1},
-//				              {name: "finishTime", flex: 1}
-//				          ]}
-//				      ]
-//				},	
+			   {name: "game", components: [
+	               {name: "game-stack", classes:"stack"},
+	               {name: "game-board", classes:"game_board"},
+	               {name: "solution", classes:"stack"},
+	               {name: "gameOver", kind: "onyx.Popup", centered: true, modal: true, dismissWithClick: false, dismissWithEscape: false, floating: true, classes:"gameOver", components: [
+	               		{content: "Congratulations!"},
+	               		{name:"stats", content:""},
+	               		{kind:"Button",content: "New Puzzle", onclick: "newPuzzle"},
+	               		{kind:"Button",content: "See History", onclick: "showHistory"},
+	               		{name: "socialChallenge"}
+	               ]},
+			   ]},
 		    {
 		        name: "db",
 		        kind: "onecrayon.Database",
