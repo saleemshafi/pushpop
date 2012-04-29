@@ -59,7 +59,7 @@ enyo.kind({
     };
   },
   setOrientation: function() {
-  	var orientation = window.PalmSystem ? window.PalmSystem.screenOrientation : "right";
+  	var orientation = window.PalmSystem ? window.PalmSystem.screenOrientation : "up";
 	if (orientation == "left" || orientation == "right") {
 		$("body").addClass("portrait");
 		$("body").removeClass("landscape");
