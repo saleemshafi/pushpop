@@ -94,7 +94,7 @@ body {
   clear: both;
   white-space: nowrap;
   overflow: hidden;
-  border: solid white;
+  border: solid #888;
   border-radius: 19px; }
   #pushPop_game-stack .piece {
     cursor: pointer;
