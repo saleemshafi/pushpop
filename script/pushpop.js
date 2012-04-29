@@ -86,6 +86,7 @@ $.extend(PushPop.prototype, {
 				var piece = solution[i];
 				piece.stack = index;
 				this.stacks[index].push(piece);
+				piece.id = "piece-"+index+"-"+this.stacks[index].length;
 			}
 			this.assignGameId();
 		},
@@ -114,7 +115,9 @@ $.extend(PushPop.prototype, {
 				}
 				var pieceNum = parseInt(boardId.charAt(i), 16);
 				var stackNum = this.stacks.length-1;
-				this.stacks[stackNum].push(new Piece((pieceNum >> 2 & 0x3), pieceNum & 0x3, stackNum));
+				var piece = new Piece((pieceNum >> 2 & 0x3), pieceNum & 0x3, stackNum);
+				this.stacks[stackNum].push(piece);
+				piece.id = "piece-"+stackNum+"-"+this.stacks[stackNum].length;
 			}
 			this.id = boardId;
 		},

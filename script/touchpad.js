@@ -183,7 +183,7 @@ enyo.kind({
 					var max = this.game.stacks[i].length-1;
 					for(var j=max; j >= 0; j--) {
 						var piece = this.game.stacks[i][j];
-						row.append('<div class="piece color_'+piece.color+'"><div class="shape">'+piece.shape+'</div></div>');
+						row.append('<div id="'+piece.id+'" class="piece color_'+piece.color+'"><div class="shape">'+piece.shape+'</div></div>');
 						index++;
 					}
 					row.find(".piece").filter(":first").click( this.renderPopStack.bind(this, i) );
@@ -193,7 +193,8 @@ enyo.kind({
 			var piece = this.game.popStack(stack);
 			if (piece) {
 				this.renderPushToGuessStack(piece);
-				this.render();
+				$("#"+piece.id).fadeOut(400, (function() { this.render(); }).bind(this));	
+				//this.render();
 				if (this.game.puzzleFinished()) {
 					this.onPuzzleFinished();
 				}
@@ -216,8 +217,10 @@ enyo.kind({
 			this.$.gameOver.show();
 		},
 		renderPushToGuessStack: function(piece) {
-			$("#pushPop_game-stack").append('<div class="piece color_'+piece.color+'" style="z-index:'+this.game.guess.length+'"><div class="shape">'+piece.shape+'</div></div>');
-			$("#pushPop_game-stack .piece").filter(":last").click( this.renderPopGuessStack.bind(this) );
+			$("#pushPop_game-stack").append('<div id="stack-'+piece.id+'" class="piece color_'+piece.color+'" style="z-index:'+this.game.guess.length+';display:none;"><div class="shape">'+piece.shape+'</div></div>');
+			var topStack = $("#pushPop_game-stack .piece").filter(":last");
+			topStack.click( this.renderPopGuessStack.bind(this) );
+			topStack.fadeIn();
 		},
 		renderPopGuessStack: function() {
 			var card = null;
