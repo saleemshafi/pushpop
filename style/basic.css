@@ -11,10 +11,11 @@ body.landscape {
   body.landscape #pushPop_game-stack {
     position: absolute;
     right: 50px;
+    border-bottom: none;
     width: 135px;
     height: 560.0px;
-    padding: 110px 50px 0 50px;
-    margin: 20px 0; }
+    padding: 115px 5px 0 5px;
+    margin: 20px 50px; }
     body.landscape #pushPop_game-stack .piece {
       margin-top: -110px; }
 
@@ -27,8 +28,9 @@ body.portrait {
     position: relative;
     width: 620px; }
   body.portrait #pushPop_game-stack {
-    padding: 50px 100px 50px 0;
-    margin: 0 auto;
+    border-left: none;
+    padding: 5px 105px 5px 0;
+    margin: 50px auto;
     height: 135px;
     width: 560.0px; }
     body.portrait #pushPop_game-stack .piece {
@@ -91,7 +93,9 @@ body {
 #pushPop_game-stack {
   clear: both;
   white-space: nowrap;
-  overflow: hidden; }
+  overflow: hidden;
+  border: solid white;
+  border-radius: 19px; }
   #pushPop_game-stack .piece {
     cursor: pointer;
     opacity: 1; }

@@ -42,10 +42,11 @@ body.landscape {
   #pushPop_game-stack {
     position: absolute;
     right: 50px;
+    border-bottom: none;
     width: $pieceWidth + ($pieceBorder*2);
     height: (($pieceHeight * (1-$solutionOverlap)) + ($pieceBorder * 2)) * 16;
-    padding: $pieceWidth*$solutionOverlap+($pieceBorder*2)  50px 0 50px;
-    margin: 20px 0;
+    padding: $pieceWidth*$solutionOverlap+($pieceBorder*2)+5 5px 0 5px;
+    margin: 20px 50px;
     .piece {
       margin-top: ($pieceHeight * -$solutionOverlap) - ($pieceBorder * 2);
     }
@@ -60,8 +61,9 @@ body.portrait {
     @include centered($boardWidth);
   }
   #pushPop_game-stack {
-    padding: 50px $pieceWidth*$solutionOverlap 50px 0;
-    margin: 0 auto;
+    border-left: none;
+    padding: 5px $pieceWidth*$solutionOverlap+5 5px 0;
+    margin: 50px auto;
     height: $pieceHeight + ($pieceBorder*2);
     width: (($pieceWidth * (1-$solutionOverlap)) + ($pieceBorder * 2)) * 16;
     .piece {
@@ -123,6 +125,8 @@ body {
   clear: both;
   white-space: nowrap;
   overflow: hidden;
+  border: solid white;
+  border-radius: 19px;
 
   .piece {
     cursor: pointer;
