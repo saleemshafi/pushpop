@@ -103,7 +103,7 @@ $.extend(PushPop.prototype, {
 					bitId += piece.shape;
 				}
 				var chunk = bitId.toString(16);
-				if (chunk.length < 2) chunk = "0"+chunk; 
+				if (chunk.length < 4) chunk = "0"+chunk; 
 				this.id += chunk;
 			}
 		},
