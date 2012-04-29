@@ -59,10 +59,13 @@ enyo.kind({
     };
   },
   setOrientation: function() {
-	if (window.PalmSystem && window.PalmSystem.screenOrientation in ["up", "down"]) {
+  	var orientation = window.PalmSystem ? window.PalmSystem.screenOrientation : "up";
+	if (orientation == "left" || orientation == "right") {
 		$("body").addClass("portrait");
+		$("body").removeClass("landscape");
 	} else {
 		$("body").addClass("landscape");
+		$("body").removeClass("portrait");
 	}
   },
   create: function() {
@@ -88,7 +91,7 @@ enyo.kind({
   rendered: function() {
 	this.inherited(arguments);
 	this.setOrientation();
-    window.addEventListener("resize", this.setOrientation.bind(this));
+    window.addEventListener("resize", this.setOrientation);
   	this.render();
 	
 	if (window.PalmSystem) {
