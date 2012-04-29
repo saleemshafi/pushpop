@@ -58,6 +58,13 @@ enyo.kind({
         finishFirstRun: enyo.bind(this, this.finishFirstRun)
     };
   },
+  setOrientation: function() {
+	if (window.PalmSystem && window.PalmSystem.screenOrientation in ["up", "down"]) {
+		$("body").addClass("portrait");
+	} else {
+		$("body").addClass("landscape");
+	}
+  },
   create: function() {
 	this.inherited(arguments);
 	var id = null;
@@ -80,6 +87,8 @@ enyo.kind({
   },
   rendered: function() {
 	this.inherited(arguments);
+	this.setOrientation();
+    window.addEventListener("resize", this.setOrientation.bind(this));
   	this.render();
 	
 	if (window.PalmSystem) {

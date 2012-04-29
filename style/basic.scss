@@ -19,15 +19,59 @@
   width: $width;
 }
 
-$pieceWidth: 100px;
-$pieceHeight: 100px;
+$pieceWidth: 125px;
+$pieceHeight: 125px;
 $pieceBorder: 5px;
 $solutionOverlap: 0.80;
 $backgroundColor: #121212;
+$stack-padding: 20px;
+$boardWidth: ($pieceWidth+ ($pieceBorder*2) + ($stack-padding))*4;
 
-body {
+html {
+  background-color: white;
+  overflow: scroll;
+}
+
+body.landscape {
   width: 1024px;
   height: 768px;
+  #pushPop_game-board {
+    width: $boardWidth;
+    margin: 75px 0 75px 100px;
+  }
+  #pushPop_game-stack {
+    position: absolute;
+    right: 50px;
+    width: $pieceWidth + ($pieceBorder*2);
+    height: (($pieceHeight * (1-$solutionOverlap)) + ($pieceBorder * 2)) * 16;
+    padding: $pieceWidth*$solutionOverlap+($pieceBorder*2)  50px 0 50px;
+    margin: 20px 0;
+    .piece {
+      margin-top: ($pieceHeight * -$solutionOverlap) - ($pieceBorder * 2);
+    }
+  }
+}
+
+body.portrait {
+  height: 1024px;
+  width: 768px;
+  
+  #pushPop_game-board {
+    @include centered($boardWidth);
+  }
+  #pushPop_game-stack {
+    padding: 50px $pieceWidth*$solutionOverlap 50px 0;
+    margin: 0 auto;
+    height: $pieceHeight + ($pieceBorder*2);
+    width: (($pieceWidth * (1-$solutionOverlap)) + ($pieceBorder * 2)) * 16;
+    .piece {
+      float:right;
+      margin-right: $pieceWidth * -$solutionOverlap;
+    }
+  }
+}
+
+body {
   background-color: $backgroundColor;
   margin: 10px;
   font-family: Segoe UI, Arial, Helvetica, sans-serif;
@@ -35,10 +79,6 @@ body {
 }
 
 #pushPop_game-board {
-  $stack-padding: 20px;
-  $boardWidth: ($pieceWidth+ ($pieceBorder*2) + ($stack-padding))*4;
-  @include centered($boardWidth);
-
   .stack {
     width:$pieceWidth + ($pieceBorder * 2);
     float:left;
@@ -59,7 +99,7 @@ body {
   @include rounded($pieceBorder);
   width: $pieceWidth; 
   height: $pieceHeight; 
-  margin-bottom: 4px; 
+  margin-bottom: 10px; 
   position: relative; 
 
   .shape { 
@@ -80,18 +120,12 @@ body {
 .color_3 { @include colored-piece(green); }
 
 #pushPop_game-stack {
-  padding: 20px $pieceWidth*$solutionOverlap 30px 0;
-  margin: 0 auto;
-  width: (($pieceWidth * (1-$solutionOverlap)) + ($pieceBorder * 2)) * 16;
   clear: both;
   white-space: nowrap;
   overflow: hidden;
-  height: $pieceHeight + ($pieceBorder*2);
 
   .piece {
-    float:right;
     cursor: pointer;
-    margin-right: $pieceWidth * -$solutionOverlap;
     opacity: 1;
   }
 }

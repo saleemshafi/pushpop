@@ -1,26 +1,56 @@
-body {
+html {
+  background-color: white;
+  overflow: scroll; }
+
+body.landscape {
   width: 1024px;
-  height: 768px;
+  height: 768px; }
+  body.landscape #pushPop_game-board {
+    width: 620px;
+    margin: 75px 0 75px 100px; }
+  body.landscape #pushPop_game-stack {
+    position: absolute;
+    right: 50px;
+    width: 135px;
+    height: 560.0px;
+    padding: 110px 50px 0 50px;
+    margin: 20px 0; }
+    body.landscape #pushPop_game-stack .piece {
+      margin-top: -110px; }
+
+body.portrait {
+  height: 1024px;
+  width: 768px; }
+  body.portrait #pushPop_game-board {
+    margin-right: auto;
+    margin-left: auto;
+    position: relative;
+    width: 620px; }
+  body.portrait #pushPop_game-stack {
+    padding: 50px 100px 50px 0;
+    margin: 0 auto;
+    height: 135px;
+    width: 560.0px; }
+    body.portrait #pushPop_game-stack .piece {
+      float: right;
+      margin-right: -100px; }
+
+body {
   background-color: #121212;
   margin: 10px;
   font-family: Segoe UI, Arial, Helvetica, sans-serif;
   overflow: scroll; }
 
-#pushPop_game-board {
-  margin-right: auto;
-  margin-left: auto;
-  position: relative;
-  width: 520px; }
-  #pushPop_game-board .stack {
-    width: 110px;
-    float: left;
-    min-height: 1px;
-    padding-left: 20px; }
-    #pushPop_game-board .stack .piece:first-child {
-      cursor: pointer;
-      opacity: 1; }
-  #pushPop_game-board .stack:first-child {
-    padding-left: 0; }
+#pushPop_game-board .stack {
+  width: 135px;
+  float: left;
+  min-height: 1px;
+  padding-left: 20px; }
+  #pushPop_game-board .stack .piece:first-child {
+    cursor: pointer;
+    opacity: 1; }
+#pushPop_game-board .stack:first-child {
+  padding-left: 0; }
 
 .piece {
   border-width: 5px;
@@ -28,9 +58,9 @@ body {
   border-radius: 15px;
   -moz-border-radius: 15px;
   -webkit-border-radius: 15px;
-  width: 100px;
-  height: 100px;
-  margin-bottom: 4px;
+  width: 125px;
+  height: 125px;
+  margin-bottom: 10px;
   position: relative; }
   .piece .shape {
     position: absolute;
@@ -59,17 +89,11 @@ body {
   border-color: green; }
 
 #pushPop_game-stack {
-  padding: 20px 80px 30px 0;
-  margin: 0 auto;
-  width: 480.0px;
   clear: both;
   white-space: nowrap;
-  overflow: hidden;
-  height: 110px; }
+  overflow: hidden; }
   #pushPop_game-stack .piece {
-    float: right;
     cursor: pointer;
-    margin-right: -80px;
     opacity: 1; }
 
 .onyx-toolbar {
