@@ -17,7 +17,8 @@ body.landscape {
     padding: 115px 5px 0 5px;
     margin: 20px 50px; }
     body.landscape #pushPop_game-stack .piece {
-      margin-top: -110px; }
+      margin-top: -110px;
+      box-shadow: 0px -6px 6px -3px #333333; }
 
 body.portrait {
   height: 1024px;
@@ -35,7 +36,8 @@ body.portrait {
     width: 560.0px; }
     body.portrait #pushPop_game-stack .piece {
       float: right;
-      margin-right: -100px; }
+      margin-right: -100px;
+      box-shadow: 6px 0px 6px -3px #333333; }
 
 body {
   background-color: #121212;

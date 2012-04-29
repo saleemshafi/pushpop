@@ -193,8 +193,8 @@ enyo.kind({
 			var piece = this.game.popStack(stack);
 			if (piece) {
 				this.renderPushToGuessStack(piece);
-				$("#"+piece.id).fadeOut(400, (function() { this.render(); }).bind(this));	
-				//this.render();
+				$("#"+piece.id).animate({"opacity":0, "margin-top":"-135px"}, 
+					{complete:(function() { this.render(); }).bind(this)});	
 				if (this.game.puzzleFinished()) {
 					this.onPuzzleFinished();
 				}
@@ -217,10 +217,18 @@ enyo.kind({
 			this.$.gameOver.show();
 		},
 		renderPushToGuessStack: function(piece) {
-			$("#pushPop_game-stack").append('<div id="stack-'+piece.id+'" class="piece color_'+piece.color+'" style="z-index:'+this.game.guess.length+';display:none;"><div class="shape">'+piece.shape+'</div></div>');
+			var mainStyle = "z-index:"+this.game.guess.length+";";
+			var orientation = $("body").hasClass("portrait") ? "portrait" : "landscape";
+			var startPoint = orientation == "landscape" ? "margin-top:440px;" : "margin-right:420px";
+			var endPoint = orientation == "landscape" ? {"margin-top":"-110px"} : {"margin-right":"-100px"};
+			$("#pushPop_game-stack").append('<div id="stack-'+piece.id+'" class="piece color_'+piece.color+'" style="'+mainStyle+startPoint+'"><div class="shape">'+piece.shape+'</div></div>');
 			var topStack = $("#pushPop_game-stack .piece").filter(":last");
 			topStack.click( this.renderPopGuessStack.bind(this) );
-			topStack.fadeIn();
+			topStack.animate(endPoint, {complete: (function() { 
+				// clear the style setting so that the elements can move from one orientation
+				// to another
+				for (var prop in endPoint) { this.css(prop, ""); } }).bind(topStack)
+			});
 		},
 		renderPopGuessStack: function() {
 			var card = null;
