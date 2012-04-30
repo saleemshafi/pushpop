@@ -164,6 +164,23 @@ body {
   z-index: 2;
   background-color: #121212; }
 
+.newGameConfirm {
+  width: 300px;
+  height: 150px;
+  padding: 15px;
+  box-shadow: 0px 0px 8px 10px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(0, 0, 0, 0.5); }
+  .newGameConfirm .buttons {
+    position: absolute;
+    bottom: 20px;
+    width: 300px; }
+    .newGameConfirm .buttons .onyx-affirmative {
+      position: relative;
+      left: 5px; }
+    .newGameConfirm .buttons .onyx-negative {
+      position: absolute;
+      right: 5px; }
+
 .slider {
   width: auto;
   height: 100%;

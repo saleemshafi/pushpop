@@ -42,6 +42,7 @@ var PushPop = function() {
 		this.timer = null;
 		this.timerRefresh = 0;
 		this.id = null;
+		this.attempted = false;
 }
 
 $.extend(PushPop.prototype, {
@@ -159,6 +160,7 @@ $.extend(PushPop.prototype, {
 			var piece = this.stacks[stack].pop();
 			if (lastPiece == null || lastPiece.matches(piece)) {
 				this.guess.push(piece);
+				this.attempted = true;
 				return piece;
 			} else {
 				this.stacks[stack].push(piece);

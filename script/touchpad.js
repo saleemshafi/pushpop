@@ -40,6 +40,13 @@ enyo.kind({
 		               		{kind:"Button",content: "See History", onclick: "showHistory"},
 		               		{name: "socialChallenge"}
 		               ]},
+		               {name: "newGameConfirm", kind: "onyx.Popup", classes: "newGameConfirm", centered: true, modal: true, dismissWithClick: false, dismissWithEscape: false, floating: false, components: [
+		               		{content: "You haven't quite finished with the current puzzle.  Do you want to try a new one or keep working on this one?"},
+		               		{classes: "buttons", components: [
+			               		{kind:"onyx.Button",content: "New Puzzle", onclick: "reallyNewPuzzle", classes: "onyx-affirmative"},
+			               		{kind:"onyx.Button",content: "Keep working", onclick: "closeNewGameConfirm", classes: "onyx-negative"},
+		               		]}
+		               ]}
 				   ]}
 			   ]},
 		    {
@@ -138,6 +145,17 @@ enyo.kind({
   },
   windowRotated: function() {},
   newPuzzle: function() {
+  	if (this.game.attempted && !this.game.puzzleFinished()) {
+  		this.$.newGameConfirm.show();
+  	} else {
+  		this.reallyNewPuzzle();
+  	}
+  },
+  closeNewGameConfirm: function() {
+  		this.$.newGameConfirm.hide();
+  },
+  reallyNewPuzzle: function() {
+  	this.$.newGameConfirm.hide();
   	this.$.gameOver.hide();
   	
   	this.game.shutdown();
