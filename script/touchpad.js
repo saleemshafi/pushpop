@@ -188,6 +188,7 @@ enyo.kind({
 					}
 					row.find(".piece").filter(":first").click( this.renderPopStack.bind(this, i) );
 				}
+				$(".piece").jrumble({x:3, y:3, rotation:5});
 		},
 		renderPopStack: function(stack) {
 			var piece = this.game.popStack(stack);
@@ -199,7 +200,10 @@ enyo.kind({
 					this.onPuzzleFinished();
 				}
 			} else {
-				alert("invalid move");
+				var stx = this.game.stacks[stack];
+				var wouldBePiece = $("#"+stx[stx.length-1].id);
+				wouldBePiece.trigger("startRumble");
+				setTimeout(function() { wouldBePiece.trigger("stopRumble"); }, 300);
 			}
 		},
 		onPuzzleFinished: function() {
