@@ -7,8 +7,9 @@ enyo.kind({
 			   {kind: "onyx.Toolbar",
 				  components: [
 				  	  {kind: "onyx.Button", content: "New", ontap: "newPuzzle"},
-				  	  {kind: "onyx.Button",content: "History", ontap: "showHistory"},
-					  {kind: "onyx.Button",content: "Settings", ontap: "showPreferences"},
+//				  	  {kind: "onyx.Button",content: "History", ontap: "showHistory"},
+//					  {kind: "onyx.Button",content: "Settings", ontap: "showPreferences"},
+						{kind: "onyx.Button", content: "Help", ontap: "showHelp"},
 		               {name: "timerPanel", classes:"timer", style: "margin:0 100px 0 0; float:right;", components: [
 		               		{content: "Timer:", style:"display:inline-block"},
 		               		{name: "timer", kind: "onyx.Button", classes: "active", style: "font-size:18px; padding:3px 10px; width:90px; margin:0 5px; "},
@@ -130,7 +131,9 @@ enyo.kind({
   		}
   		this.$.historyPanel.toggleMinMax();
   },
-  
+  showHelp: function() {
+  	
+  },
   getPuzzleHistory: function(sender, inEvent) {
   	var index = inEvent.index;
   	var row = inEvent.row;
