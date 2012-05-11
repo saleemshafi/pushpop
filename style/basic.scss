@@ -7,6 +7,23 @@
   -webkit-border-radius: $radius;
 }
 
+@mixin box-shadow($shadow1, $shadow2:false, $shadow3:false, $shadow4:false, $shadow5:false) {
+ $params: $shadow1;
+  @if $shadow2 
+    { $params: $shadow1, $shadow2; }
+    @if $shadow3 != false
+      { $params: $shadow1, $shadow2, $shadow3; }
+      @if $shadow4 != false
+        { $params: $shadow1, $shadow2, $shadow3, $shadow4; }
+        @if $shadow5 != false
+          { $params: $shadow1, $shadow2, $shadow3, $shadow4, $shadow5; }
+
+  -webkit-appearance: none;
+  -webkit-box-shadow: $params;
+  -moz-box-shadow: $params;
+  box-shadow: $params;
+}
+
 @mixin colored-piece($color) {
   background-color: lighten($color, 25%);
   border-color: $color;
@@ -49,7 +66,7 @@ body.landscape {
     margin: 20px 50px;
     .piece {
       margin-top: ($pieceHeight * -$solutionOverlap) - ($pieceBorder * 2);
-      box-shadow: 0px -6px 6px -3px #333;
+      @include box-shadow(0px -6px 6px -3px #333);
     }
   }
 }
@@ -70,7 +87,7 @@ body.portrait {
     .piece {
       float:right;
       margin-right: $pieceWidth * -$solutionOverlap;
-      box-shadow: 6px 0px 6px -3px #333;
+      @include box-shadow(6px 0px 6px -3px #333);
     }
   }
 }
@@ -178,7 +195,7 @@ body {
 
 .workarea {
   position: relative;
-  height: 100%;
+  height: 800px;
   width: 100%;
 }
 
@@ -214,11 +231,16 @@ body {
   background-color: $backgroundColor;
 }
 
-.newGameConfirm {
+#gameOver {
+  display: none;
+}
+
+#newGameConfirm {
+  display: none;
   width: 300px;
   height: 150px;
-  padding: 15px;  
-  box-shadow: 0px 0px 8px 10px rgba(0, 0, 0, 0.3);
+  padding: 15px;
+  @include box-shadow(0px 0px 8px 10px rgba(0, 0, 0, 0.3));
   border: 1px solid rgba(0, 0, 0, 0.5);
   .buttons {
     position: absolute;

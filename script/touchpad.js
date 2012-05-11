@@ -17,7 +17,7 @@ var PushPopUI = {
 		id = window.location.hash.substring(1);
 	}
   	this.game = genGame(4,4, id);
-  	window.location.hash = this.game.id;
+//  	window.location.hash = this.game.id;
   },
   rendered: function() {
 	this.setOrientation();
@@ -93,19 +93,21 @@ var PushPopUI = {
 					var max = this.game.stacks[i].length-1;
 					for(var j=max; j >= 0; j--) {
 						var piece = this.game.stacks[i][j];
-						row.append('<div id="'+piece.id+'" class="piece color_'+piece.color+'"><div class="shape">'+piece.shape+'</div></div>');
+						row.append('<div id="'+piece.id+'" data-stack="'+i+'" class="piece color_'+piece.color+'"><div class="shape">'+piece.shape+'</div></div>');
 						index++;
 					}
-					row.find(".piece").filter(":first").click( this.renderPopStack.bind(this, i) );
+					var stackNum = i;
+					row.find(".piece").filter(":first").click( $.proxy( this.renderPopStack, this) );
 				}
 				$(".piece").jrumble({x:3, y:3, rotation:5});
 		},
-		renderPopStack: function(stack) {
+		renderPopStack: function() {
+			var stack = $(event.currentTarget).data("stack");
 			var piece = this.game.popStack(stack);
 			if (piece) {
 				this.renderPushToGuessStack(piece);
 				$("#"+piece.id).animate({"opacity":0, "margin-top":"-135px"}, 
-					{complete:(function() { this.render(); }).bind(this)});	
+					{complete:$.proxy(function() { this.render(); }, this)});	
 				if (this.game.puzzleFinished()) {
 					this.onPuzzleFinished();
 				}
@@ -129,11 +131,11 @@ var PushPopUI = {
 			var endPoint = orientation == "landscape" ? {"margin-top":"-110px"} : {"margin-right":"-100px"};
 			$("#game-stack").append('<div id="stack-'+piece.id+'" class="piece color_'+piece.color+'" style="'+mainStyle+startPoint+'"><div class="shape">'+piece.shape+'</div></div>');
 			var topStack = $("#game-stack .piece").filter(":last");
-			topStack.click( this.renderPopGuessStack.bind(this) );
-			topStack.animate(endPoint, {complete: (function() { 
+			topStack.click( $.proxy(this.renderPopGuessStack, this) );
+			topStack.animate(endPoint, {complete: $.proxy(function() { 
 				// clear the style setting so that the elements can move from one orientation
 				// to another
-				for (var prop in endPoint) { this.css(prop, ""); } }).bind(topStack)
+				for (var prop in endPoint) { this.css(prop, ""); } }, topStack)
 			});
 		},
 		renderPopGuessStack: function() {

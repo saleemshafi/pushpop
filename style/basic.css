@@ -18,6 +18,9 @@ body.landscape {
     margin: 20px 50px; }
     body.landscape #game-stack .piece {
       margin-top: -110px;
+      -webkit-appearance: none;
+      -webkit-box-shadow: 0px -6px 6px -3px #333333;
+      -moz-box-shadow: 0px -6px 6px -3px #333333;
       box-shadow: 0px -6px 6px -3px #333333; }
 
 body.portrait {
@@ -37,6 +40,9 @@ body.portrait {
     body.portrait #game-stack .piece {
       float: right;
       margin-right: -100px;
+      -webkit-appearance: none;
+      -webkit-box-shadow: 6px 0px 6px -3px #333333;
+      -moz-box-shadow: 6px 0px 6px -3px #333333;
       box-shadow: 6px 0px 6px -3px #333333; }
 
 body {
@@ -138,7 +144,7 @@ body {
 
 .workarea {
   position: relative;
-  height: 100%;
+  height: 800px;
   width: 100%; }
 
 .scrim {
@@ -169,20 +175,27 @@ body {
   z-index: 2;
   background-color: #121212; }
 
-.newGameConfirm {
+#gameOver {
+  display: none; }
+
+#newGameConfirm {
+  display: none;
   width: 300px;
   height: 150px;
   padding: 15px;
+  -webkit-appearance: none;
+  -webkit-box-shadow: 0px 0px 8px 10px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 0px 0px 8px 10px rgba(0, 0, 0, 0.3);
   box-shadow: 0px 0px 8px 10px rgba(0, 0, 0, 0.3);
   border: 1px solid rgba(0, 0, 0, 0.5); }
-  .newGameConfirm .buttons {
+  #newGameConfirm .buttons {
     position: absolute;
     bottom: 20px;
     width: 300px; }
-    .newGameConfirm .buttons .onyx-affirmative {
+    #newGameConfirm .buttons .onyx-affirmative {
       position: relative;
       left: 5px; }
-    .newGameConfirm .buttons .onyx-negative {
+    #newGameConfirm .buttons .onyx-negative {
       position: absolute;
       right: 5px; }
 
