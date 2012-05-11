@@ -35,11 +35,11 @@ html {
 body.landscape {
   width: 1024px;
   height: 768px;
-  #pushPop_game-board {
+  #game-board {
     width: $boardWidth;
     margin: 75px 0 75px 100px;
   }
-  #pushPop_game-stack {
+  #game-stack {
     position: absolute;
     right: 50px;
     border-bottom: none;
@@ -58,10 +58,10 @@ body.portrait {
   height: 1024px;
   width: 768px;
   
-  #pushPop_game-board {
+  #game-board {
     @include centered($boardWidth);
   }
-  #pushPop_game-stack {
+  #game-stack {
     border-left: none;
     padding: 5px $pieceWidth*$solutionOverlap+5 5px 0;
     margin: 50px auto;
@@ -82,7 +82,7 @@ body {
   overflow: scroll;
 }
 
-#pushPop_game-board {
+#game-board {
   .stack {
     width:$pieceWidth + ($pieceBorder * 2);
     float:left;
@@ -123,7 +123,7 @@ body {
 .color_2 { @include colored-piece(blue); }
 .color_3 { @include colored-piece(green); }
 
-#pushPop_game-stack {
+#game-stack {
   clear: both;
   white-space: nowrap;
   overflow: hidden;
@@ -136,11 +136,11 @@ body {
   }
 }
 
-.onyx-toolbar {
+.toolbar {
   position: relative;
   z-index: 5;
   border-bottom: 1px solid #000;
-  .title {
+  h1 {
     position: absolute;
     width: 100%;
     font-size: 26px;
@@ -157,18 +157,22 @@ body {
   }
 }
 
-#pushPop_timerPanel { 
+.timer-panel { 
   width: 150px;
+  position: absolute;
+  top: 0px;
+  right: 10px;
 }
 
-#pushPop_timer {
+#timer {
   color: #DEDEDE;
-  font-size: 36px;
+  font-size: 14px;
   text-align: center;
+  display: inline-block;
 }
 
 .paused {
-  #pushPop_pauseButton { display: none; }
+  #pauseButton { display: none; }
   .game { display: none; }
 }
 
@@ -179,6 +183,7 @@ body {
 }
 
 .scrim {
+  display: none;
   height: 100%;
   width: 100%;
   z-index: 9999;

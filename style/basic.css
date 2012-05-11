@@ -5,10 +5,10 @@ html {
 body.landscape {
   width: 1024px;
   height: 768px; }
-  body.landscape #pushPop_game-board {
+  body.landscape #game-board {
     width: 620px;
     margin: 75px 0 75px 100px; }
-  body.landscape #pushPop_game-stack {
+  body.landscape #game-stack {
     position: absolute;
     right: 50px;
     border-bottom: none;
@@ -16,25 +16,25 @@ body.landscape {
     height: 560.0px;
     padding: 115px 5px 0 5px;
     margin: 20px 50px; }
-    body.landscape #pushPop_game-stack .piece {
+    body.landscape #game-stack .piece {
       margin-top: -110px;
       box-shadow: 0px -6px 6px -3px #333333; }
 
 body.portrait {
   height: 1024px;
   width: 768px; }
-  body.portrait #pushPop_game-board {
+  body.portrait #game-board {
     margin-right: auto;
     margin-left: auto;
     position: relative;
     width: 620px; }
-  body.portrait #pushPop_game-stack {
+  body.portrait #game-stack {
     border-left: none;
     padding: 5px 105px 5px 0;
     margin: 50px auto;
     height: 135px;
     width: 560.0px; }
-    body.portrait #pushPop_game-stack .piece {
+    body.portrait #game-stack .piece {
       float: right;
       margin-right: -100px;
       box-shadow: 6px 0px 6px -3px #333333; }
@@ -45,15 +45,15 @@ body {
   font-family: Segoe UI, Arial, Helvetica, sans-serif;
   overflow: scroll; }
 
-#pushPop_game-board .stack {
+#game-board .stack {
   width: 135px;
   float: left;
   min-height: 1px;
   padding-left: 20px; }
-  #pushPop_game-board .stack .piece:first-child {
+  #game-board .stack .piece:first-child {
     cursor: pointer;
     opacity: 1; }
-#pushPop_game-board .stack:first-child {
+#game-board .stack:first-child {
   padding-left: 0; }
 
 .piece {
@@ -92,21 +92,21 @@ body {
   background-color: lime;
   border-color: green; }
 
-#pushPop_game-stack {
+#game-stack {
   clear: both;
   white-space: nowrap;
   overflow: hidden;
   border: solid #888;
   border-radius: 19px; }
-  #pushPop_game-stack .piece {
+  #game-stack .piece {
     cursor: pointer;
     opacity: 1; }
 
-.onyx-toolbar {
+.toolbar {
   position: relative;
   z-index: 5;
   border-bottom: 1px solid #000; }
-  .onyx-toolbar .title {
+  .toolbar h1 {
     position: absolute;
     width: 100%;
     font-size: 26px;
@@ -115,19 +115,23 @@ body {
     margin: 0;
     padding: 0;
     z-index: 6; }
-  .onyx-toolbar button {
+  .toolbar button {
     position: relative;
     z-index: 7; }
 
-#pushPop_timerPanel {
-  width: 150px; }
+.timer-panel {
+  width: 150px;
+  position: absolute;
+  top: 0px;
+  right: 10px; }
 
-#pushPop_timer {
+#timer {
   color: #DEDEDE;
-  font-size: 36px;
-  text-align: center; }
+  font-size: 14px;
+  text-align: center;
+  display: inline-block; }
 
-.paused #pushPop_pauseButton {
+.paused #pauseButton {
   display: none; }
 .paused .game {
   display: none; }
@@ -138,6 +142,7 @@ body {
   width: 100%; }
 
 .scrim {
+  display: none;
   height: 100%;
   width: 100%;
   z-index: 9999;
