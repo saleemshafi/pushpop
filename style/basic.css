@@ -137,8 +137,10 @@ body {
   text-align: center;
   display: inline-block; }
 
-.paused #pauseButton {
+.paused #pause {
   display: none; }
+.paused .scrim {
+  display: block; }
 .paused .game {
   display: none; }
 
@@ -155,8 +157,7 @@ body {
   background-color: #121212;
   position: absolute;
   top: 0;
-  left: 0;
-  z-index: 1; }
+  left: 0; }
   .scrim .scrimContent {
     position: absolute;
     top: 50%;
@@ -176,7 +177,10 @@ body {
   background-color: #121212; }
 
 #gameOver {
-  display: none; }
+  display: none;
+  z-index: 999;
+  background-color: #000;
+  position: absolute; }
 
 #newGameConfirm {
   display: none;
@@ -187,7 +191,9 @@ body {
   -webkit-box-shadow: 0px 0px 8px 10px rgba(0, 0, 0, 0.3);
   -moz-box-shadow: 0px 0px 8px 10px rgba(0, 0, 0, 0.3);
   box-shadow: 0px 0px 8px 10px rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(0, 0, 0, 0.5); }
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  position: absolute;
+  background-color: #000; }
   #newGameConfirm .buttons {
     position: absolute;
     bottom: 20px;

@@ -7,10 +7,12 @@ function Timer(time) {
   this.clear = function() { elapsed = 0; }
   this.start = function () { if (!paused) return; baseline = new Date().getTime(); paused = false; }
   this.pause = function () {
-  	var now = new Date().getTime();
-  	elapsed += now - baseline;
-  	baseline = 0;
-  	paused = true;
+  	if (!paused) {
+	  	var now = new Date().getTime();
+	  	elapsed += now - baseline;
+	  	baseline = 0;
+	  	paused = true;
+  	}
   }
   
   this.getTime = function() {

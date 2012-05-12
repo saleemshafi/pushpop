@@ -17,6 +17,12 @@ var PushPopUI = {
 		id = window.location.hash.substring(1);
 	}
   	this.game = genGame(4,4, id);
+  	$("#pause").bind("vclick", $.proxy(this.pauseTimer, this));
+  	$("#resume").bind("vclick", $.proxy(this.resumeTimer, this));
+  	$("#new").bind("vclick", $.proxy(this.newPuzzle, this));
+  	$("#new-puzzle-confirm").bind("vclick", $.proxy(this.reallyNewPuzzle, this));
+  	$("#keep-working").bind("vclick", $.proxy(this.closeNewGameConfirm, this));
+  	$("#new-puzzle").bind("vclick", $.proxy(this.newPuzzle, this));
 //  	window.location.hash = this.game.id;
   },
   rendered: function() {
@@ -38,17 +44,17 @@ var PushPopUI = {
   windowRotated: function() {},
   newPuzzle: function() {
   	if (this.game.attempted && !this.game.puzzleFinished()) {
-  		this.$.newGameConfirm.show();
+  		$("#newGameConfirm").show();
   	} else {
   		this.reallyNewPuzzle();
   	}
   },
   closeNewGameConfirm: function() {
-  		this.$.newGameConfirm.hide();
+  		$("#newGameConfirm").hide();
   },
   reallyNewPuzzle: function() {
-  	this.$.newGameConfirm.hide();
-  	this.$.gameOver.hide();
+  	$("#newGameConfirm").hide();
+  	$("#gameOver").hide();
   	
   	this.game.shutdown();
 	$("#game-stack").empty();
@@ -62,10 +68,10 @@ var PushPopUI = {
   },
   pauseTimer: function() {
   	this.game.timer.pause();
-  	$("#pushPop").addClass("paused");
+  	$("#main").addClass("paused");
   },
   resumeTimer: function() {
-  	$("#pushPop").removeClass("paused");
+  	$("#main").removeClass("paused");
   	this.game.timer.start(this.updateTimer);
   },
   showPreferences: function() {
@@ -119,10 +125,10 @@ var PushPopUI = {
 			}
 		},
 		onPuzzleFinished: function() {
-			var stats = this.$.gameOver.components[1];
-			stats.content = "You completed "+this.game.id+" in "+this.game.timer.toString();
+			var stats = $("#stats");
+			stats.text("You completed "+this.game.id+" in "+this.game.timer.toString());
 			this.game.shutdown();
-			this.$.gameOver.show();
+			$("#gameOver").show();
 		},
 		renderPushToGuessStack: function(piece) {
 			var mainStyle = "z-index:"+this.game.guess.length+";";
