@@ -155,19 +155,14 @@ body {
   z-index: 2;
   background-color: #121212; }
 
-#gameOver {
-  z-index: 999;
-  background-color: #000;
-  position: absolute; }
-
-#newGameConfirm {
+#pushpop .ui-dialog {
   width: 350px;
   height: 150px;
   padding: 15px;
   margin: 0 auto;
   position: relative;
   background-color: #000; }
-  #newGameConfirm .ui-dialog-contain {
+  #pushpop .ui-dialog .ui-dialog-contain {
     padding: 25px;
     background-color: #000;
     -webkit-appearance: none;
@@ -180,7 +175,7 @@ body {
     margin-top: -25%;
     text-shadow: none;
     color: #fff; }
-  #newGameConfirm #buttons {
+  #pushpop .ui-dialog .buttons {
     margin-top: 25px; }
 
 .slider {
