@@ -178,6 +178,13 @@ body {
   #pushpop .ui-dialog .buttons {
     margin-top: 25px; }
 
+#stats {
+  text-align: center; }
+
+.ui-dialog-contain h1 {
+  text-align: center;
+  margin-top: 0; }
+
 .slider {
   width: auto;
   height: 100%;
