@@ -186,25 +186,13 @@ body {
   width: 100%;
 }
 
-.scrim {
-  display: none;
-  height: 100%;
-  width: 100%;
-  z-index: 9999;
-  background-color: $backgroundColor;
+.pauseContent {
   position: absolute;
-  top: 0;
-  left: 0;
-  
-  .scrimContent {
-    position: absolute;
-    top: 50%;
-    width: 100%;
-    font-size: 36px;
-    color: #EDEDED;
-    margin-top: -75px;
-    text-align: center;
-  }
+  top: 50%;
+  width: 100%;
+  font-size: 36px;
+  margin-top: -75px;
+  text-align: center;
 }
 
 .game {

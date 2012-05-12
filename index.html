@@ -24,7 +24,7 @@
 			<div class="timer-panel">
 				<span>Timer:</span>
 				<div id="timer"></div>
-				<a href="#pause" data-inline="true" data-mini="true" data-role="button">Pause</a>
+				<a href="#pause" data-inline="true" data-mini="true" data-transition="flip" data-role="button">Pause</a>
 			</div>
 		</div>
 		<div id="workarea" class="workarea" data-role="content">
@@ -36,8 +36,8 @@
 		</div>
 	</div>
 	
-	<div id="pause" class="scrim" data-role="page" data-title="PushPop - Paused">
-		<div class="scrimContent">
+	<div id="pause" data-role="page" data-theme="a" data-title="PushPop - Paused">
+		<div class="pauseContent">
 			<span>PushPop Paused</span>
 			<a href="#puzzle" data-role="button" data-rel="back" id="resumeBtn">Resume</a>
 		</div>
