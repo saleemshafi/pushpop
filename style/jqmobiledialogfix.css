@@ -15,3 +15,10 @@
 	min-height: 100% !important;
 	background: transparent !important;
 }
+
+.ui-dialog-background.pop.out {
+	opacity: 0.5;
+	-webkit-animation-duration: 1ms;
+	-moz-animation-duration: 1ms;	
+}
+

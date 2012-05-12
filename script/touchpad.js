@@ -126,7 +126,7 @@ var PushPopUI = {
 		},
 		onPuzzleFinished: function() {
 			var stats = $("#stats");
-			stats.text("You completed "+this.game.id+" in "+this.game.timer.toString());
+			stats.text("You completed this puzzle in "+this.game.timer.toString()+".");
 			this.game.shutdown();
 			$.mobile.changePage("#gameOver");
 		},

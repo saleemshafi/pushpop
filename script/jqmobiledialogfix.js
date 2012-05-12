@@ -8,4 +8,11 @@ $(function() {
     $('div[data-role="dialog"]').live('pagehide', function(e, ui) {
 	$(".ui-dialog-background ").removeClass("ui-dialog-background ");
 	});
+	
+	
+	$('div[data-role="page"]').live('pagebeforehide', function(e, ui) {
+		if (ui.nextPage.data("role") == "dialog") {
+			$(this).addClass("ui-dialog-background ");
+		}
+	});
 });
