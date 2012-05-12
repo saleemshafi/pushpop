@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html style="overflow: scroll">
 <head>
+	<title>PushPop</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" type="text/css" href="style/basic.css" />
 	<link rel="stylesheet" type="text/css" href="style/jquery-mobile-1.1.0.css" />
@@ -15,15 +16,15 @@
 
 </head>
 <body>
-	<div id="puzzle" data-role="page">
-		<div id="toolbar" class="toolbar" data-role="header">
-			<h1>PushPop</h1>
-			<a data-role="button" id="newBtn">New</a>
-			<a data-role="button" id="help">Help</a>
+	<div id="puzzle" data-role="page" data-title="PushPop">
+		<div id="toolbar" class="ui-bar ui-bar-a ui-header">
+			<a data-role="button" id="newBtn" data-inline="true" data-mini="true" data-icon="refresh">New</a>
+			<a data-role="button" id="help" data-inline="true" data-mini="true" data-icon="info">Help</a>
+			<h1 class="ui-title">PushPop</h1>
 			<div class="timer-panel">
 				<span>Timer:</span>
 				<div id="timer"></div>
-				<a href="#pause" data-role="button">Pause</a>
+				<a href="#pause" data-inline="true" data-mini="true" data-role="button">Pause</a>
 			</div>
 		</div>
 		<div id="workarea" class="workarea" data-role="content">
@@ -35,14 +36,14 @@
 		</div>
 	</div>
 	
-	<div id="pause" class="scrim" data-role="page">
+	<div id="pause" class="scrim" data-role="page" data-title="PushPop - Paused">
 		<div class="scrimContent">
 			<span>PushPop Paused</span>
 			<a href="#puzzle" data-role="button" data-rel="back" id="resumeBtn">Resume</a>
 		</div>
 	</div>
 
-	<div id="newGameConfirm" data-role="dialog">
+	<div id="newGameConfirm" data-role="dialog" data-title="PushPop - New Game">
 		<span>You haven't quite finished with the current puzzle.  Do you want to try a new one or keep working on this one?</span>
 		<div id="buttons">
 			<a id="new-puzzle-confirm" data-role="button">New Puzzle</a>
@@ -50,7 +51,7 @@
 		</div>
 	</div>
 
-	<div id="gameOver" data-role="dialog">
+	<div id="gameOver" data-role="dialog" data-title="PushPop - Solved!">
 		<span>Congratulations!</span>
 		<div id="stats"></div>
 		<a href="#puzzle" data-role="button">New Puzzle</a>
