@@ -161,26 +161,27 @@ body {
   position: absolute; }
 
 #newGameConfirm {
-  width: 300px;
+  width: 350px;
   height: 150px;
   padding: 15px;
-  -webkit-appearance: none;
-  -webkit-box-shadow: 0px 0px 8px 10px rgba(0, 0, 0, 0.3);
-  -moz-box-shadow: 0px 0px 8px 10px rgba(0, 0, 0, 0.3);
-  box-shadow: 0px 0px 8px 10px rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(0, 0, 0, 0.5);
-  position: absolute;
+  margin: 0 auto;
+  position: relative;
   background-color: #000; }
-  #newGameConfirm .buttons {
+  #newGameConfirm .ui-dialog-contain {
+    padding: 25px;
+    background-color: #000;
+    -webkit-appearance: none;
+    -webkit-box-shadow: 0px 0px 8px 10px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow: 0px 0px 8px 10px rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 0px 8px 10px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(0, 0, 0, 0.5);
     position: absolute;
-    bottom: 20px;
-    width: 300px; }
-    #newGameConfirm .buttons .onyx-affirmative {
-      position: relative;
-      left: 5px; }
-    #newGameConfirm .buttons .onyx-negative {
-      position: absolute;
-      right: 5px; }
+    top: 50%;
+    margin-top: -25%;
+    text-shadow: none;
+    color: #fff; }
+  #newGameConfirm #buttons {
+    margin-top: 25px; }
 
 .slider {
   width: auto;

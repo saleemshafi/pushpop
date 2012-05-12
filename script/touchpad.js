@@ -42,7 +42,7 @@ var PushPopUI = {
   windowRotated: function() {},
   newPuzzle: function() {
   	if (this.game.attempted && !this.game.puzzleFinished()) {
-  		$.mobile.changePage("#newGameConfirm");
+  		$.mobile.changePage("#newGameConfirm", {transition: "pop"});
   	} else {
   		this.reallyNewPuzzle();
   	}
