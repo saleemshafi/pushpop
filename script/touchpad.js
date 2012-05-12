@@ -12,18 +12,20 @@ var PushPopUI = {
 	}
   },
   create: function() {
+  	// not using vclick or tap because of note on http://jquerymobile.com/test/docs/api/events.html
+  	// need to revisit if the click responsiveness is too slow
+  	$("#pause").bind("click", $.proxy(this.pauseTimer, this));
+  	$("#resume").bind("click", $.proxy(this.resumeTimer, this));
+  	$("#new").bind("click", $.proxy(this.newPuzzle, this));
+  	$("#new-puzzle-confirm").bind("click", $.proxy(this.reallyNewPuzzle, this));
+  	$("#keep-working").bind("click", $.proxy(this.closeNewGameConfirm, this));
+  	$("#new-puzzle").bind("click", $.proxy(this.newPuzzle, this));
+
 	var id = null;
 	if (window.location.hash) {
 		id = window.location.hash.substring(1);
 	}
-  	this.game = genGame(4,4, id);
-  	$("#pause").bind("vclick", $.proxy(this.pauseTimer, this));
-  	$("#resume").bind("vclick", $.proxy(this.resumeTimer, this));
-  	$("#new").bind("vclick", $.proxy(this.newPuzzle, this));
-  	$("#new-puzzle-confirm").bind("vclick", $.proxy(this.reallyNewPuzzle, this));
-  	$("#keep-working").bind("vclick", $.proxy(this.closeNewGameConfirm, this));
-  	$("#new-puzzle").bind("vclick", $.proxy(this.newPuzzle, this));
-//  	window.location.hash = this.game.id;
+	this.resetPuzzle(id);
   },
   rendered: function() {
 	this.setOrientation();
@@ -52,19 +54,23 @@ var PushPopUI = {
   closeNewGameConfirm: function() {
   		$("#newGameConfirm").hide();
   },
-  reallyNewPuzzle: function() {
+  resetPuzzle: function(puzzleId) {
   	$("#newGameConfirm").hide();
   	$("#gameOver").hide();
-  	
-  	this.game.shutdown();
+  	if (this.game != null) {
+	  	this.game.shutdown();
+  	}
 	$("#game-stack").empty();
 	$("#game-board").empty();
 	$("#solution").empty();
  	
-  	this.game = genGame(4,4);
+  	this.game = genGame(4,4, puzzleId);
   	window.location.hash = this.game.id;
   	this.render();
   	this.game.start(this.updateTimer);
+  },
+  reallyNewPuzzle: function() {
+  	this.reset(null);
   },
   pauseTimer: function() {
   	this.game.timer.pause();

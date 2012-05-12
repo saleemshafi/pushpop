@@ -41,12 +41,6 @@
 					<span>Congratulations!</span>
 					<div id="stats"></div>
 					<a id="new-puzzle" data-role="button">New Puzzle</a>
-<!--		               {name: "gameOver", kind: "onyx.Popup", centered: true, modal: true, dismissWithClick: false, dismissWithEscape: false, floating: true, classes:"gameOver", components: [
-		               		{content: "Congratulations!"},
-		               		{name:"stats", content:""},
-		               		{kind:"Button",content: "New Puzzle", onclick: "newPuzzle"},
-		               		{name: "socialChallenge"}
-		               ]}, -->
 				</div>
 
 				<div id="newGameConfirm">
@@ -55,20 +49,13 @@
 						<a id="new-puzzle-confirm" data-role="button">New Puzzle</a>
 						<a id="keep-working" data-role="button">Keep working</a>
 					</div>
-<!--		               {name: "newGameConfirm", kind: "onyx.Popup", classes: "newGameConfirm", centered: true, modal: true, dismissWithClick: false, dismissWithEscape: false, floating: false, components: [
-		               		{content: "You haven't quite finished with the current puzzle.  Do you want to try a new one or keep working on this one?"},
-		               		{classes: "buttons", components: [
-			               		{kind:"onyx.Button",content: "New Puzzle", onclick: "reallyNewPuzzle", classes: "onyx-affirmative"},
-			               		{kind:"onyx.Button",content: "Keep working", onclick: "closeNewGameConfirm", classes: "onyx-negative"},
-		               		]}
-		               ]}  -->
 				</div>
 			</div>
 			
 		</div>
 	</div>
 	<script>
-$(document).ready(function() {
+$("#main").bind('pageinit', function() {
 	PushPopUI.create();
 	PushPopUI.rendered();
 });
