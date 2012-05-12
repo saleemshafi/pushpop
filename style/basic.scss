@@ -232,14 +232,12 @@ body {
 }
 
 #gameOver {
-  display: none;
   z-index: 999;
   background-color: #000;
   position: absolute;
 }
 
 #newGameConfirm {
-  display: none;
   width: 300px;
   height: 150px;
   padding: 15px;

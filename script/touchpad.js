@@ -14,12 +14,8 @@ var PushPopUI = {
   create: function() {
   	// not using vclick or tap because of note on http://jquerymobile.com/test/docs/api/events.html
   	// need to revisit if the click responsiveness is too slow
-  	$("#pause").bind("click", $.proxy(this.pauseTimer, this));
-  	$("#resume").bind("click", $.proxy(this.resumeTimer, this));
-  	$("#new").bind("click", $.proxy(this.newPuzzle, this));
+  	$("#newBtn").bind("click", $.proxy(this.newPuzzle, this));
   	$("#new-puzzle-confirm").bind("click", $.proxy(this.reallyNewPuzzle, this));
-  	$("#keep-working").bind("click", $.proxy(this.closeNewGameConfirm, this));
-  	$("#new-puzzle").bind("click", $.proxy(this.newPuzzle, this));
 
 	var id = null;
 	if (window.location.hash) {
@@ -46,17 +42,12 @@ var PushPopUI = {
   windowRotated: function() {},
   newPuzzle: function() {
   	if (this.game.attempted && !this.game.puzzleFinished()) {
-  		$("#newGameConfirm").show();
+  		$.mobile.changePage("#newGameConfirm");
   	} else {
   		this.reallyNewPuzzle();
   	}
   },
-  closeNewGameConfirm: function() {
-  		$("#newGameConfirm").hide();
-  },
   resetPuzzle: function(puzzleId) {
-  	$("#newGameConfirm").hide();
-  	$("#gameOver").hide();
   	if (this.game != null) {
 	  	this.game.shutdown();
   	}
@@ -65,20 +56,23 @@ var PushPopUI = {
 	$("#solution").empty();
  	
   	this.game = genGame(4,4, puzzleId);
-  	window.location.hash = this.game.id;
+//  	window.location.hash = this.game.id;
   	this.render();
   	this.game.start(this.updateTimer);
   },
   reallyNewPuzzle: function() {
-  	this.reset(null);
+  	this.resetPuzzle(null);
+  	$.mobile.changePage("#puzzle");
   },
   pauseTimer: function() {
-  	this.game.timer.pause();
-  	$("#main").addClass("paused");
+  	if (this.game.timer) {
+	  	this.game.timer.pause();
+  	}
   },
   resumeTimer: function() {
-  	$("#main").removeClass("paused");
-  	this.game.timer.start(this.updateTimer);
+  	if (this.game.timer) {
+	  	this.game.timer.start(this.updateTimer);
+  	}
   },
   showPreferences: function() {
 	alert("prefs");
@@ -134,7 +128,7 @@ var PushPopUI = {
 			var stats = $("#stats");
 			stats.text("You completed "+this.game.id+" in "+this.game.timer.toString());
 			this.game.shutdown();
-			$("#gameOver").show();
+			$.mobile.changePage("#gameOver");
 		},
 		renderPushToGuessStack: function(piece) {
 			var mainStyle = "z-index:"+this.game.guess.length+";";
