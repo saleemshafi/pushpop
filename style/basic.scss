@@ -44,14 +44,11 @@ $backgroundColor: #121212;
 $stack-padding: 20px;
 $boardWidth: ($pieceWidth+ ($pieceBorder*2) + ($stack-padding))*4;
 
-html {
-  background-color: white;
-  overflow: scroll;
-}
-
 body.landscape {
-  width: 1024px;
-  height: 768px;
+  .ui-page {
+    width: 1024px;
+    height: 768px;
+  }
   #game-board {
     width: $boardWidth;
     margin: 75px 0 75px 100px;
@@ -105,7 +102,6 @@ body {
   background-color: $backgroundColor;
   margin: 10px;
   font-family: Segoe UI, Arial, Helvetica, sans-serif;
-  overflow: scroll;
 }
 
 #game-board {
@@ -192,10 +188,11 @@ body {
   .game { display: none; }
 }
 
-.workarea {
+#pushpop .workarea {
   position: relative;
-  height: 800px;
+  height: 768px;
   width: 100%;
+  padding: 0;
 }
 
 .pauseContent {
