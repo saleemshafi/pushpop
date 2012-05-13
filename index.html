@@ -20,7 +20,8 @@
 	<div id="puzzle" data-role="page" data-title="PushPop">
 		<div id="toolbar" class="ui-bar ui-bar-a ui-header">
 			<div data-role="controlgroup" data-type="horizontal">
-				<a data-role="button" id="newBtn" data-inline="true" data-mini="true" data-icon="refresh">New</a>
+				<a data-role="button" id="newBtn" data-inline="true" data-mini="true" data-icon="star">New</a>
+				<a data-role="button" id="startOverBtn" data-inline="true" data-mini="true" data-icon="refresh">Start Over</a>
 				<a data-role="button" href="#help" data-inline="true" data-mini="true" data-icon="info" data-transition="slide">Help</a>
 			</div>
 			<h1 class="ui-title">PushPop</h1>
@@ -48,7 +49,7 @@
 	<div id="newGameConfirm" data-role="dialog" data-title="PushPop - New Game" data-theme="c">
 		<span>You haven't quite finished with the current puzzle.  Do you want to try a new one or keep working on this one?</span>
 		<div class="buttons">
-			<a href="#puzzle" data-role="button" data-inline="true" data-icon="refresh">New Puzzle</a>
+			<a href="#puzzle" data-role="button" data-inline="true" data-icon="star">New Puzzle</a>
 			<a href="#puzzle" data-role="button" data-inline="true" data-icon="back" data-rel="back" data-theme="b">Keep working</a>
 		</div>
 	</div>
@@ -57,7 +58,7 @@
 		<h1>Congratulations!</h1>
 		<div id="stats"></div>
 		<div class="buttons">
-			<a href="#puzzle" data-role="button" data-theme="b" data-icon="refresh">I'm ready for a new puzzle</a>
+			<a href="#puzzle" data-role="button" data-theme="b" data-icon="star">I'm ready for a new puzzle</a>
 		</div>
 	</div>
 	
@@ -80,6 +81,7 @@ $("#puzzle").bind('pageinit', function() {
   	// not using vclick or tap because of note on http://jquerymobile.com/test/docs/api/events.html
   	// need to revisit if the click responsiveness is too slow
   	$("#newBtn").bind("click", $.proxy(PushPopUI.newPuzzle, PushPopUI));
+  	$("#startOverBtn").bind("click", $.proxy(PushPopUI.startOver, PushPopUI));
 	PushPopUI.setOrientation();
     window.addEventListener("resize", PushPopUI.setOrientation);
     

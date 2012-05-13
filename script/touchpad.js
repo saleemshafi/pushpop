@@ -53,6 +53,11 @@ var PushPopUI = {
   pieceMarkup: function(piece, depth) {
   	return '<div id="'+piece.id+'" style="z-index:'+(depth+1)+'" data-stack="'+piece.stack+'" class="piece color_'+piece.color+'"><div class="shape">'+piece.shape+'</div></div>';
   },
+  startOver: function() {
+	this.game.startOver();
+	$("#game-stack").empty();
+	this.render();	
+  },
 		render: function() {
 				var gb = $('#game-board');
 				gb.empty();
@@ -107,17 +112,14 @@ var PushPopUI = {
 			});
 		},
 		renderPopGuessStack: function(event) {
-			var card = null;
-			do {
-				card = $("#game-stack .piece").filter(":first");
-				var piece = this.game.popGuessStack();
-				var orientation = this.currentOrientation();
-				var endPoint = orientation == "landscape" ? {"top":"-110px","opacity":0} : {"left":"-235px","opacity":0};
-				this.renderPushToGameStack(piece);
-				card.animate(endPoint, {complete: $.proxy(function() { 
-					card.remove(); } )
-				});
-			} while(card[0] != event.currentTarget);
+			var card = $("#game-stack .piece").filter(":first");
+			var piece = this.game.popGuessStack();
+			var orientation = this.currentOrientation();
+			var endPoint = orientation == "landscape" ? {"top":"-110px","opacity":0} : {"left":"-235px","opacity":0};
+			this.renderPushToGameStack(piece);
+			card.animate(endPoint, {complete: $.proxy(function() { 
+				card.remove(); } )
+			});
 		},
 		renderPushToGameStack: function(piece) {
 			var depth = this.game.stacks[piece.stack].length;

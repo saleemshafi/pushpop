@@ -46,9 +46,14 @@ var PushPop = function() {
 }
 
 $.extend(PushPop.prototype, {
+		startOver: function() {
+			while (this.popGuessStack());
+		},
 		popGuessStack: function() {
 			var piece = this.guess.pop();
-			this.stacks[piece.stack].push(piece);
+			if (piece) {
+				this.stacks[piece.stack].push(piece);
+			}
 			return piece;
 		},
 		generateSolution: function() {
