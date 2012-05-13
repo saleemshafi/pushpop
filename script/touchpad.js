@@ -84,7 +84,7 @@ var PushPopUI = {
 				}
 				$(".piece").jrumble({x:3, y:3, rotation:5});
 		},
-		renderPopStack: function() {
+		renderPopStack: function(event) {
 			var stack = $(event.currentTarget).data("stack");
 			var piece = this.game.popStack(stack);
 			if (piece) {
@@ -121,7 +121,7 @@ var PushPopUI = {
 				for (var prop in endPoint) { this.css(prop, ""); } }, topStack)
 			});
 		},
-		renderPopGuessStack: function() {
+		renderPopGuessStack: function(event) {
 			var card = null;
 			do {
 				card = $("#game-stack .piece").filter(":last");
