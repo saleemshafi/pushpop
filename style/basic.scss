@@ -108,10 +108,11 @@ body.portrait {
     height: $pieceHeight + ($pieceBorder*2);
     width: (($pieceWidth * (1-$solutionOverlap)) + ($pieceBorder * 2)) * 16;
     .piece {
-      float:right;
+      position:relative;
+      display:inline-block;
       margin-right: $pieceWidth * -$solutionOverlap;
-      @include box-shadow(6px 0px 6px -3px #333);
       margin-bottom: 10px;
+      @include box-shadow(6px 0px 6px -3px #333);
     }
   }
 }
@@ -167,6 +168,7 @@ body {
 .color_3 { @include colored-piece(green); }
 
 #game-stack {
+  position:relative;
   border-color: #888;
   @include rounded($gameStackBorderWidth, 19px);
 

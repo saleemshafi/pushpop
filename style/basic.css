@@ -40,13 +40,14 @@ body.portrait {
     height: 135px;
     width: 560.0px; }
     body.portrait #game-stack .piece {
-      float: right;
+      position: relative;
+      display: inline-block;
       margin-right: -100px;
+      margin-bottom: 10px;
       -webkit-appearance: none;
       -webkit-box-shadow: 6px 0px 6px -3px #333333;
       -moz-box-shadow: 6px 0px 6px -3px #333333;
-      box-shadow: 6px 0px 6px -3px #333333;
-      margin-bottom: 10px; }
+      box-shadow: 6px 0px 6px -3px #333333; }
 
 body {
   background-color: #121212;
@@ -106,6 +107,7 @@ body {
   border-color: green; }
 
 #game-stack {
+  position: relative;
   border-color: #888;
   border-width: 3px;
   border-style: solid;

@@ -108,10 +108,10 @@ var PushPopUI = {
 			$.mobile.changePage("#gameOver");
 		},
 		renderPushToGuessStack: function(piece) {
-			var mainStyle = "z-index:"+this.game.guess.length+";position:absolute;";
+			var mainStyle = "z-index:"+this.game.guess.length+";";
 			var orientation = $("body").hasClass("portrait") ? "portrait" : "landscape";
-			var startPoint = orientation == "landscape" ? "top:-20px;opacity:0" : "margin-right:420px";
-			var endPoint = orientation == "landscape" ? {"top":"110px","opacity":1, "position":"absolute"} : {"margin-right":"-100px"};
+			var startPoint = orientation == "landscape" ? "top:-20px;opacity:0;position:absolute" : "left:-235px;opacity:0;position:absolute";
+			var endPoint = orientation == "landscape" ? {"top":"110px","opacity":1, "position":"absolute"} : {"left":"0","opacity":1,"position":"absolute"};
 			$("#game-stack").prepend('<div id="stack-'+piece.id+'" class="piece color_'+piece.color+'" style="'+mainStyle+startPoint+'"><div class="shape">'+piece.shape+'</div></div>');
 			var topStack = $("#game-stack .piece").filter(":first");
 			topStack.click( $.proxy(this.renderPopGuessStack, this) );
