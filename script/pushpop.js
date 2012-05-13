@@ -139,7 +139,8 @@ $.extend(PushPop.prototype, {
 			if (this.timerRefresh) {
 				clearInterval(this.timerRefresh);
 			}
-			this.timerRefresh = setInterval(timerListener, 500, this.timer);
+			var timerObj = this.timer;
+			this.timerRefresh = setInterval(function() { timerListener(timerObj); }, 500);
 		},
 		shutdown: function() {
 			if (this.timerRefresh) {
