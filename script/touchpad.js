@@ -11,10 +11,6 @@ var PushPopUI = {
 		$("body").removeClass("portrait");
 	}
   },
-  showHelp: function() {
-  	
-  },
-  windowRotated: function() {},
   newPuzzle: function() {
   	if (this.game.attempted && !this.game.puzzleFinished()) {
   		$.mobile.changePage("#newGameConfirm", {transition: "pop"});
@@ -51,19 +47,9 @@ var PushPopUI = {
 	  	this.game.timer.start(this.updateTimer);
   	}
   },
-  showPreferences: function() {
-	alert("prefs");
-  },
   updateTimer: function(timer) {
 	$("#timer").text(timer.toString());
   },
-	renderSolution: function() {
-		for (var i=0; i < this.game.solution.length; i++) {
-			var piece = this.game.solution[i];
-			$("#solution").append('<div class="piece color_'+piece.color+'"><div class="shape">'+piece.shape+'</div></div>');				
-		}
-	},
-
 		render: function() {
 				var gb = $('#game-board');
 				gb.empty();
