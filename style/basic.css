@@ -11,16 +11,16 @@ body.landscape #game-stack {
   position: absolute;
   left: 673px;
   top: 41px;
-  border-bottom: none;
+  border-top: none;
   width: 135px;
   height: 400.0px;
   padding: 115px 5px 0 5px; }
   body.landscape #game-stack .piece {
     margin-top: -110px;
     -webkit-appearance: none;
-    -webkit-box-shadow: 0 -6px 6px -3px #333333;
-    -moz-box-shadow: 0 -6px 6px -3px #333333;
-    box-shadow: 0 -6px 6px -3px #333333;
+    -webkit-box-shadow: 0 6px 6px -3px #333333;
+    -moz-box-shadow: 0 6px 6px -3px #333333;
+    box-shadow: 0 6px 6px -3px #333333;
     margin-bottom: 0; }
 
 body.portrait {
@@ -106,9 +106,6 @@ body {
   border-color: green; }
 
 #game-stack {
-  clear: both;
-  white-space: nowrap;
-  overflow: hidden;
   border-color: #888;
   border-width: 3px;
   border-style: solid;
@@ -116,8 +113,7 @@ body {
   -moz-border-radius: 19px;
   -webkit-border-radius: 19px; }
   #game-stack .piece {
-    cursor: pointer;
-    opacity: 1; }
+    cursor: pointer; }
 
 .timer-panel {
   width: 200px;

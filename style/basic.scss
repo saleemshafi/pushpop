@@ -79,13 +79,13 @@ body.landscape {
     position: absolute;
     left: 1024px - (2 * $puzzleSidePadding) - $stackWidth - (2 * $gameStackBorderWidth) - (2*$stackSidePadding);
     top: 41px;
-    border-bottom: none;
+    border-top: none;
     width: $stackWidth;
     height: (($pieceHeight * (1-$solutionOverlap))) * 16;
     padding: $pieceWidth*$solutionOverlap+($pieceBorder*2)+5 5px 0 5px;
     .piece {
       margin-top: ($pieceHeight * -$solutionOverlap) - ($pieceBorder * 2);
-      @include box-shadow(0 -6px 6px -3px #333);
+      @include box-shadow(0 6px 6px -3px #333);
       margin-bottom: 0;
     }
   }
@@ -167,15 +167,11 @@ body {
 .color_3 { @include colored-piece(green); }
 
 #game-stack {
-  clear: both;
-  white-space: nowrap;
-  overflow: hidden;
   border-color: #888;
   @include rounded($gameStackBorderWidth, 19px);
 
   .piece {
     cursor: pointer;
-    opacity: 1;
   }
 }
 

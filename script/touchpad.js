@@ -108,12 +108,12 @@ var PushPopUI = {
 			$.mobile.changePage("#gameOver");
 		},
 		renderPushToGuessStack: function(piece) {
-			var mainStyle = "z-index:"+this.game.guess.length+";";
+			var mainStyle = "z-index:"+this.game.guess.length+";position:absolute;";
 			var orientation = $("body").hasClass("portrait") ? "portrait" : "landscape";
-			var startPoint = orientation == "landscape" ? "margin-top:440px;" : "margin-right:420px";
-			var endPoint = orientation == "landscape" ? {"margin-top":"-110px"} : {"margin-right":"-100px"};
-			$("#game-stack").append('<div id="stack-'+piece.id+'" class="piece color_'+piece.color+'" style="'+mainStyle+startPoint+'"><div class="shape">'+piece.shape+'</div></div>');
-			var topStack = $("#game-stack .piece").filter(":last");
+			var startPoint = orientation == "landscape" ? "top:-20px;opacity:0" : "margin-right:420px";
+			var endPoint = orientation == "landscape" ? {"top":"110px","opacity":1, "position":"absolute"} : {"margin-right":"-100px"};
+			$("#game-stack").prepend('<div id="stack-'+piece.id+'" class="piece color_'+piece.color+'" style="'+mainStyle+startPoint+'"><div class="shape">'+piece.shape+'</div></div>');
+			var topStack = $("#game-stack .piece").filter(":first");
 			topStack.click( $.proxy(this.renderPopGuessStack, this) );
 			topStack.animate(endPoint, {complete: $.proxy(function() { 
 				// clear the style setting so that the elements can move from one orientation
@@ -124,7 +124,7 @@ var PushPopUI = {
 		renderPopGuessStack: function(event) {
 			var card = null;
 			do {
-				card = $("#game-stack .piece").filter(":last");
+				card = $("#game-stack .piece").filter(":first");
 				this.game.popGuessStack();
 				card.remove();
 			} while(card[0] != event.currentTarget);
