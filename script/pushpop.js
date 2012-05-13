@@ -49,6 +49,7 @@ $.extend(PushPop.prototype, {
 		popGuessStack: function() {
 			var piece = this.guess.pop();
 			this.stacks[piece.stack].push(piece);
+			return piece;
 		},
 		generateSolution: function() {
 			var solution = [];

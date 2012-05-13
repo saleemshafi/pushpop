@@ -50,10 +50,12 @@ var PushPopUI = {
   updateTimer: function(timer) {
 	$("#timer").text(timer.toString());
   },
+  pieceMarkup: function(piece, depth) {
+  	return '<div id="'+piece.id+'" style="z-index:'+(depth+1)+'" data-stack="'+piece.stack+'" class="piece color_'+piece.color+'"><div class="shape">'+piece.shape+'</div></div>';
+  },
 		render: function() {
 				var gb = $('#game-board');
 				gb.empty();
-				//gb.append("<h2>"+this.game.id+"</h2>");
 				var index = 0;
 				for(var i=0; i < this.game.stacks.length; i++) {
 					gb.append('<div class="stack" id="stack'+i+'"></div>');
@@ -62,7 +64,7 @@ var PushPopUI = {
 					var max = this.game.stacks[i].length-1;
 					for(var j=max; j >= 0; j--) {
 						var piece = this.game.stacks[i][j];
-						row.append('<div id="'+piece.id+'" style="z-index:'+(j+1)+'" data-stack="'+i+'" class="piece color_'+piece.color+'"><div class="shape">'+piece.shape+'</div></div>');
+						row.append(this.pieceMarkup(piece, j));
 						index++;
 					}
 					var stackNum = i;
@@ -87,15 +89,12 @@ var PushPopUI = {
 				setTimeout(function() { wouldBePiece.trigger("stopRumble"); }, 300);
 			}
 		},
-		onPuzzleFinished: function() {
-			var stats = $("#stats");
-			stats.text("You completed this puzzle in "+this.game.timer.toString()+".");
-			this.game.shutdown();
-			$.mobile.changePage("#gameOver");
+		currentOrientation: function() {
+			return $("body").hasClass("portrait") ? "portrait" : "landscape";
 		},
 		renderPushToGuessStack: function(piece) {
 			var mainStyle = "z-index:"+this.game.guess.length+";";
-			var orientation = $("body").hasClass("portrait") ? "portrait" : "landscape";
+			var orientation = this.currentOrientation();
 			var startPoint = orientation == "landscape" ? "top:-20px;opacity:0;position:absolute" : "left:-235px;opacity:0;position:absolute";
 			var endPoint = orientation == "landscape" ? {"top":"110px","opacity":1, "position":"absolute"} : {"left":"0","opacity":1,"position":"absolute"};
 			$("#game-stack").prepend('<div id="stack-'+piece.id+'" class="piece color_'+piece.color+'" style="'+mainStyle+startPoint+'"><div class="shape">'+piece.shape+'</div></div>');
@@ -111,9 +110,33 @@ var PushPopUI = {
 			var card = null;
 			do {
 				card = $("#game-stack .piece").filter(":first");
-				this.game.popGuessStack();
-				card.remove();
+				var piece = this.game.popGuessStack();
+				var orientation = this.currentOrientation();
+				var endPoint = orientation == "landscape" ? {"top":"-110px","opacity":0} : {"left":"-235px","opacity":0};
+				this.renderPushToGameStack(piece);
+				card.animate(endPoint, {complete: $.proxy(function() { 
+					card.remove(); } )
+				});
 			} while(card[0] != event.currentTarget);
-			this.render();
+		},
+		renderPushToGameStack: function(piece) {
+			var depth = this.game.stacks[piece.stack].length;
+			var markup = this.pieceMarkup(piece, depth);
+			var row = $('#stack'+piece.stack);
+
+			row.prepend(markup);
+			var pieceDiv = $("#"+piece.id);
+			pieceDiv.css("position", "absolute");
+			pieceDiv.css("opacity", 0);
+			pieceDiv.css("margin-top", "-105px");
+			
+			$("#"+piece.id).animate({"opacity":1, "margin-top":"0"}, 
+				{complete:$.proxy(function() { this.render(); }, this)});	
+		},
+		onPuzzleFinished: function() {
+			var stats = $("#stats");
+			stats.text("You completed this puzzle in "+this.game.timer.toString()+".");
+			this.game.shutdown();
+			$.mobile.changePage("#gameOver");
 		},
 };
