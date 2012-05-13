@@ -44,6 +44,18 @@ $stack-padding: 20px;
 $boardWidth: ($pieceWidth+ ($pieceBorder*2) + ($stack-padding))*4;
 $gameStackBorderWidth: 3px;
 
+// touchpad, ipad 1&2: 1024x768
+// ipad 2 retina: 2048x1536 
+// iphone: 320x480
+// iphone retina: 960x640
+// Android screens:
+//    xlarge screens are at least 960dp x 720dp
+//    large screens are at least 640dp x 480dp
+//    normal screens are at least 470dp x 320dp
+//    small screens are at least 426dp x 320dp
+
+
+
 body.landscape {
   $puzzleSidePadding: 100px;
   .ui-page {
@@ -81,7 +93,7 @@ body.landscape {
 
 body.portrait {
   height: 1024px;
-  width: 768px;
+  width: 100%;
   
   #game-board {
     @include centered($boardWidth);
@@ -221,7 +233,7 @@ body {
 #pushpop .ui-dialog {
   width: 350px;
   height: 150px;
-  padding: 15px;
+  padding: 0 15px;
   margin: 0 auto;
   position: relative;
   background-color: #000;
