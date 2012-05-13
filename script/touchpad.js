@@ -11,31 +11,6 @@ var PushPopUI = {
 		$("body").removeClass("portrait");
 	}
   },
-  create: function() {
-  	// not using vclick or tap because of note on http://jquerymobile.com/test/docs/api/events.html
-  	// need to revisit if the click responsiveness is too slow
-  	$("#newBtn").bind("click", $.proxy(this.newPuzzle, this));
-  	$("#new-puzzle-confirm").bind("click", $.proxy(this.reallyNewPuzzle, this));
-
-	var id = null;
-	if (window.location.hash) {
-		id = window.location.hash.substring(1);
-	}
-	this.resetPuzzle(id);
-  },
-  rendered: function() {
-	this.setOrientation();
-    window.addEventListener("resize", this.setOrientation);
-  	this.render();
-	
-	if (window.PalmSystem) {
-		setTimeout(function() {
-			PalmSystem.stageReady();
-		}, 1);
-	}
-  	
-  	this.game.start(this.updateTimer);
-  },
   showHelp: function() {
   	
   },
@@ -56,21 +31,24 @@ var PushPopUI = {
 	$("#solution").empty();
  	
   	this.game = genGame(4,4, puzzleId);
-//  	window.location.hash = this.game.id;
+  	window.location.hash = "puzzle?game="+this.game.id;
   	this.render();
   	this.game.start(this.updateTimer);
   },
   reallyNewPuzzle: function() {
+  	// TODO: i think we can do better than this
+  	// it probably makes more sense to generate a game ID
+  	// independently and then redirect to it
   	this.resetPuzzle(null);
-  	$.mobile.changePage("#puzzle");
+  	$.mobile.changePage("#puzzle?game="+this.game.id);
   },
   pauseTimer: function() {
-  	if (this.game.timer) {
+  	if (this.game && this.game.timer) {
 	  	this.game.timer.pause();
   	}
   },
   resumeTimer: function() {
-  	if (this.game.timer) {
+  	if (this.game && this.game.timer) {
 	  	this.game.timer.start(this.updateTimer);
   	}
   },

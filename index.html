@@ -9,6 +9,7 @@
 	<script src="script/jquery-1.7.1.js"></script>
 	<script src="script/jquery-mobile-1.1.0.js"></script>
 	<script src="script/jquery.jrumble.1.3.js"></script>
+	<script src="script/jqm.page.params.js"></script>
 
 	<script src="script/touchpad.js"></script>
 	<script src="script/timer.js"></script>
@@ -46,13 +47,13 @@
 	<div id="newGameConfirm" data-role="dialog" data-title="PushPop - New Game" data-theme="c">
 		<span>You haven't quite finished with the current puzzle.  Do you want to try a new one or keep working on this one?</span>
 		<div class="buttons">
-			<a id="new-puzzle-confirm" data-role="button" data-inline="true" data-icon="refresh">New Puzzle</a>
+			<a href="#puzzle" data-role="button" data-inline="true" data-icon="refresh">New Puzzle</a>
 			<a href="#puzzle" data-rel="back" data-role="button" data-inline="true" data-icon="back" data-theme="b">Keep working</a>
 		</div>
 	</div>
 
 	<div id="gameOver" data-role="dialog" data-title="PushPop - Solved!">
-		<h1>Congratulations!</h2>
+		<h1>Congratulations!</h1>
 		<div id="stats"></div>
 		<div class="buttons">
 			<a href="#puzzle" data-role="button" data-theme="b" data-icon="refresh">I'm ready for a new puzzle</a>
@@ -61,8 +62,26 @@
 	
 	<script>
 $("#puzzle").bind('pageinit', function() {
-	PushPopUI.create();
-	PushPopUI.rendered();
+  	// not using vclick or tap because of note on http://jquerymobile.com/test/docs/api/events.html
+  	// need to revisit if the click responsiveness is too slow
+  	$("#newBtn").bind("click", $.proxy(PushPopUI.newPuzzle, PushPopUI));
+	PushPopUI.setOrientation();
+    window.addEventListener("resize", PushPopUI.setOrientation);
+    
+	if (window.PalmSystem) {
+		setTimeout(function() {
+			PalmSystem.stageReady();
+		}, 1);
+	}
+});
+
+$(document).bind('pagechange', function(e, data) {
+	if (data.toPage[0].id == "puzzle") {
+		var id = data.options.pageData ? data.options.pageData.game : null;
+		if (!PushPopUI.game || id != PushPopUI.game.id) {
+			PushPopUI.resetPuzzle(id);
+		}
+	}
 });
 
 $("#puzzle").bind('pagebeforehide', function() {
