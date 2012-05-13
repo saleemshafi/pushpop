@@ -76,7 +76,7 @@ var PushPopUI = {
 					var max = this.game.stacks[i].length-1;
 					for(var j=max; j >= 0; j--) {
 						var piece = this.game.stacks[i][j];
-						row.append('<div id="'+piece.id+'" data-stack="'+i+'" class="piece color_'+piece.color+'"><div class="shape">'+piece.shape+'</div></div>');
+						row.append('<div id="'+piece.id+'" style="z-index:'+(j+1)+'" data-stack="'+i+'" class="piece color_'+piece.color+'"><div class="shape">'+piece.shape+'</div></div>');
 						index++;
 					}
 					var stackNum = i;
@@ -89,7 +89,7 @@ var PushPopUI = {
 			var piece = this.game.popStack(stack);
 			if (piece) {
 				this.renderPushToGuessStack(piece);
-				$("#"+piece.id).animate({"opacity":0, "margin-top":"-135px"}, 
+				$("#"+piece.id).animate({"opacity":0, "margin-top":"-105px"}, 
 					{complete:$.proxy(function() { this.render(); }, this)});	
 				if (this.game.puzzleFinished()) {
 					this.onPuzzleFinished();
