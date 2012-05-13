@@ -19,8 +19,10 @@
 <body id="pushpop">
 	<div id="puzzle" data-role="page" data-title="PushPop">
 		<div id="toolbar" class="ui-bar ui-bar-a ui-header">
-			<a data-role="button" id="newBtn" data-inline="true" data-mini="true" data-icon="refresh">New</a>
-			<a data-role="button" id="help" data-inline="true" data-mini="true" data-icon="info">Help</a>
+			<div data-role="controlgroup" data-type="horizontal">
+				<a data-role="button" id="newBtn" data-inline="true" data-mini="true" data-icon="refresh">New</a>
+				<a data-role="button" href="#help" data-inline="true" data-mini="true" data-icon="info" data-transition="slide">Help</a>
+			</div>
 			<h1 class="ui-title">PushPop</h1>
 			<div class="timer-panel">
 				<span>Timer:</span>
@@ -48,7 +50,7 @@
 		<span>You haven't quite finished with the current puzzle.  Do you want to try a new one or keep working on this one?</span>
 		<div class="buttons">
 			<a href="#puzzle" data-role="button" data-inline="true" data-icon="refresh">New Puzzle</a>
-			<a href="#puzzle" data-rel="back" data-role="button" data-inline="true" data-icon="back" data-theme="b">Keep working</a>
+			<a href="#puzzle" data-role="button" data-inline="true" data-icon="back" data-rel="back" data-theme="b">Keep working</a>
 		</div>
 	</div>
 
@@ -58,6 +60,20 @@
 		<div class="buttons">
 			<a href="#puzzle" data-role="button" data-theme="b" data-icon="refresh">I'm ready for a new puzzle</a>
 		</div>
+	</div>
+	
+	<div id="help" data-role="page" data-title="PushPop - Help">
+		<div id="toolbar" class="ui-bar ui-bar-a ui-header">
+			<div data-role="controlgroup" data-type="horizontal">
+				<a data-role="button" data-inline="true" data-mini="true" data-icon="back" data-rel="back">Back</a>
+			</div>
+			<h1 class="ui-title">PushPop - Help</h1>
+		</div>
+		<div data-role="content" data-theme="b">
+			<p>PushPop is a puzzle game based on the behavior of a stack: you can push pieces onto and pop pieces
+				off of the top.</p>
+		</div>
+		
 	</div>
 	
 	<script>
