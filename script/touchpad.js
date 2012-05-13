@@ -40,7 +40,6 @@ var PushPopUI = {
   	// it probably makes more sense to generate a game ID
   	// independently and then redirect to it
   	this.resetPuzzle(null);
-  	$.mobile.changePage("#puzzle?game="+this.game.id);
   },
   pauseTimer: function() {
   	if (this.game && this.game.timer) {
