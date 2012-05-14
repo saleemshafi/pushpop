@@ -273,8 +273,12 @@ body {
   z-index: 4; 
 }
 
+#help {
+  height: 100%;
+}
 .help-text {
   font-size: 24px;
+  min-height: 100%;
   padding: 15px 30px !important;
   #push { color: lighten(red, 25%); }
   #pop { color: lighten(yellow, 25%); }

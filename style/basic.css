@@ -203,8 +203,12 @@ body {
   background-color: #3A3A3A;
   z-index: 4; }
 
+#help {
+  height: 100%; }
+
 .help-text {
   font-size: 24px;
+  min-height: 100%;
   padding: 15px 30px !important; }
   .help-text #push {
     color: #ff8080; }
