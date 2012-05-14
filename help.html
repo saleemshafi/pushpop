@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html style="overflow: scroll">
+<head>
+	<title>PushPop - Help</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="style/basic.css" />
+	<link rel="stylesheet" type="text/css" href="style/jquery-mobile-1.1.0.css" />
+	<script src="script/jquery-1.7.1.js"></script>
+	<script src="script/jquery.jrumble.1.3.js"></script>
+	<script src="script/jquery-mobile-1.1.0.js"></script>
+</head>
+<body id="pushpop">
+	<div id="help" data-role="page" data-title="PushPop - Help">
+		<div id="toolbar" class="ui-bar ui-bar-a ui-header">
+			<div data-role="controlgroup" data-type="horizontal">
+				<a data-role="button" data-inline="true" data-mini="true" data-icon="back" data-rel="back">Back</a>
+			</div>
+			<h1 class="ui-title">PushPop - Help</h1>
+		</div>
+		<div class="help-text" data-role="content" data-theme="a">
+			<p>PushPop is a puzzle game based on the behavior of a stack: you can add (<span id="push">push</span>) and 
+			remove (<span id="pop">pop</span>) things from the top (<span id="head">head</span>) of the stack, but you 
+			can't get at the middle (<span id="tail">tail</span>).</p>
+			<p>The game is setup with four puzzle stacks with four pieces in each and an empty solution stack.</p>
+			<p>The point of the game is to pop all of the pieces from the puzzle stacks -- just tap the piece you'd
+			like to pop -- and push them onto the solution stack.  However, you can only push a piece onto the solution
+			stack if it matches either the number of color of the piece at the head of the solution stack.</p>
+			<p>For example, if the current head of the solution stack is a <span id="yellow3" class="piece">3</span>, then you
+			can push a <span id="red3" class="piece">3</span> or a <span id="yellow1" class="piece">1</span>, but not a 
+			<span id="red1" class="piece">1</span>.</p>
+			<p>If you try to pop a piece off a game stack that doesn't match the current head of the solution stack,
+			the piece you've selected will <span id="wiggle">wiggle</span> a bit to let you know.  If you feel like you've made a mistake, you
+			can always unwind by popping pieces back off of the solution stack or by opting to 
+			<a data-role="button" data-inline="true" data-mini="true" data-icon="refresh">Start Over</a>.</p>
+			<p>Every puzzle has a solution and some puzzles have more than one.</p>
+			<p>Enjoy.</p>
+		</div>
+		
+	</div>
+	<script>
+		var wigglePiece = $("#wiggle");
+		wigglePiece.jrumble({x:2, y:2, rotation:5});
+		setInterval(function() { 
+			wigglePiece.trigger("startRumble");
+			setTimeout(function() { wigglePiece.trigger("stopRumble"); }, 500);
+		}, 3000);
+	</script>
+</body>
+</html>

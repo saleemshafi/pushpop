@@ -202,3 +202,30 @@ body {
   left: 0;
   background-color: #3A3A3A;
   z-index: 4; }
+
+.help-text {
+  font-size: 24px;
+  padding: 15px 30px !important; }
+  .help-text #push {
+    color: #ff8080; }
+  .help-text #pop {
+    color: #ffff80; }
+  .help-text #head {
+    color: #8080ff; }
+  .help-text #tail {
+    color: lime; }
+  .help-text .piece {
+    border-width: 2px;
+    border-style: solid;
+    border-radius: 6px;
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+    color: black;
+    padding: 2px 10px;
+    text-shadow: none; }
+  .help-text #yellow3, .help-text #yellow1 {
+    background-color: #8080ff;
+    border-color: blue; }
+  .help-text #red3, .help-text #red1 {
+    background-color: #ff8080;
+    border-color: red; }

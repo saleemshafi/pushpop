@@ -272,3 +272,20 @@ body {
   background-color: #3A3A3A;
   z-index: 4; 
 }
+
+.help-text {
+  font-size: 24px;
+  padding: 15px 30px !important;
+  #push { color: lighten(red, 25%); }
+  #pop { color: lighten(yellow, 25%); }
+  #head { color: lighten(blue, 25%); }
+  #tail { color: lighten(green, 25%); }
+  .piece {
+    @include rounded(2px);
+    color: black;
+    padding: 2px 10px;
+    text-shadow: none;
+  }
+  #yellow3, #yellow1 { @include colored-piece(blue); }
+  #red3, #red1 { @include colored-piece(red); }
+}
