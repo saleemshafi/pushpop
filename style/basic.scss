@@ -58,6 +58,10 @@ $gameStackBorderWidth: 3px;
 
 body.landscape {
   $puzzleSidePadding: 100px;
+  .ui-page {
+    width: 100%;
+    height: 100%;
+  }
   #game-board {
     .stack {
       margin-top: 75px;
@@ -88,6 +92,10 @@ body.landscape {
 }
 
 body.portrait {
+  .ui-page {
+    width: 100%;
+    height: 100%;
+  }
   #game-board {
     @include centered($boardWidth);
     .stack:first-child {
@@ -114,10 +122,6 @@ body {
   background-color: $backgroundColor;
   margin: 10px;
   font-family: Segoe UI, Arial, Helvetica, sans-serif;
-}
-.ui-page {
-  width: 100% !important;
-  height: 100% !important;
 }
 
 #game-board {

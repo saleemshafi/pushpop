@@ -1,3 +1,6 @@
+body.landscape .ui-page {
+  width: 100%;
+  height: 100%; }
 body.landscape #game-board .stack {
   margin-top: 75px; }
 body.landscape #game-board .stack:first-child {
@@ -20,6 +23,9 @@ body.landscape #game-stack {
     box-shadow: 0 6px 6px -3px #333333;
     margin-bottom: 0; }
 
+body.portrait .ui-page {
+  width: 100%;
+  height: 100%; }
 body.portrait #game-board {
   margin-right: auto;
   margin-left: auto;
@@ -47,10 +53,6 @@ body {
   background-color: #121212;
   margin: 10px;
   font-family: Segoe UI, Arial, Helvetica, sans-serif; }
-
-.ui-page {
-  width: 100% !important;
-  height: 100% !important; }
 
 #game-board .stack {
   width: 135px;
