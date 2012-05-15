@@ -36,14 +36,16 @@
 			<p>Enjoy.</p>
 		</div>
 		
+		<script>
+			$( document ).delegate("#help", "pageinit", function() {
+					var wigglePiece = $("#wiggle");
+					wigglePiece.jrumble({x:2, y:2, rotation:5});
+					setInterval(function() { 
+						wigglePiece.trigger("startRumble");
+						setTimeout(function() { wigglePiece.trigger("stopRumble"); }, 500);
+					}, 3000);
+			});
+		</script>
 	</div>
-	<script>
-		var wigglePiece = $("#wiggle");
-		wigglePiece.jrumble({x:2, y:2, rotation:5});
-		setInterval(function() { 
-			wigglePiece.trigger("startRumble");
-			setTimeout(function() { wigglePiece.trigger("stopRumble"); }, 500);
-		}, 3000);
-	</script>
 </body>
 </html>
