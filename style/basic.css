@@ -192,6 +192,13 @@ body {
 #stats {
   text-align: center; }
 
+#quip {
+  text-align: center;
+  font-size: 18px;
+  padding-top: 1em;
+  font-weight: bold;
+  color: yellow; }
+
 .ui-dialog-contain h1 {
   text-align: center;
   margin-top: 0; }
