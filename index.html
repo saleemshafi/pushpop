@@ -68,8 +68,6 @@ $("#puzzle").bind('pageinit', function() {
   	// need to revisit if the click responsiveness is too slow
   	$("#newBtn").bind("click", $.proxy(PushPopUI.newPuzzle, PushPopUI));
   	$("#startOverBtn").bind("click", $.proxy(PushPopUI.startOver, PushPopUI));
-	PushPopUI.setOrientation();
-    window.addEventListener("resize", PushPopUI.setOrientation);
     
 	if (window.PalmSystem) {
 		setTimeout(function() {

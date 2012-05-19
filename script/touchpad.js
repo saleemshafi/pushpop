@@ -1,16 +1,6 @@
 var PushPopUI = {
   game: null,
-  
-  setOrientation: function() {
-  	var orientation = $(window).height() > $(window).width() ? "portrait" : "landscape";
-	if (orientation == "portrait") {
-		$("body").addClass("portrait");
-		$("body").removeClass("landscape");
-	} else {
-		$("body").addClass("landscape");
-		$("body").removeClass("portrait");
-	}
-  },
+
   newPuzzle: function() {
   	if (this.game.attempted && !this.game.puzzleFinished()) {
   		$.mobile.changePage("#newGameConfirm", {transition: "pop"});
