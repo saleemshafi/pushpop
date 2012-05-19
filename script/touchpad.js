@@ -165,11 +165,18 @@ var PushPopUI = {
 			return appropriate_quips[choice];
 		},
 		quips: {
-			"really_long": ["Fall asleep at the wheel again?", "Think hard before clicking that button.",
+			"really_long": ["Fall asleep at the wheel again?",
+							"Think hard before clicking that button.",
 							"Thanks, I feel a lot better about myself now.",
-							"Next time you go away, hit the Pause button first."],
-			"long": 	   ["Ok, great, but this time try it with your eyes open.",
-							"You probably shouldn't drive in this condition.  Let's try another puzzle instead."],
+							"Just think how much Angry Birds you could have been playing instead."
+							"Next time you go away, hit the Pause button first."
+							"I think you should try again.  Really, you can only do better next time.",
+							"Don't worry, you're not the only person who took that long.  Of course the other person had to take breaks for naps.",
+							"Wow... just think how many books you could have read in that time."],
+ 			"long": 	   ["Ok, great, but this time try it with your eyes open.",
+							"You probably shouldn't drive in this condition.  Let's try another puzzle instead.",
+							"Ah, you've left room for improvement.  Good strategy.",
+							"Hey, not bad (this WAS your first game, right?)"],
 			"difficult":   ["That was a tough one, but I think you'll do better on the next one.",
 							"That was just practice.  Let's try one for real now."],
 			"medium": 	   ["I can see your brain getting bigger from here.",
