@@ -72,12 +72,6 @@ $("#puzzle").bind('pageinit', function() {
   	// need to revisit if the click responsiveness is too slow
   	$("#newBtn").bind("click", $.proxy(PushPopUI.newPuzzle, PushPopUI));
   	$("#startOverBtn").bind("click", $.proxy(PushPopUI.startOver, PushPopUI));
-    
-	if (window.PalmSystem) {
-		setTimeout(function() {
-			PalmSystem.stageReady();
-		}, 1);
-	}
 });
 
 $(document).bind('pagechange', function(e, data) {
