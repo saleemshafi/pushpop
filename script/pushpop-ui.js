@@ -85,7 +85,7 @@ var PushPopUI = {
 			}
 		},
 		currentOrientation: function() {
-			return $("body").hasClass("portrait") ? "portrait" : "landscape";
+			return window.innerHeight > window.innerWidth ? "portrait" : "landscape";
 		},
 		renderPushToGuessStack: function(piece) {
 			var mainStyle = "z-index:"+this.game.guess.length+";";
