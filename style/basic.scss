@@ -35,14 +35,10 @@
   width: $width;
 }
 
-$pieceWidth: 125px;
-$pieceHeight: 125px;
-$pieceBorder: 5px;
 $solutionOverlap: 0.80;
-$backgroundColor: #121212;
-$stack-padding: 20px;
-$boardWidth: ($pieceWidth+ ($pieceBorder*2) + ($stack-padding))*4;
-$gameStackBorderWidth: 3px;
+
+
+//////////////////  Sized ///////////////
 
 // touchpad, ipad 1&2: 1024x768
 // ipad 2 retina: 2048x1536 
@@ -54,26 +50,80 @@ $gameStackBorderWidth: 3px;
 //    normal screens are at least 470dp x 320dp
 //    small screens are at least 426dp x 320dp
 
+$pieceWidth: 125px;
+$pieceHeight: 125px;
+$pieceBorder: 5px;
+$stack-padding: 20px;
+$boardWidth: ($pieceWidth+ ($pieceBorder*2) + ($stack-padding))*4;
+$gameStackBorderWidth: 3px;
+
 body {
-  background-color: $backgroundColor;
   margin: 10px;
-  font-family: Segoe UI, Arial, Helvetica, sans-serif;
+}
+
+#game-stack {
+  @include rounded($gameStackBorderWidth, 19px);
+}
+
+.timer-panel { 
+  width: 200px;
+  right: 10px;
+  margin-top: .4em;
+}
+
+#timer {
+  font-size: 14px;
+}
+
+#pushpop .workarea {
+  padding: 0 50px;
+}
+
+#toolbar h1 {
+  margin-top: -28px;
+  margin-bottom: 0;
+  font-size: 24px;
+}
+
+.pauseContent {
+  font-size: 36px;
+  margin-top: -75px;
+}
+
+.game, .help-text {
+  top: 47px; // toolbar height
+}
+
+#pushpop .ui-dialog {
+  width: 350px;
+  height: 150px;
+  padding: 0 15px;
+
+  .ui-dialog-contain {
+    padding: 25px;
+    @include box-shadow(0 0 8px 10px rgba(0, 0, 0, 0.3));
+    border: 1px solid rgba(0, 0, 0, 0.5);
+  }
+
+  .buttons {
+    margin-top: 25px;
+  }
+}
+
+.help-text {
+  font-size: 24px;
+  padding: 15px 30px !important;
+  .piece {
+    @include rounded(2px);
+    padding: 2px 10px;
+  }
 }
 
 #game-board {
   .stack {
     width:$pieceWidth + ($pieceBorder * 2);
-    float:left;
     min-height:1px;
     padding-left:$stack-padding; 
-
-    .piece:first-child {
-      cursor: pointer;
-      opacity:1;
-    }
-  }
-  .stack:first-child {
-    padding-left:0;
   }
 }
 
@@ -82,22 +132,66 @@ body {
   width: $pieceWidth; 
   height: $pieceHeight; 
   margin-bottom: -30px; 
-  position: relative;
   @include box-shadow(0 4px 5px 3px rgba(0,0,0,0.5));
 
   .shape {
     $height: 72px;
-    position:absolute; 
-    top:50%; 
     height:$height; 
     margin-top:$height * -0.5; 
     font-size:$height; 
-    text-align: center;
-    text-shadow: none;
-    color: #000; 
-    width: 100%;
-    line-height: 1;
   }
+}
+
+@media screen and (orientation:portrait) {
+  #game-board {
+    @include centered($boardWidth);
+  }
+  #game-stack {
+    padding: 5px $pieceWidth*$solutionOverlap+5 5px 0;
+    margin: 50px auto;
+    height: $pieceHeight + ($pieceBorder*2);
+    width: (($pieceWidth * (1-$solutionOverlap)) + ($pieceBorder * 2)) * 16;
+    .piece {  
+      margin-right: $pieceWidth * -$solutionOverlap;
+      margin-bottom: 10px;
+      @include box-shadow(6px 0 6px -3px #333);
+    }
+  }
+}
+
+@media screen and (orientation:landscape) {
+  $puzzleSidePadding: 100px;
+  #game-board {
+    .stack {
+      margin-top: 75px;
+    }
+  }
+  .game {
+    width: 1024px - (2 * $puzzleSidePadding);
+  }
+  #game-stack {
+    $stackWidth: $pieceWidth + ($pieceBorder*2);
+    $stackSidePadding: 5px;
+    left: 1024px - (2 * $puzzleSidePadding) - $stackWidth - (2 * $gameStackBorderWidth) - (2*$stackSidePadding);
+    top: 41px;
+    width: $stackWidth;
+    height: (($pieceHeight * (1-$solutionOverlap))) * 16;
+    padding: $pieceWidth*$solutionOverlap+($pieceBorder*2)+5 5px 0 5px;
+    .piece {
+      margin-top: ($pieceHeight * -$solutionOverlap) - ($pieceBorder * 2);
+      @include box-shadow(0 6px 6px -3px #333);
+    }
+  }
+}
+
+/////////////////////////////////////////////////////////
+
+///////////// Size agnostic ////////////////////
+$backgroundColor: #121212;
+
+body {
+  background-color: $backgroundColor;
+  font-family: Segoe UI, Arial, Helvetica, sans-serif;
 }
 
 .color_0 { @include colored-piece(red); }
@@ -107,90 +201,37 @@ body {
 
 #game-stack {
   border-color: #888;
-  @include rounded($gameStackBorderWidth, 19px);
-
   .piece {
     cursor: pointer;
   }
 }
 
 .timer-panel { 
-  width: 200px;
   position: absolute;
-  top: 0px;
-  right: 10px;
-  margin-top: .4em;
+  top: 0;
 }
 
 #timer {
   color: #DEDEDE;
-  font-size: 14px;
   text-align: center;
   display: inline-block;
 }
 
-#toolbar h1 {
-  margin-top: -28px;
-  margin-bottom: 0px;
-  font-size: 24px;
+#toolbar {
+  position: absolute;
+  width: 100%;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+#help {
+  height: 100%;
 }
 
 .paused {
   #pause { display: none; }
   .scrim {display: block; }
   .game { display: none; }
-}
-
-#pushpop .workarea {
-  height: 100%;
-  width: auto;
-  padding: 0 50px;
-  background-color: $backgroundColor;
-}
-
-.pauseContent {
-  position: absolute;
-  top: 50%;
-  width: 100%;
-  font-size: 36px;
-  margin-top: -75px;
-  text-align: center;
-}
-
-.game {
-  margin-left:auto;
-  margin-right:auto;
-  z-index: 2;
-}
-
-.game, .help-text {
-  position: relative;
-  top: 47px; // toolbar height
-}
-
-#pushpop .ui-dialog {
-  width: 350px;
-  height: 150px;
-  padding: 0 15px;
-  margin: 0 auto;
-  position: relative;
-  background-color: #000;
-
-  .ui-dialog-contain {
-    padding: 25px;
-    background-color: #000;
-    @include box-shadow(0px 0px 8px 10px rgba(0, 0, 0, 0.3));
-    border: 1px solid rgba(0, 0, 0, 0.5);
-    position: absolute;
-    top: 50%;
-    margin-top: -25%;
-    text-shadow: none;
-    color: #fff;
-  }
-
-  .buttons {
-    margin-top: 25px;
-  }
 }
 
 #stats {
@@ -202,76 +243,83 @@ body {
   margin-top: 0;
 }
 
-.slider {
-  width:auto;
-  height:100%;
-  width:100%;
-  position:absolute;
-  top:0;
-  left:0;
-  background-color: #3A3A3A;
-  z-index: 4; 
-}
-
-#toolbar {
-  position: absolute;
-  width: 100%;
-}
-
-#help {
+#pushpop .workarea {
   height: 100%;
+  width: auto;
+  background-color: $backgroundColor;
 }
+
+.pauseContent {
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  text-align: center;
+}
+
+.game {
+  margin-left:auto;
+  margin-right:auto;
+  z-index: 2;
+}
+
+.game, .help-text {
+  position: relative;
+}
+
+#pushpop .ui-dialog {
+  margin: 0 auto;
+  position: relative;
+  background-color: #000;
+
+  .ui-dialog-contain {
+    background-color: #000;
+    position: absolute;
+    top: 50%;
+    margin-top: -25%;
+    text-shadow: none;
+    color: #fff;
+  }
+}
+
 .help-text {
-  font-size: 24px;
   min-height: 100%;
-  padding: 15px 30px !important;
   #push { color: lighten(red, 25%); }
   #pop { color: lighten(yellow, 25%); }
   #head { color: lighten(blue, 25%); }
   #tail { color: lighten(green, 25%); }
   .piece {
-    @include rounded(2px);
     color: black;
-    padding: 2px 10px;
     text-shadow: none;
   }
   #yellow3, #yellow1 { @include colored-piece(blue); }
   #red3, #red1 { @include colored-piece(red); }
 }
 
+#game-board {
+  .stack {
+    display: inline-block;
+    vertical-align: top;
+    .piece:first-child {
+      cursor: pointer;
+      opacity:1;
+    }
+  }
+  .stack:first-child {
+    padding-left:0;
+  }
+}
 
-@media screen and (orientation:landscape) {
-  $puzzleSidePadding: 100px;
-  .ui-page {
+.piece {
+  position: relative;
+
+  .shape {
+    position:absolute; 
+    top:50%; 
+    text-align: center;
+    text-shadow: none;
+    color: #000; 
     width: 100%;
-    height: 100%;
-  }
-  #game-board {
-    .stack {
-      margin-top: 75px;
-    }
-    .stack:first-child {
-      padding-left:0;
-    }    
-  }
-  .game {
-    width: 1024px - (2 * $puzzleSidePadding);
-  }
-  #game-stack {
-    $stackWidth: $pieceWidth + ($pieceBorder*2);
-    $stackSidePadding: 5px;
-    position: absolute;
-    left: 1024px - (2 * $puzzleSidePadding) - $stackWidth - (2 * $gameStackBorderWidth) - (2*$stackSidePadding);
-    top: 41px;
-    border-top: none;
-    width: $stackWidth;
-    height: (($pieceHeight * (1-$solutionOverlap))) * 16;
-    padding: $pieceWidth*$solutionOverlap+($pieceBorder*2)+5 5px 0 5px;
-    .piece {
-      margin-top: ($pieceHeight * -$solutionOverlap) - ($pieceBorder * 2);
-      @include box-shadow(0 6px 6px -3px #333);
-      margin-bottom: 0;
-    }
+    line-height: 1;
   }
 }
 
@@ -281,7 +329,6 @@ body {
     height: 100%;
   }
   #game-board {
-    @include centered($boardWidth);
     .stack:first-child {
       padding-left:0;
     }    
@@ -289,17 +336,31 @@ body {
   #game-stack {
     position: relative;
     border-left: none;
-    padding: 5px $pieceWidth*$solutionOverlap+5 5px 0;
-    margin: 50px auto;
-    height: $pieceHeight + ($pieceBorder*2);
-    width: (($pieceWidth * (1-$solutionOverlap)) + ($pieceBorder * 2)) * 16;
     .piece {
       position:relative;
       display:inline-block;
-      margin-right: $pieceWidth * -$solutionOverlap;
-      margin-bottom: 10px;
-      @include box-shadow(6px 0px 6px -3px #333);
     }
   }
 }
+
+@media screen and (orientation:landscape) {
+  .ui-page {
+    width: 100%;
+    height: 100%;
+  }
+  #game-board {
+    .stack:first-child {
+      padding-left:0;
+    }    
+  }
+  #game-stack {
+    position: absolute;
+    border-top: none;
+    .piece {
+      margin-bottom: 0;
+    }
+  }
+}
+
+////////////////////////////////////////////////
 

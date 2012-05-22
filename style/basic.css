@@ -1,18 +1,65 @@
 body {
-  background-color: #121212;
-  margin: 10px;
-  font-family: Segoe UI, Arial, Helvetica, sans-serif; }
+  margin: 10px; }
+
+#game-stack {
+  border-width: 3px;
+  border-style: solid;
+  border-radius: 19px;
+  -moz-border-radius: 19px;
+  -webkit-border-radius: 19px; }
+
+.timer-panel {
+  width: 200px;
+  right: 10px;
+  margin-top: .4em; }
+
+#timer {
+  font-size: 14px; }
+
+#pushpop .workarea {
+  padding: 0 50px; }
+
+#toolbar h1 {
+  margin-top: -28px;
+  margin-bottom: 0;
+  font-size: 24px; }
+
+.pauseContent {
+  font-size: 36px;
+  margin-top: -75px; }
+
+.game, .help-text {
+  top: 47px; }
+
+#pushpop .ui-dialog {
+  width: 350px;
+  height: 150px;
+  padding: 0 15px; }
+  #pushpop .ui-dialog .ui-dialog-contain {
+    padding: 25px;
+    -webkit-appearance: none;
+    -webkit-box-shadow: 0 0 8px 10px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow: 0 0 8px 10px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 8px 10px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(0, 0, 0, 0.5); }
+  #pushpop .ui-dialog .buttons {
+    margin-top: 25px; }
+
+.help-text {
+  font-size: 24px;
+  padding: 15px 30px !important; }
+  .help-text .piece {
+    border-width: 2px;
+    border-style: solid;
+    border-radius: 6px;
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+    padding: 2px 10px; }
 
 #game-board .stack {
   width: 135px;
-  float: left;
   min-height: 1px;
   padding-left: 20px; }
-  #game-board .stack .piece:first-child {
-    cursor: pointer;
-    opacity: 1; }
-#game-board .stack:first-child {
-  padding-left: 0; }
 
 .piece {
   border-width: 5px;
@@ -23,22 +70,56 @@ body {
   width: 125px;
   height: 125px;
   margin-bottom: -30px;
-  position: relative;
   -webkit-appearance: none;
   -webkit-box-shadow: 0 4px 5px 3px rgba(0, 0, 0, 0.5);
   -moz-box-shadow: 0 4px 5px 3px rgba(0, 0, 0, 0.5);
   box-shadow: 0 4px 5px 3px rgba(0, 0, 0, 0.5); }
   .piece .shape {
-    position: absolute;
-    top: 50%;
     height: 72px;
     margin-top: -36px;
-    font-size: 72px;
-    text-align: center;
-    text-shadow: none;
-    color: #000;
-    width: 100%;
-    line-height: 1; }
+    font-size: 72px; }
+
+@media screen and (orientation:portrait) {
+  #game-board {
+    margin-right: auto;
+    margin-left: auto;
+    position: relative;
+    width: 620px; }
+
+  #game-stack {
+    padding: 5px 105px 5px 0;
+    margin: 50px auto;
+    height: 135px;
+    width: 560.0px; }
+    #game-stack .piece {
+      margin-right: -100px;
+      margin-bottom: 10px;
+      -webkit-appearance: none;
+      -webkit-box-shadow: 6px 0 6px -3px #333333;
+      -moz-box-shadow: 6px 0 6px -3px #333333;
+      box-shadow: 6px 0 6px -3px #333333; } }
+@media screen and (orientation:landscape) {
+  #game-board .stack {
+    margin-top: 75px; }
+
+  .game {
+    width: 824px; }
+
+  #game-stack {
+    left: 673px;
+    top: 41px;
+    width: 135px;
+    height: 400.0px;
+    padding: 115px 5px 0 5px; }
+    #game-stack .piece {
+      margin-top: -110px;
+      -webkit-appearance: none;
+      -webkit-box-shadow: 0 6px 6px -3px #333333;
+      -moz-box-shadow: 0 6px 6px -3px #333333;
+      box-shadow: 0 6px 6px -3px #333333; } }
+body {
+  background-color: #121212;
+  font-family: Segoe UI, Arial, Helvetica, sans-serif; }
 
 .color_0 {
   background-color: #ff8080;
@@ -57,32 +138,27 @@ body {
   border-color: green; }
 
 #game-stack {
-  border-color: #888;
-  border-width: 3px;
-  border-style: solid;
-  border-radius: 19px;
-  -moz-border-radius: 19px;
-  -webkit-border-radius: 19px; }
+  border-color: #888; }
   #game-stack .piece {
     cursor: pointer; }
 
 .timer-panel {
-  width: 200px;
   position: absolute;
-  top: 0px;
-  right: 10px;
-  margin-top: .4em; }
+  top: 0; }
 
 #timer {
   color: #DEDEDE;
-  font-size: 14px;
   text-align: center;
   display: inline-block; }
 
-#toolbar h1 {
-  margin-top: -28px;
-  margin-bottom: 0px;
-  font-size: 24px; }
+#toolbar {
+  position: absolute;
+  width: 100%;
+  padding-left: 0;
+  padding-right: 0; }
+
+#help {
+  height: 100%; }
 
 .paused #pause {
   display: none; }
@@ -91,18 +167,22 @@ body {
 .paused .game {
   display: none; }
 
+#stats {
+  text-align: center; }
+
+.ui-dialog-contain h1 {
+  text-align: center;
+  margin-top: 0; }
+
 #pushpop .workarea {
   height: 100%;
   width: auto;
-  padding: 0 50px;
   background-color: #121212; }
 
 .pauseContent {
   position: absolute;
   top: 50%;
   width: 100%;
-  font-size: 36px;
-  margin-top: -75px;
   text-align: center; }
 
 .game {
@@ -111,60 +191,22 @@ body {
   z-index: 2; }
 
 .game, .help-text {
-  position: relative;
-  top: 47px; }
+  position: relative; }
 
 #pushpop .ui-dialog {
-  width: 350px;
-  height: 150px;
-  padding: 0 15px;
   margin: 0 auto;
   position: relative;
   background-color: #000; }
   #pushpop .ui-dialog .ui-dialog-contain {
-    padding: 25px;
     background-color: #000;
-    -webkit-appearance: none;
-    -webkit-box-shadow: 0px 0px 8px 10px rgba(0, 0, 0, 0.3);
-    -moz-box-shadow: 0px 0px 8px 10px rgba(0, 0, 0, 0.3);
-    box-shadow: 0px 0px 8px 10px rgba(0, 0, 0, 0.3);
-    border: 1px solid rgba(0, 0, 0, 0.5);
     position: absolute;
     top: 50%;
     margin-top: -25%;
     text-shadow: none;
     color: #fff; }
-  #pushpop .ui-dialog .buttons {
-    margin-top: 25px; }
-
-#stats {
-  text-align: center; }
-
-.ui-dialog-contain h1 {
-  text-align: center;
-  margin-top: 0; }
-
-.slider {
-  width: auto;
-  height: 100%;
-  width: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  background-color: #3A3A3A;
-  z-index: 4; }
-
-#toolbar {
-  position: absolute;
-  width: 100%; }
-
-#help {
-  height: 100%; }
 
 .help-text {
-  font-size: 24px;
-  min-height: 100%;
-  padding: 15px 30px !important; }
+  min-height: 100%; }
   .help-text #push {
     color: #ff8080; }
   .help-text #pop {
@@ -174,13 +216,7 @@ body {
   .help-text #tail {
     color: lime; }
   .help-text .piece {
-    border-width: 2px;
-    border-style: solid;
-    border-radius: 6px;
-    -moz-border-radius: 6px;
-    -webkit-border-radius: 6px;
     color: black;
-    padding: 2px 10px;
     text-shadow: none; }
   .help-text #yellow3, .help-text #yellow1 {
     background-color: #8080ff;
@@ -189,60 +225,50 @@ body {
     background-color: #ff8080;
     border-color: red; }
 
-@media screen and (orientation:landscape) {
-  .ui-page {
-    width: 100%;
-    height: 100%; }
+#game-board .stack {
+  display: inline-block;
+  vertical-align: top; }
+  #game-board .stack .piece:first-child {
+    cursor: pointer;
+    opacity: 1; }
+#game-board .stack:first-child {
+  padding-left: 0; }
 
-  #game-board .stack {
-    margin-top: 75px; }
-  #game-board .stack:first-child {
-    padding-left: 0; }
-
-  .game {
-    width: 824px; }
-
-  #game-stack {
+.piece {
+  position: relative; }
+  .piece .shape {
     position: absolute;
-    left: 673px;
-    top: 41px;
-    border-top: none;
-    width: 135px;
-    height: 400.0px;
-    padding: 115px 5px 0 5px; }
-    #game-stack .piece {
-      margin-top: -110px;
-      -webkit-appearance: none;
-      -webkit-box-shadow: 0 6px 6px -3px #333333;
-      -moz-box-shadow: 0 6px 6px -3px #333333;
-      box-shadow: 0 6px 6px -3px #333333;
-      margin-bottom: 0; } }
+    top: 50%;
+    text-align: center;
+    text-shadow: none;
+    color: #000;
+    width: 100%;
+    line-height: 1; }
+
 @media screen and (orientation:portrait) {
   .ui-page {
     width: 100%;
     height: 100%; }
 
-  #game-board {
-    margin-right: auto;
-    margin-left: auto;
-    position: relative;
-    width: 620px; }
-    #game-board .stack:first-child {
-      padding-left: 0; }
+  #game-board .stack:first-child {
+    padding-left: 0; }
 
   #game-stack {
     position: relative;
-    border-left: none;
-    padding: 5px 105px 5px 0;
-    margin: 50px auto;
-    height: 135px;
-    width: 560.0px; }
+    border-left: none; }
     #game-stack .piece {
       position: relative;
-      display: inline-block;
-      margin-right: -100px;
-      margin-bottom: 10px;
-      -webkit-appearance: none;
-      -webkit-box-shadow: 6px 0px 6px -3px #333333;
-      -moz-box-shadow: 6px 0px 6px -3px #333333;
-      box-shadow: 6px 0px 6px -3px #333333; } }
+      display: inline-block; } }
+@media screen and (orientation:landscape) {
+  .ui-page {
+    width: 100%;
+    height: 100%; }
+
+  #game-board .stack:first-child {
+    padding-left: 0; }
+
+  #game-stack {
+    position: absolute;
+    border-top: none; }
+    #game-stack .piece {
+      margin-bottom: 0; } }
