@@ -35,7 +35,7 @@
   width: $width;
 }
 
-$solutionOverlap: 0.80;
+$solutionOverlap: 0.85;
 
 
 //////////////////  Sized ///////////////
@@ -50,12 +50,18 @@ $solutionOverlap: 0.80;
 //    normal screens are at least 470dp x 320dp
 //    small screens are at least 426dp x 320dp
 
-$pieceWidth: 125px;
-$pieceHeight: 125px;
-$pieceBorder: 5px;
-$stack-padding: 20px;
-$boardWidth: ($pieceWidth+ ($pieceBorder*2) + ($stack-padding))*4;
+$pieceWidth: 120px;  // 60px // 90px  // 120px
+$pieceHeight: 120px;  // 60px // 90px  // 120px
+$pieceBorder: 5px;   // 3px // 4px   // 5px;
+
+$screenWidth: 1024px;  // 480px  // 640px // 1024px
+$screenHeight: 768px;  // 320px  // 480px // 768px
+$puzzleSidePadding: 100px;  // 20px // 30px // 100px
+
+
+$stack-padding: $pieceWidth / 6;
 $gameStackBorderWidth: 3px;
+$toolbarHeight: 47px;
 
 body {
   margin: 10px;
@@ -66,17 +72,12 @@ body {
 }
 
 .timer-panel { 
-  width: 200px;
-  right: 10px;
+  right: 4px;
   margin-top: .4em;
 }
 
 #timer {
   font-size: 14px;
-}
-
-#pushpop .workarea {
-  padding: 0 50px;
 }
 
 #toolbar h1 {
@@ -88,10 +89,6 @@ body {
 .pauseContent {
   font-size: 36px;
   margin-top: -75px;
-}
-
-.game, .help-text {
-  top: 47px; // toolbar height
 }
 
 #pushpop .ui-dialog {
@@ -127,11 +124,12 @@ body {
   }
 }
 
+$pieceOverlap: -$pieceHeight / 4;
 .piece {
   @include rounded($pieceBorder);
   width: $pieceWidth; 
   height: $pieceHeight; 
-  margin-bottom: -30px; 
+  margin-bottom: $pieceOverlap; 
   @include box-shadow(0 4px 5px 3px rgba(0,0,0,0.5));
 
   .shape {
@@ -144,39 +142,43 @@ body {
 
 @media screen and (orientation:portrait) {
   #game-board {
+    $boardWidth: ($pieceWidth+ ($pieceBorder*2))*4 + ($stack-padding*3);
     @include centered($boardWidth);
   }
+  .game {
+    $gameHeight: (($pieceHeight+($pieceBorder*2)) * 4) + ($pieceOverlap * 3) + (50px + $pieceHeight + ($pieceBorder*2) + (5px*2));
+    height: $gameHeight;
+    top: 50%;
+    margin-top: (-$gameHeight / 2) - ($toolbarHeight / 2);
+  }
   #game-stack {
-    padding: 5px $pieceWidth*$solutionOverlap+5 5px 0;
-    margin: 50px auto;
+    padding: 5px $pieceWidth*$solutionOverlap+5 5px 3px;
+    margin: 0 auto $pieceHeight * 0.8 auto;
     height: $pieceHeight + ($pieceBorder*2);
     width: (($pieceWidth * (1-$solutionOverlap)) + ($pieceBorder * 2)) * 16;
     .piece {  
       margin-right: $pieceWidth * -$solutionOverlap;
-      margin-bottom: 10px;
       @include box-shadow(6px 0 6px -3px #333);
     }
   }
 }
 
 @media screen and (orientation:landscape) {
-  $puzzleSidePadding: 100px;
-  #game-board {
-    .stack {
-      margin-top: 75px;
-    }
-  }
   .game {
-    width: 1024px - (2 * $puzzleSidePadding);
+    width: $screenWidth - (2 * $puzzleSidePadding);
+    top: 50%;
+    $gameHeight: (($pieceHeight+($pieceBorder*2)) * 4) + ($pieceOverlap * 3);
+    height: $gameHeight;
+    margin-top: (-$gameHeight / 2) - ($toolbarHeight / 2);
   }
   #game-stack {
     $stackWidth: $pieceWidth + ($pieceBorder*2);
+    $stackHeight: (($pieceHeight * (1-$solutionOverlap))) * 16;
     $stackSidePadding: 5px;
-    left: 1024px - (2 * $puzzleSidePadding) - $stackWidth - (2 * $gameStackBorderWidth) - (2*$stackSidePadding);
-    top: 41px;
+    left: $screenWidth - (2 * $puzzleSidePadding) - $stackWidth - (2 * $gameStackBorderWidth) - (2*$stackSidePadding);
     width: $stackWidth;
-    height: (($pieceHeight * (1-$solutionOverlap))) * 16;
-    padding: $pieceWidth*$solutionOverlap+($pieceBorder*2)+5 5px 0 5px;
+    height: $stackHeight;
+    padding: $pieceHeight*$solutionOverlap+($pieceBorder*2)+5 5px 0 5px;
     .piece {
       margin-top: ($pieceHeight * -$solutionOverlap) - ($pieceBorder * 2);
       @include box-shadow(0 6px 6px -3px #333);
@@ -218,7 +220,7 @@ body {
 }
 
 #toolbar {
-  position: absolute;
+  position: relative;
   width: 100%;
   padding-left: 0;
   padding-right: 0;
@@ -247,6 +249,8 @@ body {
   height: 100%;
   width: auto;
   background-color: $backgroundColor;
+  overflow: hidden;
+  padding: 0;
 }
 
 .pauseContent {

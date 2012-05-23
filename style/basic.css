@@ -9,15 +9,11 @@ body {
   -webkit-border-radius: 19px; }
 
 .timer-panel {
-  width: 200px;
-  right: 10px;
+  right: 4px;
   margin-top: .4em; }
 
 #timer {
   font-size: 14px; }
-
-#pushpop .workarea {
-  padding: 0 50px; }
 
 #toolbar h1 {
   margin-top: -28px;
@@ -27,9 +23,6 @@ body {
 .pauseContent {
   font-size: 36px;
   margin-top: -75px; }
-
-.game, .help-text {
-  top: 47px; }
 
 #pushpop .ui-dialog {
   width: 350px;
@@ -57,7 +50,7 @@ body {
     padding: 2px 10px; }
 
 #game-board .stack {
-  width: 135px;
+  width: 130px;
   min-height: 1px;
   padding-left: 20px; }
 
@@ -67,8 +60,8 @@ body {
   border-radius: 15px;
   -moz-border-radius: 15px;
   -webkit-border-radius: 15px;
-  width: 125px;
-  height: 125px;
+  width: 120px;
+  height: 120px;
   margin-bottom: -30px;
   -webkit-appearance: none;
   -webkit-box-shadow: 0 4px 5px 3px rgba(0, 0, 0, 0.5);
@@ -84,35 +77,38 @@ body {
     margin-right: auto;
     margin-left: auto;
     position: relative;
-    width: 620px; }
+    width: 580px; }
+
+  .game {
+    height: 620px;
+    top: 50%;
+    margin-top: -333.5px; }
 
   #game-stack {
-    padding: 5px 105px 5px 0;
-    margin: 50px auto;
-    height: 135px;
-    width: 560.0px; }
+    padding: 5px 107px 5px 3px;
+    margin: 0 auto 96px auto;
+    height: 130px;
+    width: 448.0px; }
     #game-stack .piece {
-      margin-right: -100px;
-      margin-bottom: 10px;
+      margin-right: -102px;
       -webkit-appearance: none;
       -webkit-box-shadow: 6px 0 6px -3px #333333;
       -moz-box-shadow: 6px 0 6px -3px #333333;
       box-shadow: 6px 0 6px -3px #333333; } }
 @media screen and (orientation:landscape) {
-  #game-board .stack {
-    margin-top: 75px; }
-
   .game {
-    width: 824px; }
+    width: 824px;
+    top: 50%;
+    height: 430px;
+    margin-top: -238.5px; }
 
   #game-stack {
-    left: 673px;
-    top: 41px;
-    width: 135px;
-    height: 400.0px;
-    padding: 115px 5px 0 5px; }
+    left: 678px;
+    width: 130px;
+    height: 288.0px;
+    padding: 117px 5px 0 5px; }
     #game-stack .piece {
-      margin-top: -110px;
+      margin-top: -112px;
       -webkit-appearance: none;
       -webkit-box-shadow: 0 6px 6px -3px #333333;
       -moz-box-shadow: 0 6px 6px -3px #333333;
@@ -152,7 +148,7 @@ body {
   display: inline-block; }
 
 #toolbar {
-  position: absolute;
+  position: relative;
   width: 100%;
   padding-left: 0;
   padding-right: 0; }
@@ -177,7 +173,9 @@ body {
 #pushpop .workarea {
   height: 100%;
   width: auto;
-  background-color: #121212; }
+  background-color: #121212;
+  overflow: hidden;
+  padding: 0; }
 
 .pauseContent {
   position: absolute;
