@@ -68,9 +68,9 @@ body {
     -moz-box-shadow: 0 4px 5px 3px rgba(0, 0, 0, 0.5);
     box-shadow: 0 4px 5px 3px rgba(0, 0, 0, 0.5); }
     body.small .piece .shape {
-      height: 72px;
-      margin-top: -36px;
-      font-size: 72px; }
+      height: 36px;
+      margin-top: -18px;
+      font-size: 36px; }
   body.small #game-board {
     margin-right: auto;
     margin-left: auto;
@@ -110,9 +110,9 @@ body {
     -moz-box-shadow: 0 4px 5px 3px rgba(0, 0, 0, 0.5);
     box-shadow: 0 4px 5px 3px rgba(0, 0, 0, 0.5); }
     body.medium .piece .shape {
-      height: 72px;
-      margin-top: -36px;
-      font-size: 72px; }
+      height: 54px;
+      margin-top: -27px;
+      font-size: 54px; }
   body.medium #game-board {
     margin-right: auto;
     margin-left: auto;
@@ -194,9 +194,9 @@ body {
     -moz-box-shadow: 0 4px 5px 3px rgba(0, 0, 0, 0.5);
     box-shadow: 0 4px 5px 3px rgba(0, 0, 0, 0.5); }
     body.small .piece .shape {
-      height: 72px;
-      margin-top: -36px;
-      font-size: 72px; }
+      height: 36px;
+      margin-top: -18px;
+      font-size: 36px; }
   body.small .game {
     width: 410px;
     top: 50%;
@@ -232,9 +232,9 @@ body {
     -moz-box-shadow: 0 4px 5px 3px rgba(0, 0, 0, 0.5);
     box-shadow: 0 4px 5px 3px rgba(0, 0, 0, 0.5); }
     body.medium .piece .shape {
-      height: 72px;
-      margin-top: -36px;
-      font-size: 72px; }
+      height: 54px;
+      margin-top: -27px;
+      font-size: 54px; }
   body.medium .game {
     width: 580px;
     top: 50%;

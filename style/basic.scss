@@ -118,10 +118,10 @@ body {
     @include box-shadow(0 4px 5px 3px rgba(0,0,0,0.5));
   
     .shape {
-      $height: 72px;
-      height:$height; 
-      margin-top:$height * -0.5; 
-      font-size:$height; 
+      $textHeight: $pieceHeight * 0.6;
+      height:$textHeight; 
+      margin-top:$textHeight * -0.5; 
+      font-size:$textHeight; 
     }
   }
 }
