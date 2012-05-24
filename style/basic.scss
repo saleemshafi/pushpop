@@ -40,26 +40,6 @@ $solutionOverlap: 0.85;
 
 //////////////////  Sized ///////////////
 
-// touchpad, ipad 1&2: 1024x768
-// ipad 2 retina: 2048x1536 
-// iphone: 320x480
-// iphone retina: 960x640
-// Android screens:
-//    xlarge screens are at least 960dp x 720dp
-//    large screens are at least 640dp x 480dp
-//    normal screens are at least 470dp x 320dp
-//    small screens are at least 426dp x 320dp
-
-$pieceWidth: 120px;  // 60px // 90px  // 120px
-$pieceHeight: 120px;  // 60px // 90px  // 120px
-$pieceBorder: 5px;   // 3px // 4px   // 5px;
-
-$screenWidth: 1024px;  // 480px  // 640px // 1024px
-$screenHeight: 768px;  // 320px  // 480px // 768px
-$puzzleSidePadding: 100px;  // 20px // 30px // 100px
-
-
-$stack-padding: $pieceWidth / 6;
 $gameStackBorderWidth: 3px;
 $toolbarHeight: 47px;
 
@@ -91,6 +71,16 @@ body {
   margin-top: -75px;
 }
 
+.help-text {
+  font-size: 24px;
+  padding: 15px 30px !important;
+  .piece {
+    @include rounded(2px);
+    padding: 2px 10px;
+  }
+}
+
+
 #pushpop .ui-dialog {
   width: 350px;
   height: 150px;
@@ -107,40 +97,39 @@ body {
   }
 }
 
-.help-text {
-  font-size: 24px;
-  padding: 15px 30px !important;
+@mixin all_the_sizes($screenWidth, $screenHeight, $pieceWidth, $pieceHeight, $puzzleSidePadding, $pieceBorder) {
+
+  $stack-padding: $pieceWidth / 6;
+  $pieceOverlap: -$pieceHeight / 4;
+  
+  #game-board {
+    .stack {
+      width:$pieceWidth + ($pieceBorder * 2);
+      min-height:1px;
+      padding-left:$stack-padding; 
+    }
+  }
+  
   .piece {
-    @include rounded(2px);
-    padding: 2px 10px;
+    @include rounded($pieceBorder);
+    width: $pieceWidth; 
+    height: $pieceHeight; 
+    margin-bottom: $pieceOverlap; 
+    @include box-shadow(0 4px 5px 3px rgba(0,0,0,0.5));
+  
+    .shape {
+      $height: 72px;
+      height:$height; 
+      margin-top:$height * -0.5; 
+      font-size:$height; 
+    }
   }
 }
 
-#game-board {
-  .stack {
-    width:$pieceWidth + ($pieceBorder * 2);
-    min-height:1px;
-    padding-left:$stack-padding; 
-  }
-}
-
-$pieceOverlap: -$pieceHeight / 4;
-.piece {
-  @include rounded($pieceBorder);
-  width: $pieceWidth; 
-  height: $pieceHeight; 
-  margin-bottom: $pieceOverlap; 
-  @include box-shadow(0 4px 5px 3px rgba(0,0,0,0.5));
-
-  .shape {
-    $height: 72px;
-    height:$height; 
-    margin-top:$height * -0.5; 
-    font-size:$height; 
-  }
-}
-
-@media screen and (orientation:portrait) {
+@mixin portrait_sizes($screenWidth, $screenHeight, $pieceWidth, $pieceHeight, $puzzleSidePadding, $pieceBorder) {
+  @include all_the_sizes($screenWidth, $screenHeight, $pieceWidth, $pieceHeight, $puzzleSidePadding, $pieceBorder);
+  $stack-padding: $pieceWidth / 6;
+  $pieceOverlap: -$pieceHeight / 4;
   #game-board {
     $boardWidth: ($pieceWidth+ ($pieceBorder*2))*4 + ($stack-padding*3);
     @include centered($boardWidth);
@@ -163,7 +152,10 @@ $pieceOverlap: -$pieceHeight / 4;
   }
 }
 
-@media screen and (orientation:landscape) {
+@mixin landscape_sizes($screenWidth, $screenHeight, $pieceWidth, $pieceHeight, $puzzleSidePadding, $pieceBorder) {
+  @include all_the_sizes($screenWidth, $screenHeight, $pieceWidth, $pieceHeight, $puzzleSidePadding, $pieceBorder);
+  $stack-padding: $pieceWidth / 6;
+  $pieceOverlap: -$pieceHeight / 4;
   .game {
     width: $screenWidth - (2 * $puzzleSidePadding);
     top: 50%;
@@ -185,6 +177,49 @@ $pieceOverlap: -$pieceHeight / 4;
     }
   }
 }
+// touchpad, ipad 1&2: 1024x768
+// ipad 2 retina: 2048x1536 
+// iphone: 320x480
+// iphone retina: 960x640
+// Android screens:
+//    xlarge screens are at least 960dp x 720dp
+//    large screens are at least 640dp x 480dp
+//    normal screens are at least 470dp x 320dp
+//    small screens are at least 426dp x 320dp
+
+@media screen and (orientation:portrait) {
+  body.small {
+    @include portrait_sizes(480px, 320px, 60px, 60px, 35px, 3px);
+  }
+  body.medium {
+    @include portrait_sizes(640px, 480px, 90px, 90px, 30px, 4px);
+  }
+  body.large {
+    @include portrait_sizes(1024px, 768px, 120px, 120px, 100px, 5px);
+  }
+}
+@media screen and (orientation:landscape){
+  body.small {
+    @include landscape_sizes(480px, 320px, 60px, 60px, 35px, 3px);
+  }
+  body.medium {
+    @include landscape_sizes(640px, 480px, 90px, 90px, 30px, 4px);
+  }
+  body.large {
+    @include landscape_sizes(1024px, 768px, 120px, 120px, 100px, 5px);
+  }
+}
+
+@media (min-device-width: 480px) and (min-device-height: 640px) and (orientation:portrait) {
+}
+@media (min-device-width: 640px) and (min-device-height: 480px) and (orientation:landscape) {
+}
+
+@media (min-device-width: 600px) and (min-device-height: 1024px) and (orientation:portrait){
+}
+@media (min-device-width: 1024px) and (min-device-height: 600px) and (orientation:landscape){
+}
+
 
 /////////////////////////////////////////////////////////
 
@@ -285,7 +320,7 @@ body {
   }
 }
 
-.help-text {
+body .help-text {
   min-height: 100%;
   #push { color: lighten(red, 25%); }
   #pop { color: lighten(yellow, 25%); }
@@ -294,6 +329,7 @@ body {
   .piece {
     color: black;
     text-shadow: none;
+    @include rounded(3px, 9px);
   }
   #yellow3, #yellow1 { @include colored-piece(blue); }
   #red3, #red1 { @include colored-piece(red); }
@@ -309,7 +345,7 @@ body {
     }
   }
   .stack:first-child {
-    padding-left:0;
+    padding-left:0 !important;
   }
 }
 
