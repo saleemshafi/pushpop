@@ -106,7 +106,7 @@ var PushPopUI = {
 				if (size == "medium") endPoint.top = "90px";
 				else if (size == "small") endPoint.top = "60px";
 			} else {
-				endpoint = {"left":"0","opacity":1,"position":"absolute"};
+				endPoint = {"left":"0","opacity":1,"position":"absolute"};
 			}
 			$("#game-stack").prepend('<div id="stack-'+piece.id+'" class="piece color_'+piece.color+'" style="'+mainStyle+startPoint+'"><div class="shape">'+piece.shape+'</div></div>');
 			var topStack = $("#game-stack .piece").filter(":first");
