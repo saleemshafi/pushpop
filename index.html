@@ -71,7 +71,7 @@
 function setSize() {
 	var sWidth = window.innerWidth;
 	var sHeight = window.innerHeight;
-	if ((sWidth > 900 && sHeight > 600) 
+	if ((sWidth > 900 && sHeight >= 600) 
 		|| (sWidth > 600 && sHeight > 900)) {
 		$("body").addClass("large").removeClass("medium").removeClass("small");
 	} else if ((sWidth >= 640 && sHeight >= 480) 

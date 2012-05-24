@@ -67,12 +67,20 @@ var PushPopUI = {
 				}
 				$(".piece").jrumble({x:3, y:3, rotation:5});
 		},
+		getSize: function() {
+			var body = $("body");
+			return body.hasClass("large") ? "large" : (body.hasClass("medium") ? "medium" : "small");
+		},
 		renderPopStack: function(event) {
 			var stack = $(event.currentTarget).data("stack");
 			var piece = this.game.popStack(stack);
 			if (piece) {
 				this.renderPushToGuessStack(piece);
-				$("#"+piece.id).animate({"opacity":0, "margin-top":"-105px"}, 
+				var size = this.getSize();
+				var endPoint = "-100px";
+				if (size == "medium") endPoint = "-75px";
+				else if (size == "small") endPoint = "-50px";
+				$("#"+piece.id).animate({"opacity":0, "margin-top":endPoint}, 
 					{complete:$.proxy(function() { this.render(); }, this)});	
 				if (this.game.puzzleFinished()) {
 					this.onPuzzleFinished();
@@ -89,9 +97,17 @@ var PushPopUI = {
 		},
 		renderPushToGuessStack: function(piece) {
 			var mainStyle = "z-index:"+this.game.guess.length+";";
+			var size = this.getSize();
 			var orientation = this.currentOrientation();
 			var startPoint = orientation == "landscape" ? "top:-20px;opacity:0;position:absolute" : "left:-235px;opacity:0;position:absolute";
-			var endPoint = orientation == "landscape" ? {"top":"110px","opacity":1, "position":"absolute"} : {"left":"0","opacity":1,"position":"absolute"};
+			var endPoint = null;
+			if (orientation == "landscape") {
+				endPoint = {"top":"110px","opacity":1, "position":"absolute"};
+				if (size == "medium") endPoint.top = "90px";
+				else if (size == "small") endPoint.top = "60px";
+			} else {
+				endpoint = {"left":"0","opacity":1,"position":"absolute"};
+			}
 			$("#game-stack").prepend('<div id="stack-'+piece.id+'" class="piece color_'+piece.color+'" style="'+mainStyle+startPoint+'"><div class="shape">'+piece.shape+'</div></div>');
 			var topStack = $("#game-stack .piece").filter(":first");
 			topStack.click( $.proxy(this.renderPopGuessStack, this) );
