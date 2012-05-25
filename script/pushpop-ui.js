@@ -2,6 +2,7 @@ var PushPopUI = {
   game: null,
 
   newPuzzle: function() {
+	$("#gameMenu").hide(100);
   	if (this.game.attempted && !this.game.puzzleFinished()) {
   		$.mobile.changePage("#newGameConfirm", {transition: "pop"});
   	} else {
@@ -44,6 +45,7 @@ var PushPopUI = {
   	return '<div id="'+piece.id+'" style="z-index:'+(depth+1)+'" data-stack="'+piece.stack+'" class="piece color_'+piece.color+'"><div class="shape">'+piece.shape+'</div></div>';
   },
   startOver: function() {
+	$("#gameMenu").hide(100);
 	this.game.startOver();
 	$("#game-stack").empty();
 	this.render();	
@@ -67,12 +69,20 @@ var PushPopUI = {
 				}
 				$(".piece").jrumble({x:3, y:3, rotation:5});
 		},
+		getSize: function() {
+			var body = $("body");
+			return body.hasClass("large") ? "large" : (body.hasClass("medium") ? "medium" : "small");
+		},
 		renderPopStack: function(event) {
 			var stack = $(event.currentTarget).data("stack");
 			var piece = this.game.popStack(stack);
 			if (piece) {
 				this.renderPushToGuessStack(piece);
-				$("#"+piece.id).animate({"opacity":0, "margin-top":"-105px"}, 
+				var size = this.getSize();
+				var endPoint = "-100px";
+				if (size == "medium") endPoint = "-75px";
+				else if (size == "small") endPoint = "-50px";
+				$("#"+piece.id).animate({"opacity":0, "margin-top":endPoint}, 
 					{complete:$.proxy(function() { this.render(); }, this)});	
 				if (this.game.puzzleFinished()) {
 					this.onPuzzleFinished();
@@ -85,13 +95,21 @@ var PushPopUI = {
 			}
 		},
 		currentOrientation: function() {
-			return $("body").hasClass("portrait") ? "portrait" : "landscape";
+			return window.innerHeight > window.innerWidth ? "portrait" : "landscape";
 		},
 		renderPushToGuessStack: function(piece) {
 			var mainStyle = "z-index:"+this.game.guess.length+";";
+			var size = this.getSize();
 			var orientation = this.currentOrientation();
 			var startPoint = orientation == "landscape" ? "top:-20px;opacity:0;position:absolute" : "left:-235px;opacity:0;position:absolute";
-			var endPoint = orientation == "landscape" ? {"top":"110px","opacity":1, "position":"absolute"} : {"left":"0","opacity":1,"position":"absolute"};
+			var endPoint = null;
+			if (orientation == "landscape") {
+				endPoint = {"top":"110px","opacity":1, "position":"absolute"};
+				if (size == "medium") endPoint.top = "90px";
+				else if (size == "small") endPoint.top = "60px";
+			} else {
+				endPoint = {"left":"0","opacity":1,"position":"absolute"};
+			}
 			$("#game-stack").prepend('<div id="stack-'+piece.id+'" class="piece color_'+piece.color+'" style="'+mainStyle+startPoint+'"><div class="shape">'+piece.shape+'</div></div>');
 			var topStack = $("#game-stack .piece").filter(":first");
 			topStack.click( $.proxy(this.renderPopGuessStack, this) );
@@ -126,9 +144,60 @@ var PushPopUI = {
 				{complete:$.proxy(function() { this.render(); }, this)});	
 		},
 		onPuzzleFinished: function() {
-			var stats = $("#stats");
-			stats.text("You completed this puzzle in "+this.game.timer.toString()+".");
+			var endTime = this.game.timer;
+			$("#stats").text("You completed this puzzle in "+endTime.toString()+".");
 			this.game.shutdown();
+			$("#quip").text("\""+this.getComment(endTime)+"\"");
 			$.mobile.changePage("#gameOver");
 		},
+		getComment: function(time) {
+			var appropriate_quips;
+			if (time.getHours() > 1) {
+				appropriate_quips = this.quips.really_long;
+			} else if (time.getMinutes() > 30) {
+				appropriate_quips = this.quips["long"];
+			} else if (time.getMinutes() > 10) {
+				appropriate_quips = this.quips.difficult;
+			} else if (time.getMinutes() > 5) {
+				appropriate_quips = this.quips.medium;
+			} else if (time.getMinutes() > 2) {
+				appropriate_quips = this.quips.good;
+			} else if (time.getSeconds() > 45) {
+				appropriate_quips = this.quips.fast;
+			} else if (time.getSeconds() > 10) {
+				appropriate_quips = this.quips.superfast;
+			} else {
+				appropriate_quips = this.quips.cheat;
+			}
+			var choice = Math.floor(Math.random() * appropriate_quips.length);
+			return appropriate_quips[choice];
+		},
+		quips: {
+			"really_long": ["Fall asleep at the wheel again?",
+							"Think hard before clicking that button.",
+							"Thanks, I feel a lot better about myself now.",
+							"Just think how much Angry Birds you could have been playing instead.",
+							"Next time you go away, hit the Pause button first.",
+							"I think you should try again.  Really, you can only do better next time.",
+							"Don't worry, you're not the only person who took that long.  Of course the other person had to take breaks for naps.",
+							"Wow... just think how many books you could have read in that time."],
+ 			"long": 	   ["Ok, great, but this time try it with your eyes open.",
+							"You probably shouldn't drive in this condition.  Let's try another puzzle instead.",
+							"Ah, you've left room for improvement.  Good strategy.",
+							"Hey, not bad (this WAS your first game, right?)"],
+			"difficult":   ["That was a tough one, but I think you'll do better on the next one.",
+							"That was just practice.  Let's try one for real now."],
+			"medium": 	   ["I can see your brain getting bigger from here.",
+							"Keep it up!"],
+			"good": 	   ["You probably can't tell, but I'm clapping for you.",
+							"Boom goes the dynamite!"],
+			"fast": 	   ["That what I'm talking about!",
+					 		"I would shake your hand, but I don't want to burn myself on those hot fingers."],
+			"superfast":   ["Whoa, you're like a mental Bruce Lee.", 
+							"Chuck Norris would like your autograph.", 
+							"Sorry, I blinked and missed that. Can you do that again, please?",
+							"Slow down, you're making the computer tired."],
+			"cheat": 	   ["I won't even dignify that with a response.",
+							"I'd like to see you do that again."],
+			},
 };

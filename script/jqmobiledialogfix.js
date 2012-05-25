@@ -11,6 +11,7 @@ $(function() {
 	
 	
 	$('div[data-role="page"]').live('pagebeforehide', function(e, ui) {
+		$("#gameMenu").hide(100);
 		if (ui.nextPage.data("role") == "dialog") {
 			$(this).addClass("ui-dialog-background ");
 		}

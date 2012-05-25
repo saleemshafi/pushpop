@@ -20,17 +20,17 @@ function Timer(time) {
   }
 
   this.getSeconds = function(){
-   return Math.round(getTime() / 1000);
+   return Math.round(this.getTime() / 1000);
   }
 
   this.getMinutes = function(){
-    return instance.getSeconds() / 60;
+    return this.getSeconds() / 60;
   }      
   this.getHours = function(){
-    return instance.getSeconds() / 60 / 60;
+    return this.getMinutes() / 60;
   }    
   this.getDays = function(){
-    return instance.getHours() / 24;
+    return this.getHours() / 24;
   }
   this.toString = function() {
   	var time = instance.getTime();
