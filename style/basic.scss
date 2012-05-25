@@ -82,6 +82,10 @@ body {
   }
 }
 
+#pushpop #gameOver {
+  width: 325px;
+}
+
 @mixin all_the_sizes($screenWidth, $screenHeight, $pieceWidth, $pieceHeight, $puzzleSidePadding, $pieceBorder) {
 
   $stack-padding: $pieceWidth / 6;
@@ -176,10 +180,17 @@ body {
   #pushpop.small {
     @include portrait_sizes(480px, 320px, 60px, 60px, 35px, 3px);
     
-    .ui-dialog {
+    #newGameConfirm {
       width: 250px;
       .buttons a {
         display: block;
+      }
+    }
+    
+    #gameOver {
+      width: 302px;
+      .ui-dialog-contain {
+        padding:15px;
       }
     }
   }

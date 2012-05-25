@@ -37,6 +37,9 @@ body {
   #pushpop .ui-dialog .buttons {
     margin-top: 25px; }
 
+#pushpop #gameOver {
+  width: 325px; }
+
 @media screen and (orientation:portrait) {
   #pushpop.small #game-board .stack {
     width: 66px;
@@ -79,10 +82,14 @@ body {
       -webkit-box-shadow: 6px 0 6px -3px #333333;
       -moz-box-shadow: 6px 0 6px -3px #333333;
       box-shadow: 6px 0 6px -3px #333333; }
-  #pushpop.small .ui-dialog {
+  #pushpop.small #newGameConfirm {
     width: 250px; }
-    #pushpop.small .ui-dialog .buttons a {
+    #pushpop.small #newGameConfirm .buttons a {
       display: block; }
+  #pushpop.small #gameOver {
+    width: 302px; }
+    #pushpop.small #gameOver .ui-dialog-contain {
+      padding: 15px; }
 
   #pushpop.medium #game-board .stack {
     width: 98px;
