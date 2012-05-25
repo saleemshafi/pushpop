@@ -144,9 +144,60 @@ var PushPopUI = {
 				{complete:$.proxy(function() { this.render(); }, this)});	
 		},
 		onPuzzleFinished: function() {
-			var stats = $("#stats");
-			stats.text("You completed this puzzle in "+this.game.timer.toString()+".");
+			var endTime = this.game.timer;
+			$("#stats").text("You completed this puzzle in "+endTime.toString()+".");
 			this.game.shutdown();
+			$("#quip").text("\""+this.getComment(endTime)+"\"");
 			$.mobile.changePage("#gameOver");
 		},
+		getComment: function(time) {
+			var appropriate_quips;
+			if (time.getHours() > 1) {
+				appropriate_quips = this.quips.really_long;
+			} else if (time.getMinutes() > 30) {
+				appropriate_quips = this.quips["long"];
+			} else if (time.getMinutes() > 10) {
+				appropriate_quips = this.quips.difficult;
+			} else if (time.getMinutes() > 5) {
+				appropriate_quips = this.quips.medium;
+			} else if (time.getMinutes() > 2) {
+				appropriate_quips = this.quips.good;
+			} else if (time.getSeconds() > 45) {
+				appropriate_quips = this.quips.fast;
+			} else if (time.getSeconds() > 10) {
+				appropriate_quips = this.quips.superfast;
+			} else {
+				appropriate_quips = this.quips.cheat;
+			}
+			var choice = Math.floor(Math.random() * appropriate_quips.length);
+			return appropriate_quips[choice];
+		},
+		quips: {
+			"really_long": ["Fall asleep at the wheel again?",
+							"Think hard before clicking that button.",
+							"Thanks, I feel a lot better about myself now.",
+							"Just think how much Angry Birds you could have been playing instead.",
+							"Next time you go away, hit the Pause button first.",
+							"I think you should try again.  Really, you can only do better next time.",
+							"Don't worry, you're not the only person who took that long.  Of course the other person had to take breaks for naps.",
+							"Wow... just think how many books you could have read in that time."],
+ 			"long": 	   ["Ok, great, but this time try it with your eyes open.",
+							"You probably shouldn't drive in this condition.  Let's try another puzzle instead.",
+							"Ah, you've left room for improvement.  Good strategy.",
+							"Hey, not bad (this WAS your first game, right?)"],
+			"difficult":   ["That was a tough one, but I think you'll do better on the next one.",
+							"That was just practice.  Let's try one for real now."],
+			"medium": 	   ["I can see your brain getting bigger from here.",
+							"Keep it up!"],
+			"good": 	   ["You probably can't tell, but I'm clapping for you.",
+							"Boom goes the dynamite!"],
+			"fast": 	   ["That what I'm talking about!",
+					 		"I would shake your hand, but I don't want to burn myself on those hot fingers."],
+			"superfast":   ["Whoa, you're like a mental Bruce Lee.", 
+							"Chuck Norris would like your autograph.", 
+							"Sorry, I blinked and missed that. Can you do that again, please?",
+							"Slow down, you're making the computer tired."],
+			"cheat": 	   ["I won't even dignify that with a response.",
+							"I'd like to see you do that again."],
+			},
 };
