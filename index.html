@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html style="overflow: scroll">
+<html>
 <head>
 	<title>PushPop</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -22,20 +22,19 @@
 </head>
 <body id="pushpop">
 	<div id="puzzle" data-role="page" data-title="PushPop"  data-dom-cache="true" data-theme="a">
-		<div id="toolbar" class="ui-bar ui-bar-a ui-header">
-			<div data-role="controlgroup" data-type="horizontal">
-				<a data-role="button" id="newBtn" data-inline="true" data-mini="true" data-icon="star">New</a>
-				<a data-role="button" id="startOverBtn" data-inline="true" data-mini="true" data-icon="refresh">Start Over</a>
-				<a data-role="button" href="help.html" data-inline="true" data-mini="true" data-icon="info" data-transition="slide">Help</a>
-			</div>
-			<h1 class="ui-title">PushPop</h1>
-			<div class="timer-panel">
-				<span>Timer:</span>
-				<div id="timer"></div>
-				<a href="#pause" data-inline="true" data-mini="true" data-transition="flip" data-role="button">Pause</a>
-			</div>
+		<div id="toolbar" data-role="header">
+<!--
+-->
+			<a id="menuBtn" data-inline="true" data-mini="true" data-icon="grid" data-role="button">Menu</a>
+			<h1>PushPop</h1>
+			<a href="#pause" data-inline="true" data-mini="true" data-transition="flip" data-icon="pause" data-role="button"><div id="timer">00:00</div></a>
 		</div>
 		<div id="workarea" class="workarea" data-role="content">
+			<div id="gameMenu" class="ui-body ui-body-a">
+				<a data-role="button" data-theme="b" id="newBtn" data-mini="true" data-icon="star">New Puzzle</a>
+				<a data-role="button" data-theme="b" id="startOverBtn" data-mini="true" data-icon="refresh">Start Over</a>
+				<a data-role="button" data-theme="b" href="help.html" data-mini="true" data-icon="info" data-transition="slide">Help</a>
+			</div>
 			<div id="game" class="game">
 				<div id="game-stack" class="stack"></div>
 				<div id="game-board" class="game_board"></div>
@@ -85,9 +84,10 @@ function setSize() {
 $("#puzzle").bind('pageinit', function() {
   	// not using vclick or tap because of note on http://jquerymobile.com/test/docs/api/events.html
   	// need to revisit if the click responsiveness is too slow
+  	$("#menuBtn").bind("click", function() { $("#gameMenu").toggle(100); });
   	$("#newBtn").bind("click", $.proxy(PushPopUI.newPuzzle, PushPopUI));
   	$("#startOverBtn").bind("click", $.proxy(PushPopUI.startOver, PushPopUI));
-
+	$("#game").bind("click", function() { $("#gameMenu").hide(100); } );
 	setSize();
 	window.addEventListener("resize", setSize);
 });

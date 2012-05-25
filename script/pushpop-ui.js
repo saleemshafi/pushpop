@@ -2,6 +2,7 @@ var PushPopUI = {
   game: null,
 
   newPuzzle: function() {
+	$("#gameMenu").hide(100);
   	if (this.game.attempted && !this.game.puzzleFinished()) {
   		$.mobile.changePage("#newGameConfirm", {transition: "pop"});
   	} else {
@@ -44,6 +45,7 @@ var PushPopUI = {
   	return '<div id="'+piece.id+'" style="z-index:'+(depth+1)+'" data-stack="'+piece.stack+'" class="piece color_'+piece.color+'"><div class="shape">'+piece.shape+'</div></div>';
   },
   startOver: function() {
+	$("#gameMenu").hide(100);
 	this.game.startOver();
 	$("#game-stack").empty();
 	this.render();	
