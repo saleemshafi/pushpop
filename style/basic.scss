@@ -67,11 +67,11 @@ body {
 
 
 #pushpop .ui-dialog {
-  width: 350px;
-  height: 150px;
-  padding: 0 15px;
+  width: 400px;
+  padding: 0;
 
   .ui-dialog-contain {
+    width: auto;
     padding: 25px;
     @include box-shadow(0 0 8px 10px rgba(0, 0, 0, 0.3));
     border: 1px solid rgba(0, 0, 0, 0.5);
@@ -173,24 +173,31 @@ body {
 //    small screens are at least 426dp x 320dp
 
 @media screen and (orientation:portrait) {
-  body.small {
+  #pushpop.small {
     @include portrait_sizes(480px, 320px, 60px, 60px, 35px, 3px);
+    
+    .ui-dialog {
+      width: 250px;
+      .buttons a {
+        display: block;
+      }
+    }
   }
-  body.medium {
+  #pushpop.medium {
     @include portrait_sizes(640px, 480px, 90px, 90px, 30px, 4px);
   }
-  body.large {
+  #pushpop.large {
     @include portrait_sizes(1024px, 768px, 120px, 120px, 100px, 5px);
   }
 }
 @media screen and (orientation:landscape){
-  body.small {
+  #pushpop.small {
     @include landscape_sizes(480px, 320px, 60px, 60px, 35px, 3px);
   }
-  body.medium {
+  #pushpop.medium {
     @include landscape_sizes(640px, 480px, 90px, 90px, 30px, 4px);
   }
-  body.large {
+  #pushpop.large {
     @include landscape_sizes(1024px, 768px, 120px, 120px, 100px, 5px);
   }
 }

@@ -24,10 +24,10 @@ body {
     padding: 2px 10px; }
 
 #pushpop .ui-dialog {
-  width: 350px;
-  height: 150px;
-  padding: 0 15px; }
+  width: 400px;
+  padding: 0; }
   #pushpop .ui-dialog .ui-dialog-contain {
+    width: auto;
     padding: 25px;
     -webkit-appearance: none;
     -webkit-box-shadow: 0 0 8px 10px rgba(0, 0, 0, 0.3);
@@ -38,11 +38,11 @@ body {
     margin-top: 25px; }
 
 @media screen and (orientation:portrait) {
-  body.small #game-board .stack {
+  #pushpop.small #game-board .stack {
     width: 66px;
     min-height: 1px;
     padding-left: 10px; }
-  body.small .piece {
+  #pushpop.small .piece {
     border-width: 3px;
     border-style: solid;
     border-radius: 9px;
@@ -55,36 +55,40 @@ body {
     -webkit-box-shadow: 0 4px 5px 3px rgba(0, 0, 0, 0.5);
     -moz-box-shadow: 0 4px 5px 3px rgba(0, 0, 0, 0.5);
     box-shadow: 0 4px 5px 3px rgba(0, 0, 0, 0.5); }
-    body.small .piece .shape {
+    #pushpop.small .piece .shape {
       height: 36px;
       margin-top: -18px;
       font-size: 36px; }
-  body.small #game-board {
+  #pushpop.small #game-board {
     margin-right: auto;
     margin-left: auto;
     position: relative;
     width: 294px; }
-  body.small .game {
+  #pushpop.small .game {
     height: 345px;
     top: 50%;
     margin-top: -196px; }
-  body.small #game-stack {
+  #pushpop.small #game-stack {
     padding: 5px 56px 5px 3px;
     margin: 0 auto 48px auto;
     height: 66px;
     width: 240.0px; }
-    body.small #game-stack .piece {
+    #pushpop.small #game-stack .piece {
       margin-right: -51px;
       -webkit-appearance: none;
       -webkit-box-shadow: 6px 0 6px -3px #333333;
       -moz-box-shadow: 6px 0 6px -3px #333333;
       box-shadow: 6px 0 6px -3px #333333; }
+  #pushpop.small .ui-dialog {
+    width: 250px; }
+    #pushpop.small .ui-dialog .buttons a {
+      display: block; }
 
-  body.medium #game-board .stack {
+  #pushpop.medium #game-board .stack {
     width: 98px;
     min-height: 1px;
     padding-left: 15px; }
-  body.medium .piece {
+  #pushpop.medium .piece {
     border-width: 4px;
     border-style: solid;
     border-radius: 12px;
@@ -97,36 +101,36 @@ body {
     -webkit-box-shadow: 0 4px 5px 3px rgba(0, 0, 0, 0.5);
     -moz-box-shadow: 0 4px 5px 3px rgba(0, 0, 0, 0.5);
     box-shadow: 0 4px 5px 3px rgba(0, 0, 0, 0.5); }
-    body.medium .piece .shape {
+    #pushpop.medium .piece .shape {
       height: 54px;
       margin-top: -27px;
       font-size: 54px; }
-  body.medium #game-board {
+  #pushpop.medium #game-board {
     margin-right: auto;
     margin-left: auto;
     position: relative;
     width: 437px; }
-  body.medium .game {
+  #pushpop.medium .game {
     height: 482.5px;
     top: 50%;
     margin-top: -264.75px; }
-  body.medium #game-stack {
+  #pushpop.medium #game-stack {
     padding: 5px 81.5px 5px 3px;
     margin: 0 auto 72px auto;
     height: 98px;
     width: 344px; }
-    body.medium #game-stack .piece {
+    #pushpop.medium #game-stack .piece {
       margin-right: -76.5px;
       -webkit-appearance: none;
       -webkit-box-shadow: 6px 0 6px -3px #333333;
       -moz-box-shadow: 6px 0 6px -3px #333333;
       box-shadow: 6px 0 6px -3px #333333; }
 
-  body.large #game-board .stack {
+  #pushpop.large #game-board .stack {
     width: 130px;
     min-height: 1px;
     padding-left: 20px; }
-  body.large .piece {
+  #pushpop.large .piece {
     border-width: 5px;
     border-style: solid;
     border-radius: 15px;
@@ -139,36 +143,36 @@ body {
     -webkit-box-shadow: 0 4px 5px 3px rgba(0, 0, 0, 0.5);
     -moz-box-shadow: 0 4px 5px 3px rgba(0, 0, 0, 0.5);
     box-shadow: 0 4px 5px 3px rgba(0, 0, 0, 0.5); }
-    body.large .piece .shape {
+    #pushpop.large .piece .shape {
       height: 72px;
       margin-top: -36px;
       font-size: 72px; }
-  body.large #game-board {
+  #pushpop.large #game-board {
     margin-right: auto;
     margin-left: auto;
     position: relative;
     width: 580px; }
-  body.large .game {
+  #pushpop.large .game {
     height: 620px;
     top: 50%;
     margin-top: -333.5px; }
-  body.large #game-stack {
+  #pushpop.large #game-stack {
     padding: 5px 107px 5px 3px;
     margin: 0 auto 96px auto;
     height: 130px;
     width: 448.0px; }
-    body.large #game-stack .piece {
+    #pushpop.large #game-stack .piece {
       margin-right: -102px;
       -webkit-appearance: none;
       -webkit-box-shadow: 6px 0 6px -3px #333333;
       -moz-box-shadow: 6px 0 6px -3px #333333;
       box-shadow: 6px 0 6px -3px #333333; } }
 @media screen and (orientation:landscape) {
-  body.small #game-board .stack {
+  #pushpop.small #game-board .stack {
     width: 66px;
     min-height: 1px;
     padding-left: 10px; }
-  body.small .piece {
+  #pushpop.small .piece {
     border-width: 3px;
     border-style: solid;
     border-radius: 9px;
@@ -181,32 +185,32 @@ body {
     -webkit-box-shadow: 0 4px 5px 3px rgba(0, 0, 0, 0.5);
     -moz-box-shadow: 0 4px 5px 3px rgba(0, 0, 0, 0.5);
     box-shadow: 0 4px 5px 3px rgba(0, 0, 0, 0.5); }
-    body.small .piece .shape {
+    #pushpop.small .piece .shape {
       height: 36px;
       margin-top: -18px;
       font-size: 36px; }
-  body.small .game {
+  #pushpop.small .game {
     width: 410px;
     top: 50%;
     height: 219px;
     margin-top: -133px; }
-  body.small #game-stack {
+  #pushpop.small #game-stack {
     left: 328px;
     width: 66px;
     height: 144.0px;
     padding: 62px 5px 0 5px; }
-    body.small #game-stack .piece {
+    #pushpop.small #game-stack .piece {
       margin-top: -57px;
       -webkit-appearance: none;
       -webkit-box-shadow: 0 6px 6px -3px #333333;
       -moz-box-shadow: 0 6px 6px -3px #333333;
       box-shadow: 0 6px 6px -3px #333333; }
 
-  body.medium #game-board .stack {
+  #pushpop.medium #game-board .stack {
     width: 98px;
     min-height: 1px;
     padding-left: 15px; }
-  body.medium .piece {
+  #pushpop.medium .piece {
     border-width: 4px;
     border-style: solid;
     border-radius: 12px;
@@ -219,32 +223,32 @@ body {
     -webkit-box-shadow: 0 4px 5px 3px rgba(0, 0, 0, 0.5);
     -moz-box-shadow: 0 4px 5px 3px rgba(0, 0, 0, 0.5);
     box-shadow: 0 4px 5px 3px rgba(0, 0, 0, 0.5); }
-    body.medium .piece .shape {
+    #pushpop.medium .piece .shape {
       height: 54px;
       margin-top: -27px;
       font-size: 54px; }
-  body.medium .game {
+  #pushpop.medium .game {
     width: 580px;
     top: 50%;
     height: 324.5px;
     margin-top: -185.75px; }
-  body.medium #game-stack {
+  #pushpop.medium #game-stack {
     left: 466px;
     width: 98px;
     height: 216.0px;
     padding: 89.5px 5px 0 5px; }
-    body.medium #game-stack .piece {
+    #pushpop.medium #game-stack .piece {
       margin-top: -84.5px;
       -webkit-appearance: none;
       -webkit-box-shadow: 0 6px 6px -3px #333333;
       -moz-box-shadow: 0 6px 6px -3px #333333;
       box-shadow: 0 6px 6px -3px #333333; }
 
-  body.large #game-board .stack {
+  #pushpop.large #game-board .stack {
     width: 130px;
     min-height: 1px;
     padding-left: 20px; }
-  body.large .piece {
+  #pushpop.large .piece {
     border-width: 5px;
     border-style: solid;
     border-radius: 15px;
@@ -257,21 +261,21 @@ body {
     -webkit-box-shadow: 0 4px 5px 3px rgba(0, 0, 0, 0.5);
     -moz-box-shadow: 0 4px 5px 3px rgba(0, 0, 0, 0.5);
     box-shadow: 0 4px 5px 3px rgba(0, 0, 0, 0.5); }
-    body.large .piece .shape {
+    #pushpop.large .piece .shape {
       height: 72px;
       margin-top: -36px;
       font-size: 72px; }
-  body.large .game {
+  #pushpop.large .game {
     width: 824px;
     top: 50%;
     height: 430px;
     margin-top: -238.5px; }
-  body.large #game-stack {
+  #pushpop.large #game-stack {
     left: 678px;
     width: 130px;
     height: 288.0px;
     padding: 117px 5px 0 5px; }
-    body.large #game-stack .piece {
+    #pushpop.large #game-stack .piece {
       margin-top: -112px;
       -webkit-appearance: none;
       -webkit-box-shadow: 0 6px 6px -3px #333333;
