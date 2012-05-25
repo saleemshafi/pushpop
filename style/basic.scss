@@ -130,12 +130,12 @@ body {
     margin-top: (-$gameHeight / 2) - ($toolbarHeight / 2);
   }
   #game-stack {
-    padding: 5px $pieceWidth*$solutionOverlap+5 5px 3px;
+    padding: 5px round($pieceWidth*$solutionOverlap)+5 5px 3px;
     margin: 0 auto $pieceHeight * 0.8 auto;
     height: $pieceHeight + ($pieceBorder*2);
-    width: (($pieceWidth * (1-$solutionOverlap)) + ($pieceBorder * 2)) * 16;
+    width: (round($pieceWidth * (1-$solutionOverlap)) + ($pieceBorder * 2)) * 16;
     .piece {  
-      margin-right: $pieceWidth * -$solutionOverlap;
+      margin-right: round($pieceWidth * -$solutionOverlap);
       @include box-shadow(6px 0 6px -3px #333);
     }
   }
@@ -154,14 +154,14 @@ body {
   }
   #game-stack {
     $stackWidth: $pieceWidth + ($pieceBorder*2);
-    $stackHeight: (($pieceHeight * (1-$solutionOverlap))) * 16;
+    $stackHeight: round($pieceHeight * (1-$solutionOverlap)) * 16;
     $stackSidePadding: 5px;
     left: $screenWidth - (2 * $puzzleSidePadding) - $stackWidth - (2 * $gameStackBorderWidth) - (2*$stackSidePadding);
     width: $stackWidth;
     height: $stackHeight;
-    padding: $pieceHeight*$solutionOverlap+($pieceBorder*2)+5 5px 0 5px;
+    padding: round($pieceHeight*$solutionOverlap)+($pieceBorder*2)+5 5px 0 5px;
     .piece {
-      margin-top: ($pieceHeight * -$solutionOverlap) - ($pieceBorder * 2);
+      margin-top: round($pieceHeight * -$solutionOverlap) - ($pieceBorder * 2);
       @include box-shadow(0 6px 6px -3px #333);
     }
   }

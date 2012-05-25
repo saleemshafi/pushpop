@@ -75,7 +75,7 @@ body {
     padding: 5px 56px 5px 3px;
     margin: 0 auto 48px auto;
     height: 66px;
-    width: 240.0px; }
+    width: 240px; }
     #pushpop.small #game-stack .piece {
       margin-right: -51px;
       -webkit-appearance: none;
@@ -122,12 +122,12 @@ body {
     top: 50%;
     margin-top: -264.75px; }
   #pushpop.medium #game-stack {
-    padding: 5px 81.5px 5px 3px;
+    padding: 5px 82px 5px 3px;
     margin: 0 auto 72px auto;
     height: 98px;
-    width: 344px; }
+    width: 352px; }
     #pushpop.medium #game-stack .piece {
-      margin-right: -76.5px;
+      margin-right: -77px;
       -webkit-appearance: none;
       -webkit-box-shadow: 6px 0 6px -3px #333333;
       -moz-box-shadow: 6px 0 6px -3px #333333;
@@ -167,7 +167,7 @@ body {
     padding: 5px 107px 5px 3px;
     margin: 0 auto 96px auto;
     height: 130px;
-    width: 448.0px; }
+    width: 448px; }
     #pushpop.large #game-stack .piece {
       margin-right: -102px;
       -webkit-appearance: none;
@@ -204,7 +204,7 @@ body {
   #pushpop.small #game-stack {
     left: 328px;
     width: 66px;
-    height: 144.0px;
+    height: 144px;
     padding: 62px 5px 0 5px; }
     #pushpop.small #game-stack .piece {
       margin-top: -57px;
@@ -242,10 +242,10 @@ body {
   #pushpop.medium #game-stack {
     left: 466px;
     width: 98px;
-    height: 216.0px;
-    padding: 89.5px 5px 0 5px; }
+    height: 224px;
+    padding: 90px 5px 0 5px; }
     #pushpop.medium #game-stack .piece {
-      margin-top: -84.5px;
+      margin-top: -85px;
       -webkit-appearance: none;
       -webkit-box-shadow: 0 6px 6px -3px #333333;
       -moz-box-shadow: 0 6px 6px -3px #333333;
@@ -280,7 +280,7 @@ body {
   #pushpop.large #game-stack {
     left: 678px;
     width: 130px;
-    height: 288.0px;
+    height: 288px;
     padding: 117px 5px 0 5px; }
     #pushpop.large #game-stack .piece {
       margin-top: -112px;
