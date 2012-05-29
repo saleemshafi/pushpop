@@ -268,6 +268,12 @@ body {
   position:absolute;
   z-index: 10;
   @include box-shadow(4px 4px 7px 4px rgba(0, 0, 0, 0.7));
+  
+  .ui-slider {
+    width: auto;
+    display: block;
+    margin: .25em 5px;
+  }
 }
 
 .paused {

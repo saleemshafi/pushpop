@@ -35,6 +35,10 @@
 				<a data-role="button" data-theme="b" id="newBtn" data-mini="true" data-icon="star">New Puzzle</a>
 				<a data-role="button" data-theme="b" id="startOverBtn" data-mini="true" data-icon="refresh">Start Over</a>
 				<a data-role="button" data-theme="b" href="help.html" data-mini="true" data-icon="info" data-transition="slide">Help</a>
+				<select name="slider" id="sound-toggle" data-mini="true" data-theme="b" data-role="slider">
+					<option value="off">Sound Off</option>
+					<option value="on" selected="selected">Sound On</option>
+				</select>
 			</div>
 			<div id="game" class="game">
 				<div id="game-stack" class="stack"></div>
@@ -90,6 +94,7 @@ $("#puzzle").bind('pageinit', function() {
   	$("#newBtn").bind("click", $.proxy(PushPopUI.newPuzzle, PushPopUI));
   	$("#startOverBtn").bind("click", $.proxy(PushPopUI.startOver, PushPopUI));
 	$("#game").bind("click", function() { $("#gameMenu").hide(100); } );
+	$("#sound-toggle").bind("change", function() { PushPopUI.setSound($(this).val() == "on"); } );
 	setSize();
 	window.addEventListener("resize", setSize);
 });
