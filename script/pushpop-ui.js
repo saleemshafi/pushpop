@@ -1,5 +1,6 @@
 var PushPopUI = {
   game: null,
+  sound: true,
 
   newPuzzle: function() {
 	$("#gameMenu").hide(100);
@@ -40,6 +41,9 @@ var PushPopUI = {
   },
   updateTimer: function(timer) {
 	$("#timer").text(timer.toString());
+  },
+  setSound: function(soundOn) {
+  	this.sound = soundOn === true;
   },
   pieceMarkup: function(piece, depth) {
   	return '<div id="'+piece.id+'" style="z-index:'+(depth+1)+'" data-stack="'+piece.stack+'" class="piece color_'+piece.color+'"><div class="shape">'+piece.shape+'</div></div>';
@@ -84,7 +88,9 @@ var PushPopUI = {
 				else if (size == "small") endPoint = "-50px";
 				$("#"+piece.id).animate({"opacity":0, "margin-top":endPoint}, 
 					{complete:$.proxy(function() { this.render(); }, this)});	
-				$('#pop_sound').trigger('play');
+				if (this.sound) {
+					$('#pop_sound').trigger('play');
+				}
 				if (this.game.puzzleFinished()) {
 					this.onPuzzleFinished();
 				}

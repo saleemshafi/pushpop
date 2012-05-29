@@ -334,6 +334,10 @@ body {
   -webkit-box-shadow: 4px 4px 7px 4px rgba(0, 0, 0, 0.7);
   -moz-box-shadow: 4px 4px 7px 4px rgba(0, 0, 0, 0.7);
   box-shadow: 4px 4px 7px 4px rgba(0, 0, 0, 0.7); }
+  #gameMenu .ui-slider {
+    width: auto;
+    display: block;
+    margin: .25em 5px; }
 
 .paused #pause {
   display: none; }
