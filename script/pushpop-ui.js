@@ -98,6 +98,9 @@ var PushPopUI = {
 				var stx = this.game.stacks[stack];
 				var wouldBePiece = $("#"+stx[stx.length-1].id);
 				wouldBePiece.trigger("startRumble");
+				if (this.sound) {
+					$('#error_sound').trigger('play');
+				}
 				setTimeout(function() { wouldBePiece.trigger("stopRumble"); }, 300);
 			}
 		},
@@ -132,6 +135,9 @@ var PushPopUI = {
 			var orientation = this.currentOrientation();
 			var endPoint = orientation == "landscape" ? {"top":"-110px","opacity":0} : {"left":"-235px","opacity":0};
 			this.renderPushToGameStack(piece);
+			if (this.sound) {
+				$('#push_sound').trigger('play');
+			}
 			card.animate(endPoint, {complete: $.proxy(function() { 
 				card.remove(); } )
 			});
