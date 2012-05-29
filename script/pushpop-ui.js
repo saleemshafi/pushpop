@@ -84,6 +84,7 @@ var PushPopUI = {
 				else if (size == "small") endPoint = "-50px";
 				$("#"+piece.id).animate({"opacity":0, "margin-top":endPoint}, 
 					{complete:$.proxy(function() { this.render(); }, this)});	
+				$('#pop_sound').trigger('play');
 				if (this.game.puzzleFinished()) {
 					this.onPuzzleFinished();
 				}
