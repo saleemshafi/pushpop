@@ -131,7 +131,7 @@ body {
   }
   #game-stack {
     padding: 5px round($pieceWidth*$solutionOverlap)+5 5px 3px;
-    margin: 0 auto $pieceHeight * 0.8 auto;
+    margin: 0 auto $pieceHeight * 0.4 auto;
     height: $pieceHeight + ($pieceBorder*2);
     width: (round($pieceWidth * (1-$solutionOverlap)) + ($pieceBorder * 2)) * 16;
     .piece {  
@@ -150,7 +150,7 @@ body {
     top: 50%;
     $gameHeight: (($pieceHeight+($pieceBorder*2)) * 4) + ($pieceOverlap * 3);
     height: $gameHeight;
-    margin-top: (-$gameHeight / 2) - ($toolbarHeight / 2);
+    margin-top: (-$gameHeight / 2) - ($toolbarHeight / 2) - 10px;
   }
   #game-stack {
     $stackWidth: $pieceWidth + ($pieceBorder*2);
@@ -324,8 +324,10 @@ body {
   .ui-dialog-contain {
     background-color: #000;
     position: absolute;
-    top: 50%;
-    margin-top: -25%;
+    top: 0;
+    margin-top: 0;
+    border-color: #666;
+    @include rounded(1px, 0px 0px .6em .6em);
     text-shadow: none;
     color: #fff;
   }

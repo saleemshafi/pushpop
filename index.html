@@ -21,10 +21,22 @@
 
 </head>
 <body id="pushpop">
-	<audio src="pop.mp3" id="pop_sound"></audio>
-	<audio src="push.mp3" id="push_sound"></audio>
-	<audio src="error.mp3" id="error_sound"></audio>
-	<audio src="applause.mp3" id="applause_sound"></audio>
+	<audio id="pop_sound" preload="auto" autobuffer>
+        <source src="pop.ogg" />
+        <source src="pop.mp3" />
+    </audio>
+	<audio id="push_sound" preload="auto" autobuffer>
+        <source src="push.ogg" />
+        <source src="push.mp3" />
+    </audio>
+	<audio id="error_sound" preload="auto" autobuffer>
+        <source src="error.ogg" />
+        <source src="error.mp3" />
+    </audio>
+	<audio id="applause_sound" preload="auto" autobuffer>
+        <source src="applause.ogg" />
+        <source src="applause.mp3" />
+    </audio>
 	<div id="puzzle" data-role="page" data-title="PushPop"  data-dom-cache="true" data-theme="a">
 		<div id="toolbar" data-role="header">
 <!--
@@ -35,10 +47,10 @@
 		</div>
 		<div id="workarea" class="workarea" data-role="content">
 			<div id="gameMenu" class="ui-body ui-body-a">
-				<a data-role="button" data-theme="b" id="newBtn" data-mini="true" data-icon="star">New Puzzle</a>
-				<a data-role="button" data-theme="b" id="startOverBtn" data-mini="true" data-icon="refresh">Start Over</a>
-				<a data-role="button" data-theme="b" href="help.html" data-mini="true" data-icon="info" data-transition="slide">Help</a>
-				<select name="slider" id="sound-toggle" data-mini="true" data-theme="b" data-role="slider">
+				<a data-role="button" data-theme="b" id="newBtn" data-mini="false" data-icon="star">New Puzzle</a>
+				<a data-role="button" data-theme="b" id="startOverBtn" data-mini="false" data-icon="refresh">Start Over</a>
+				<a data-role="button" data-theme="b" href="help.html" data-mini="false" data-icon="info" data-transition="slide">Help</a>
+				<select name="slider" id="sound-toggle" data-mini="false" data-theme="b" data-role="slider">
 					<option value="off">Sound Off</option>
 					<option value="on" selected="selected">Sound On</option>
 				</select>
@@ -57,11 +69,11 @@
 		</div>
 	</div>
 
-	<div id="newGameConfirm" data-role="dialog" data-title="PushPop - New Game" data-theme="c">
+	<div id="newGameConfirm" data-role="dialog" data-title="PushPop - New Game" data-theme="c" data-transition="slidedown">
 		<span>You haven't quite finished with the current puzzle.  Do you want to try a new one or keep working on this one?</span>
 		<div class="buttons">
 			<a href="#puzzle" data-role="button" data-inline="true" data-icon="star">New Puzzle</a>
-			<a href="#puzzle" data-role="button" data-inline="true" data-icon="back" data-rel="back" data-theme="b">Keep working</a>
+			<a href="#puzzle" data-role="button" data-inline="true" data-icon="back" data-transition="slideup" data-rel="back" data-theme="b">Keep working</a>
 		</div>
 	</div>
 
@@ -96,8 +108,9 @@ $("#puzzle").bind('pageinit', function() {
   	$("#menuBtn").bind("click", function() { $("#gameMenu").toggle(100); });
   	$("#newBtn").bind("click", $.proxy(PushPopUI.newPuzzle, PushPopUI));
   	$("#startOverBtn").bind("click", $.proxy(PushPopUI.startOver, PushPopUI));
-	$("#game").bind("click", function() { $("#gameMenu").hide(100); } );
+	$("#workarea").bind("click", function() { $("#gameMenu").hide(100); } );
 	$("#sound-toggle").bind("change", function() { PushPopUI.setSound($(this).val() == "on"); } );
+    $("audio").trigger('load');
 	setSize();
 	window.addEventListener("resize", setSize);
 });
@@ -118,9 +131,7 @@ $("#puzzle").bind('pageshow', function() {
 	PushPopUI.resumeTimer();
 });
 $("#gameOver").bind('pageshow', function() {
-	if (PushPopUI.sound) {
-		$('#applause_sound').trigger('play');
-	}
+    PushPopUI.playSound("applause");
 });
 $("#gameOver").bind('pagehide', function() {
 	PushPopUI.resetPuzzle();

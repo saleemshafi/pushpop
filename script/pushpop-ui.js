@@ -1,3 +1,7 @@
+var audioPlayer = new Audio();
+var audioExt = !!audioPlayer.canPlayType && "" != audioPlayer.canPlayType('audio/mpeg') ? "mp3" : "ogg";
+
+
 var PushPopUI = {
   game: null,
   sound: true,
@@ -5,7 +9,7 @@ var PushPopUI = {
   newPuzzle: function() {
 	$("#gameMenu").hide(100);
   	if (this.game.attempted && !this.game.puzzleFinished()) {
-  		$.mobile.changePage("#newGameConfirm", {transition: "pop"});
+  		$.mobile.changePage("#newGameConfirm", {transition: "slidedown"});
   	} else {
   		this.reallyNewPuzzle();
   	}
@@ -77,6 +81,13 @@ var PushPopUI = {
 			var body = $("body");
 			return body.hasClass("large") ? "large" : (body.hasClass("medium") ? "medium" : "small");
 		},
+        playSound: function(soundName) {
+            if (this.sound) {
+                audioPlayer.pause();
+                audioPlayer.src=soundName+"."+audioExt;
+                audioPlayer.play();
+            }
+        },
 		renderPopStack: function(event) {
 			var stack = $(event.currentTarget).data("stack");
 			var piece = this.game.popStack(stack);
@@ -88,9 +99,7 @@ var PushPopUI = {
 				else if (size == "small") endPoint = "-50px";
 				$("#"+piece.id).animate({"opacity":0, "margin-top":endPoint}, 
 					{complete:$.proxy(function() { this.render(); }, this)});	
-				if (this.sound) {
-					$('#pop_sound').trigger('play');
-				}
+                this.playSound("pop");
 				if (this.game.puzzleFinished()) {
 					this.onPuzzleFinished();
 				}
@@ -98,9 +107,7 @@ var PushPopUI = {
 				var stx = this.game.stacks[stack];
 				var wouldBePiece = $("#"+stx[stx.length-1].id);
 				wouldBePiece.trigger("startRumble");
-				if (this.sound) {
-					$('#error_sound').trigger('play');
-				}
+                this.playSound("error");
 				setTimeout(function() { wouldBePiece.trigger("stopRumble"); }, 300);
 			}
 		},
@@ -135,9 +142,7 @@ var PushPopUI = {
 			var orientation = this.currentOrientation();
 			var endPoint = orientation == "landscape" ? {"top":"-110px","opacity":0} : {"left":"-235px","opacity":0};
 			this.renderPushToGameStack(piece);
-			if (this.sound) {
-				$('#push_sound').trigger('play');
-			}
+            this.playSound("push");
 			card.animate(endPoint, {complete: $.proxy(function() { 
 				card.remove(); } )
 			});
@@ -161,7 +166,7 @@ var PushPopUI = {
 			$("#stats").text("You completed this puzzle in "+endTime.toString()+".");
 			this.game.shutdown();
 			$("#quip").text("\""+this.getComment(endTime)+"\"");
-			$.mobile.changePage("#gameOver");
+			$.mobile.changePage("#gameOver", {transition: "slidedown"});
 		},
 		getComment: function(time) {
 			var appropriate_quips;
@@ -193,24 +198,32 @@ var PushPopUI = {
 							"Next time you go away, hit the Pause button first.",
 							"I think you should try again.  Really, you can only do better next time.",
 							"Don't worry, you're not the only person who took that long.  Of course the other person had to take breaks for naps.",
-							"Wow... just think how many books you could have read in that time."],
+							"Wow... just think how many books you could have read in that time.",
+							"Perhaps we should start counting your time in days?"],
  			"long": 	   ["Ok, great, but this time try it with your eyes open.",
 							"You probably shouldn't drive in this condition.  Let's try another puzzle instead.",
 							"Ah, you've left room for improvement.  Good strategy.",
-							"Hey, not bad (this WAS your first game, right?)"],
+							"Hey, not bad (this WAS your first game, right?)",
+							"Well, on the bright side at least that was time well spent."],
 			"difficult":   ["That was a tough one, but I think you'll do better on the next one.",
-							"That was just practice.  Let's try one for real now."],
+							"That was just practice.  Let's try one for real now.",
+							"You just need some more practice.",
+							"Well, maybe you just got a hard one -- try again!"],
 			"medium": 	   ["I can see your brain getting bigger from here.",
+							"That's a pretty good time -- Keep trying until you cut it in half.",
 							"Keep it up!"],
 			"good": 	   ["You probably can't tell, but I'm clapping for you.",
+							"Not bad -- with some practice I bet you could get into the Push Pop hall of fame!",
 							"Boom goes the dynamite!"],
 			"fast": 	   ["That what I'm talking about!",
+							"Even I couldn't have done it that quickly!",
 					 		"I would shake your hand, but I don't want to burn myself on those hot fingers."],
 			"superfast":   ["Whoa, you're like a mental Bruce Lee.", 
 							"Chuck Norris would like your autograph.", 
 							"Sorry, I blinked and missed that. Can you do that again, please?",
 							"Slow down, you're making the computer tired."],
 			"cheat": 	   ["I won't even dignify that with a response.",
+							"That was so fast I almost wonder if you're cheating.",
 							"I'd like to see you do that again."],
 			},
 };
