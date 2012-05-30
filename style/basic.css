@@ -381,8 +381,14 @@ body {
   #pushpop .ui-dialog .ui-dialog-contain {
     background-color: #000;
     position: absolute;
-    top: 50%;
-    margin-top: -25%;
+    top: 0;
+    margin-top: 0;
+    border-color: #666;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 0px 0px 0.6em 0.6em;
+    -moz-border-radius: 0px 0px 0.6em 0.6em;
+    -webkit-border-radius: 0px 0px 0.6em 0.6em;
     text-shadow: none;
     color: #fff; }
   #pushpop .ui-dialog #quip {

@@ -9,7 +9,7 @@ var PushPopUI = {
   newPuzzle: function() {
 	$("#gameMenu").hide(100);
   	if (this.game.attempted && !this.game.puzzleFinished()) {
-  		$.mobile.changePage("#newGameConfirm", {transition: "pop"});
+  		$.mobile.changePage("#newGameConfirm", {transition: "slidedown"});
   	} else {
   		this.reallyNewPuzzle();
   	}
@@ -166,7 +166,7 @@ var PushPopUI = {
 			$("#stats").text("You completed this puzzle in "+endTime.toString()+".");
 			this.game.shutdown();
 			$("#quip").text("\""+this.getComment(endTime)+"\"");
-			$.mobile.changePage("#gameOver");
+			$.mobile.changePage("#gameOver", {transition: "slidedown"});
 		},
 		getComment: function(time) {
 			var appropriate_quips;
