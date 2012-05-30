@@ -1,3 +1,7 @@
+var audioPlayer = new Audio();
+var audioExt = !!audioPlayer.canPlayType && "" != audioPlayer.canPlayType('audio/mpeg') ? "mp3" : "ogg";
+
+
 var PushPopUI = {
   game: null,
   sound: true,
@@ -77,6 +81,13 @@ var PushPopUI = {
 			var body = $("body");
 			return body.hasClass("large") ? "large" : (body.hasClass("medium") ? "medium" : "small");
 		},
+        playSound: function(soundName) {
+            if (this.sound) {
+                audioPlayer.pause();
+                audioPlayer.src=soundName+"."+audioExt;
+                audioPlayer.play();
+            }
+        },
 		renderPopStack: function(event) {
 			var stack = $(event.currentTarget).data("stack");
 			var piece = this.game.popStack(stack);
@@ -88,9 +99,7 @@ var PushPopUI = {
 				else if (size == "small") endPoint = "-50px";
 				$("#"+piece.id).animate({"opacity":0, "margin-top":endPoint}, 
 					{complete:$.proxy(function() { this.render(); }, this)});	
-				if (this.sound) {
-					$('#pop_sound').trigger('play');
-				}
+                this.playSound("pop");
 				if (this.game.puzzleFinished()) {
 					this.onPuzzleFinished();
 				}
@@ -98,9 +107,7 @@ var PushPopUI = {
 				var stx = this.game.stacks[stack];
 				var wouldBePiece = $("#"+stx[stx.length-1].id);
 				wouldBePiece.trigger("startRumble");
-				if (this.sound) {
-					$('#error_sound').trigger('play');
-				}
+                this.playSound("error");
 				setTimeout(function() { wouldBePiece.trigger("stopRumble"); }, 300);
 			}
 		},
@@ -135,9 +142,7 @@ var PushPopUI = {
 			var orientation = this.currentOrientation();
 			var endPoint = orientation == "landscape" ? {"top":"-110px","opacity":0} : {"left":"-235px","opacity":0};
 			this.renderPushToGameStack(piece);
-			if (this.sound) {
-				$('#push_sound').trigger('play');
-			}
+            this.playSound("push");
 			card.animate(endPoint, {complete: $.proxy(function() { 
 				card.remove(); } )
 			});

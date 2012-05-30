@@ -21,10 +21,22 @@
 
 </head>
 <body id="pushpop">
-	<audio src="pop.mp3" id="pop_sound" preload="auto"></audio>
-	<audio src="push.mp3" id="push_sound" preload="auto"></audio>
-	<audio src="error.mp3" id="error_sound" preload="auto"></audio>
-	<audio src="applause.mp3" id="applause_sound" preload="auto"></audio>
+	<audio id="pop_sound" preload="auto" autobuffer>
+        <source src="pop.ogg" />
+        <source src="pop.mp3" />
+    </audio>
+	<audio id="push_sound" preload="auto" autobuffer>
+        <source src="push.ogg" />
+        <source src="push.mp3" />
+    </audio>
+	<audio id="error_sound" preload="auto" autobuffer>
+        <source src="error.ogg" />
+        <source src="error.mp3" />
+    </audio>
+	<audio id="applause_sound" preload="auto" autobuffer>
+        <source src="applause.ogg" />
+        <source src="applause.mp3" />
+    </audio>
 	<div id="puzzle" data-role="page" data-title="PushPop"  data-dom-cache="true" data-theme="a">
 		<div id="toolbar" data-role="header">
 <!--
@@ -98,6 +110,7 @@ $("#puzzle").bind('pageinit', function() {
   	$("#startOverBtn").bind("click", $.proxy(PushPopUI.startOver, PushPopUI));
 	$("#game").bind("click", function() { $("#gameMenu").hide(100); } );
 	$("#sound-toggle").bind("change", function() { PushPopUI.setSound($(this).val() == "on"); } );
+    $("audio").trigger('load');
 	setSize();
 	window.addEventListener("resize", setSize);
 });
@@ -118,9 +131,7 @@ $("#puzzle").bind('pageshow', function() {
 	PushPopUI.resumeTimer();
 });
 $("#gameOver").bind('pageshow', function() {
-	if (PushPopUI.sound) {
-		$('#applause_sound').trigger('play');
-	}
+    PushPopUI.playSound("applause");
 });
 $("#gameOver").bind('pagehide', function() {
 	PushPopUI.resetPuzzle();
