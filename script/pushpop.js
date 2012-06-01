@@ -43,6 +43,7 @@ var PushPop = function() {
 		this.timerRefresh = 0;
 		this.id = null;
 		this.attempted = false;
+		this.solution = null;
 }
 
 $.extend(PushPop.prototype, {
@@ -131,9 +132,9 @@ $.extend(PushPop.prototype, {
 		init: function(numStacks, depth, id) {
 			this.numStacks = numStacks;
 			this.depth = depth;
-			if (id == null) {
-				var solution = this.generateSolution();
-				this.generateBoard( solution );
+			if (id == null || id == "") {
+				this.solution = this.generateSolution();
+				this.generateBoard( this.solution );
 			} else {
 				this.rememberBoard(id);
 			}
@@ -155,6 +156,7 @@ $.extend(PushPop.prototype, {
 			this.timer = null;
 			this.stacks = [];
 			this.guess = [];
+			this.solution = null;
 		},
 		puzzleFinished: function() {
 			for (var i = 0; i < this.stacks.length; i++) {
@@ -173,9 +175,52 @@ $.extend(PushPop.prototype, {
 				this.stacks[stack].push(piece);
 				return false;
 			}
+		},
+		buildTree: function(solutionTree, treeStacks) {
+			solutionTree = solutionTree || { piece: null, options: []};
+			solutionTree.numSolutions = 0;
+			solutionTree.numBranches = 0;
+			solutionTree.decisionPoint = false;
+			for (var i = 0; i < treeStacks.length; i++) {
+				var stackLength = treeStacks[i].length;
+				if (solutionTree.piece == null || (stackLength > 0 && treeStacks[i][stackLength-1].matches(solutionTree.piece))) {
+					var newStacks = doubleSlice(treeStacks);
+					var newBranch = this.buildTree({ piece: newStacks[i].pop(), options: []}, newStacks);
+					solutionTree.options.push(newBranch);
+				}
+			}
+
+					if (solutionTree.options.length == 0) {
+						var finished = true;
+						for (var j = 0; j< treeStacks.length; j++) {
+							finished = finished && treeStacks[j].length == 0;
+						}
+						solutionTree.solution = finished;
+						solutionTree.numBranches = 1;
+						solutionTree.numSolutions = finished ? 1 : 0;
+					} else {
+						solutionTree.solution = solutionTree.options[0].solution;
+						for (var j = 0; j < solutionTree.options.length; j++) {
+							solutionTree.numSolutions += solutionTree.options[j].numSolutions;
+							solutionTree.numBranches += solutionTree.options[j].numBranches;
+							if (solutionTree.solution != solutionTree.options[j].solution) {
+								solutionTree.decisionPoint = solutionTree.solution != undefined &&
+									solutionTree.options[j].solution != undefined;
+								solutionTree.solution = undefined;
+							}
+						}
+					}
+
+
+
+			return solutionTree;
 		}
-	});	
+	});
 
-
-
-
+function doubleSlice(oldArray) {
+	var newArray = oldArray.slice();
+	for (var j = 0; j < newArray.length; j++) {
+		newArray[j] = newArray[j].slice();
+	}
+	return newArray;
+}

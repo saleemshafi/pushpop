@@ -1,0 +1,140 @@
+<html>
+	<head>
+		<script src="script/jquery-1.7.1.js"></script>
+		<script src="script/jquery.jstree.js"></script>
+		<script src="script/pushpop.js"></script>
+		<link rel="stylesheet" type="text/css" href="style/basic.css" />
+		<style>
+			body { color: white; }
+			.jstree a.solution { color: green; }
+			.jstree a.failure { color: red; }
+			.jstree a.maybe { color: black; }
+			.jstree a.decision { font-weight: bold; }			
+		</style>
+	</head>
+	<body>
+
+		<script>
+			function drawPieces(pieces) {
+				var pieceString = "";
+				for (var i = 0; i < pieces.length; i++) {
+					if (typeof pieces[i].color != "undefined") {
+						pieceString += "<span class='color_"+pieces[i].color+"'>"+(1+pieces[i].shape)+"</a>";
+					} else {
+						pieceString += " - "+drawPieces(pieces[i]);
+					}
+				}
+				return pieceString;
+			}
+		
+			function renderSolutions(tree, path) {
+				path = path || [];
+				if (tree.options.length == 0) {
+					document.write("<h4 class="+(tree.solution ? "solution" : "failure")+">length: "+path.length+"   "+drawPieces(path)+"</h4>");
+				} else {
+					for (var i = 0; i < tree.options.length; i++) {
+						path.push(tree.options[i].piece);
+						renderSolutions(tree.options[i], path);
+						path.pop();
+					}					
+				}
+			}
+		
+			function renderSolutionTree(tree) {
+				var treeString = "<li>";
+				if (tree.piece) {
+					treeString += "<a class='"+(tree.solution==undefined?"maybe":(tree.solution?"solution":"failure"))+" "+(tree.decisionPoint?"decision":"")+" color_"+tree.piece.color+"'>"+(1+tree.piece.shape)+"  (b:"+tree.numBranches+",s:"+tree.numSolutions+")</a>";
+				} else {
+					treeString += "<a>Solutions  (b:"+tree.numBranches+",s:"+tree.numSolutions+",diff:"+(tree.numSolutions/tree.numBranches)+")</a>";
+				}
+				if (tree.options.length > 0) {
+					treeString += "<ul>";
+					for (var i = 0; i < tree.options.length; i++) {
+						treeString += renderSolutionTree(tree.options[i]);
+					}
+					treeString += "</ul>";
+				}
+				treeString += "</li>";
+				return treeString;
+			}
+		
+			var game = new PushPop();
+			var gameId = window.location.hash == "" ? null : window.location.hash.substring(1);
+			game.init(4, 4, gameId);
+			document.write("<h3>"+game.id+": "+drawPieces(game.stacks)+"</h3>");
+	if (game.solution) {
+			document.write("<h5>"+drawPieces(game.solution)+"</h5>");	
+	}
+			var solutionTree = game.buildTree(null, game.stacks);
+			document.write("<a>Solutions  (b:"+solutionTree.numBranches+",s:"+solutionTree.numSolutions+",diff:"+(solutionTree.numSolutions/solutionTree.numBranches)+")</a>");
+//			document.write("<div class='solutionTree'><ul>"+renderSolutionTree(solutionTree)+"</ul></div>");
+		</script>
+		
+
+<script type="text/javascript" class="source below">
+$(function () {
+	// TO CREATE AN INSTANCE
+	// select the tree container using jQuery
+	$(".solutionTree")
+		// call `.jstree` with the options object
+		.jstree({
+			// the `plugins` array allows you to configure the active plugins on this instance
+			"plugins" : ["themes","html_data","ui"]
+			// each plugin you have included can have its own config object
+			// it makes sense to configure a plugin only if overriding the defaults
+		})
+		// EVENTS
+		// each instance triggers its own events - to process those listen on the container
+		// all events are in the `.jstree` namespace
+		// so listen for `function_name`.`jstree` - you can function names from the docs
+		.bind("loaded.jstree", function (event, data) {
+			// you get two params - event & data - check the core docs for a detailed description
+			$.jstree._reference($(".solutionTree")).open_all();
+
+		});
+});
+
+
+function selectGame() {
+	var diffLevel = $("#difficulty").val();
+	var maxRatio, minRatio;
+	if (diffLevel == "Easy") {
+		minRatio = 0.30;
+		maxRatio = 1;
+	} else if (diffLevel == "Medium") {
+		minRatio = 0.20;
+		maxRatio = 0.30;
+	} else if (diffLevel == "Hard") {
+		minRatio = 0.12;
+		maxRatio = 0.20;
+	} else if (diffLevel == "Super Hard") {
+		minRatio = 0.05;
+		maxRatio = 0.12;
+	} else if (diffLevel == "Insane") {
+		minRatio = 0;
+		maxRatio = 0.05;
+	}
+	
+	var gameId = null;
+	var gameScore = 0;
+	while (gameId == null || gameScore < minRatio || gameScore > maxRatio) {
+		var g = new PushPop();
+		g.init(4,4,null);
+		gameId = g.id;
+		var t = g.buildTree(null, g.stacks);
+		gameScore = t.numSolutions/t.numBranches;
+	}
+	$("#gameId").text(gameId);
+}
+</script>
+
+		<select id="difficulty" onchange="selectGame()">
+			<option>Easy</option>
+			<option>Medium</option>
+			<option>Hard</option>
+			<option>Super Hard</option>
+			<option>Insane</option>
+		</select>
+		<span id="gameId"></span>
+	</body>
+</html>
