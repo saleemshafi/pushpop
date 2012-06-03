@@ -330,8 +330,8 @@ body {
   border-color: red; }
 
 .color_1 {
-  background-color: #ffff9d;
-  border-color: #e4e400; }
+  background-color: #ffd880;
+  border-color: #ffb000; }
 
 .color_2 {
   background-color: #8080ff;
@@ -345,8 +345,8 @@ body {
   background-color: red;
   border-bottom-color: red; }
 .shapes .color_1 .shape {
-  background-color: #E4E400;
-  border-bottom-color: #E4E400; }
+  background-color: #FFB000;
+  border-bottom-color: #FFB000; }
 .shapes .color_2 .shape {
   background-color: blue;
   border-bottom-color: blue; }

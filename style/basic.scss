@@ -261,7 +261,7 @@ body {
 }
 
 .color_0 { @include colored-piece(red); }
-.color_1 { @include colored-piece(#E4E400, 36%); }
+.color_1 { @include colored-piece(#FFB000); }
 .color_2 { @include colored-piece(blue); }
 .color_3 { @include colored-piece(green); }
 
@@ -271,8 +271,8 @@ body {
     border-bottom-color: red;
   }
   .color_1 .shape {
-    background-color: #E4E400;
-    border-bottom-color: #E4E400;
+    background-color: #FFB000;
+    border-bottom-color: #FFB000;
   }
   .color_2 .shape {
     background-color: blue;
