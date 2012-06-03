@@ -115,6 +115,18 @@ $.extend(PushPop.prototype, {
 				this.id += chunk;
 			}
 		},
+		rebuildBoard: function(boardData) {
+			this.stacks = [[],[],[],[]];
+			var i = 0;
+			while (i < boardData.length) {
+				var stackNum = (i / 2) % 4;
+				var piece = new Piece(parseInt(boardData.charAt(i)), parseInt(boardData.charAt(i+1)), stackNum);
+				this.stacks[stackNum].push(piece);
+				piece.id = "piece-"+stackNum+"-"+this.stacks[stackNum].length;
+				i += 2;
+			}
+			this.assignGameId();
+		},
 		rememberBoard: function(boardId) {
 			this.stacks = [];
 			for (var i = 0 ; i < boardId.length; i++) {
@@ -135,6 +147,8 @@ $.extend(PushPop.prototype, {
 			if (id == null || id == "") {
 				this.solution = this.generateSolution();
 				this.generateBoard( this.solution );
+			} else if (id.length==32){
+				this.rebuildBoard(id);
 			} else {
 				this.rememberBoard(id);
 			}

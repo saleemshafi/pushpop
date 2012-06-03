@@ -1,0 +1,28 @@
+<html>
+	<head>
+		<script src="script/jquery-1.7.1.js"></script>
+		<script src="script/jquery.jstree.js"></script>
+		<script src="script/pushpop.js"></script>
+		<link rel="stylesheet" type="text/css" href="style/basic.css" />
+		<style>
+			body { color: white; }
+		</style>
+	</head>
+	<body>
+
+		<script>
+		var gameNum = 1;
+		function evaluateGame(gameId) {
+			var game = new PushPop().init(4, 4, gameId);
+			var solutionTree = game.buildTree(null, game.stacks);
+			var diffRatio = solutionTree.numSolutions/solutionTree.numBranches;
+			document.write("<tr><td>"+(gameNum++)+"</td><td>"+game.id+"</td><td>"+solutionTree.numSolutions+"</td><td>"+solutionTree.numBranches+"</td><td>"+diffRatio+"</td></tr>")
+		}
+		
+		document.write("<table>");
+		evaluateGame("00010203101112132021222330313233");
+		document.write("</table>");	
+		</script>
+
+	</body>
+</html>
