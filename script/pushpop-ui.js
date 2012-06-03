@@ -49,6 +49,13 @@ var PushPopUI = {
   setSound: function(soundOn) {
   	this.sound = soundOn === true;
   },
+  setShapes: function(shapesOn) {
+  	if (shapesOn) {
+  		$(".game").removeClass("numbers").addClass("shapes");
+  	} else {
+  		$(".game").removeClass("shapes").addClass("numbers");
+  	}
+  },
   pieceMarkup: function(piece, depth) {
   	return '<div id="'+piece.id+'" style="z-index:'+(depth+1)+'" data-stack="'+piece.stack+'" class="piece color_'+piece.color+'"><div class="shape shape_'+piece.shape+'"></div></div>';
   },
