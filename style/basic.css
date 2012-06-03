@@ -66,11 +66,15 @@ body {
     -webkit-appearance: none;
     -webkit-box-shadow: 0 4px 5px 3px rgba(0, 0, 0, 0.5);
     -moz-box-shadow: 0 4px 5px 3px rgba(0, 0, 0, 0.5);
-    box-shadow: 0 4px 5px 3px rgba(0, 0, 0, 0.5); }
-    #pushpop.small .piece .shape {
-      height: 36px;
-      margin-top: -18px;
-      font-size: 36px; }
+    box-shadow: 0 4px 5px 3px rgba(0, 0, 0, 0.5);
+    /*  
+        .shape {
+          $textHeight: $pieceHeight * 0.6;
+          height:$textHeight; 
+          margin-top:$textHeight * -0.5; 
+          font-size:$textHeight; 
+        }
+    */ }
   #pushpop.small #game-board {
     margin-right: auto;
     margin-left: auto;
@@ -116,11 +120,15 @@ body {
     -webkit-appearance: none;
     -webkit-box-shadow: 0 4px 5px 3px rgba(0, 0, 0, 0.5);
     -moz-box-shadow: 0 4px 5px 3px rgba(0, 0, 0, 0.5);
-    box-shadow: 0 4px 5px 3px rgba(0, 0, 0, 0.5); }
-    #pushpop.medium .piece .shape {
-      height: 54px;
-      margin-top: -27px;
-      font-size: 54px; }
+    box-shadow: 0 4px 5px 3px rgba(0, 0, 0, 0.5);
+    /*  
+        .shape {
+          $textHeight: $pieceHeight * 0.6;
+          height:$textHeight; 
+          margin-top:$textHeight * -0.5; 
+          font-size:$textHeight; 
+        }
+    */ }
   #pushpop.medium #game-board {
     margin-right: auto;
     margin-left: auto;
@@ -158,11 +166,15 @@ body {
     -webkit-appearance: none;
     -webkit-box-shadow: 0 4px 5px 3px rgba(0, 0, 0, 0.5);
     -moz-box-shadow: 0 4px 5px 3px rgba(0, 0, 0, 0.5);
-    box-shadow: 0 4px 5px 3px rgba(0, 0, 0, 0.5); }
-    #pushpop.large .piece .shape {
-      height: 72px;
-      margin-top: -36px;
-      font-size: 72px; }
+    box-shadow: 0 4px 5px 3px rgba(0, 0, 0, 0.5);
+    /*  
+        .shape {
+          $textHeight: $pieceHeight * 0.6;
+          height:$textHeight; 
+          margin-top:$textHeight * -0.5; 
+          font-size:$textHeight; 
+        }
+    */ }
   #pushpop.large #game-board {
     margin-right: auto;
     margin-left: auto;
@@ -200,11 +212,15 @@ body {
     -webkit-appearance: none;
     -webkit-box-shadow: 0 4px 5px 3px rgba(0, 0, 0, 0.5);
     -moz-box-shadow: 0 4px 5px 3px rgba(0, 0, 0, 0.5);
-    box-shadow: 0 4px 5px 3px rgba(0, 0, 0, 0.5); }
-    #pushpop.small .piece .shape {
-      height: 36px;
-      margin-top: -18px;
-      font-size: 36px; }
+    box-shadow: 0 4px 5px 3px rgba(0, 0, 0, 0.5);
+    /*  
+        .shape {
+          $textHeight: $pieceHeight * 0.6;
+          height:$textHeight; 
+          margin-top:$textHeight * -0.5; 
+          font-size:$textHeight; 
+        }
+    */ }
   #pushpop.small .game {
     width: 410px;
     top: 50%;
@@ -238,11 +254,15 @@ body {
     -webkit-appearance: none;
     -webkit-box-shadow: 0 4px 5px 3px rgba(0, 0, 0, 0.5);
     -moz-box-shadow: 0 4px 5px 3px rgba(0, 0, 0, 0.5);
-    box-shadow: 0 4px 5px 3px rgba(0, 0, 0, 0.5); }
-    #pushpop.medium .piece .shape {
-      height: 54px;
-      margin-top: -27px;
-      font-size: 54px; }
+    box-shadow: 0 4px 5px 3px rgba(0, 0, 0, 0.5);
+    /*  
+        .shape {
+          $textHeight: $pieceHeight * 0.6;
+          height:$textHeight; 
+          margin-top:$textHeight * -0.5; 
+          font-size:$textHeight; 
+        }
+    */ }
   #pushpop.medium .game {
     width: 580px;
     top: 50%;
@@ -276,11 +296,15 @@ body {
     -webkit-appearance: none;
     -webkit-box-shadow: 0 4px 5px 3px rgba(0, 0, 0, 0.5);
     -moz-box-shadow: 0 4px 5px 3px rgba(0, 0, 0, 0.5);
-    box-shadow: 0 4px 5px 3px rgba(0, 0, 0, 0.5); }
-    #pushpop.large .piece .shape {
-      height: 72px;
-      margin-top: -36px;
-      font-size: 72px; }
+    box-shadow: 0 4px 5px 3px rgba(0, 0, 0, 0.5);
+    /*  
+        .shape {
+          $textHeight: $pieceHeight * 0.6;
+          height:$textHeight; 
+          margin-top:$textHeight * -0.5; 
+          font-size:$textHeight; 
+        }
+    */ }
   #pushpop.large .game {
     width: 824px;
     top: 50%;
@@ -316,6 +340,58 @@ body {
 .color_3 {
   background-color: lime;
   border-color: green; }
+
+#pushpop .piece .shape_0 {
+  width: 66%;
+  height: 66%;
+  background-color: black;
+  border-radius: 120px;
+  top: 50%;
+  margin: -33% auto 0 auto;
+  position: relative;
+  content: ""; }
+
+#pushpop .piece .shape_1 {
+  width: 66%;
+  height: 66%;
+  background-color: black;
+  top: 50%;
+  margin: -33% auto 0 auto;
+  position: relative;
+  content: ""; }
+
+#pushpop.small .piece .shape_2 {
+  width: 0;
+  height: 0;
+  top: 50%;
+  border-bottom: 40px solid black;
+  border-left: 20px solid transparent;
+  border-right: 20px solid transparent;
+  margin: -33% auto 0 auto;
+  position: relative;
+  content: ""; }
+
+#pushpop.small .piece .shape_3 {
+  width: 50%;
+  height: 50%;
+  background: black;
+  top: 50%;
+  left: 50%;
+  margin: -12% 0 0 0;
+  position: relative;
+  content: "";
+  /* Rotate */
+  -webkit-transform: rotate(-45deg);
+  -moz-transform: rotate(-45deg);
+  -ms-transform: rotate(-45deg);
+  -o-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+  /* Rotate Origin */
+  -webkit-transform-origin: 0 100%;
+  -moz-transform-origin: 0 100%;
+  -ms-transform-origin: 0 100%;
+  -o-transform-origin: 0 100%;
+  transform-origin: 0 100%; }
 
 #game-stack {
   border-color: #888; }
