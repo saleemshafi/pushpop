@@ -222,7 +222,7 @@ var PushPopUI = {
 			"good": 	   ["You probably can't tell, but I'm clapping for you.",
 							"Not bad -- with some practice I bet you could get into the Push Pop hall of fame!",
 							"Boom goes the dynamite!"],
-			"fast": 	   ["That what I'm talking about!",
+			"fast": 	   ["That's what I'm talking about!",
 							"Even I couldn't have done it that quickly!",
 					 		"I would shake your hand, but I don't want to burn myself on those hot fingers."],
 			"superfast":   ["Whoa, you're like a mental Bruce Lee.", 
