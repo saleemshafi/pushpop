@@ -116,12 +116,14 @@ $.extend(PushPop.prototype, {
 			}
 		},
 		rebuildBoard: function(boardData) {
+			var colors = ["R","Y","B","G"];
+			var shapes = ["G","C","H","L"];
 			this.stacks = [[],[],[],[]];
 			var i = 0;
 			while (i < boardData.length) {
 				var stackNum = (i / 2) % 4;
-				var piece = new Piece(parseInt(boardData.charAt(i)), parseInt(boardData.charAt(i+1)), stackNum);
-				this.stacks[stackNum].push(piece);
+				var piece = new Piece(colors.indexOf(boardData.charAt(i)), shapes.indexOf(boardData.charAt(i+1)), stackNum);
+				this.stacks[stackNum].unshift(piece);
 				piece.id = "piece-"+stackNum+"-"+this.stacks[stackNum].length;
 				i += 2;
 			}

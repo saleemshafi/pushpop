@@ -97,34 +97,38 @@ $(function () {
 
 function selectGame() {
 	var diffLevel = $("#difficulty").val();
-	var maxRatio, minRatio;
+	var maxRatio, minRatio, maxBranches = 0;
 	if (diffLevel == "Easy") {
-		minRatio = 0.30;
+		minRatio = 0.3;
 		maxRatio = 1;
+		maxBranches = 20;
 	} else if (diffLevel == "Medium") {
-		minRatio = 0.20;
-		maxRatio = 0.30;
+		minRatio = 0.15;
+		maxRatio = 0.3;
+		maxBranches = 50;
 	} else if (diffLevel == "Hard") {
-		minRatio = 0.12;
-		maxRatio = 0.20;
+		minRatio = 0.06;
+		maxRatio = 0.15;
 	} else if (diffLevel == "Super Hard") {
-		minRatio = 0.05;
-		maxRatio = 0.12;
+		minRatio = 0.01;
+		maxRatio = 0.06;
 	} else if (diffLevel == "Insane") {
 		minRatio = 0;
-		maxRatio = 0.05;
+		maxRatio = 0.01;
 	}
 	
 	var gameId = null;
 	var gameScore = 0;
-	while (gameId == null || gameScore < minRatio || gameScore > maxRatio) {
+	var numBranches = 100000;
+	while (gameId == null || ((gameScore < minRatio || gameScore > maxRatio) && numBranches > maxBranches)) {
 		var g = new PushPop();
 		g.init(4,4,null);
 		gameId = g.id;
 		var t = g.buildTree(null, g.stacks);
+		numBranches = t.numBranches;
 		gameScore = t.numSolutions/t.numBranches;
 	}
-	$("#gameId").text(gameId);
+	$("#gameId").html("<a target=\"_blank\" href=\"index.html#puzzle?game="+gameId+"\">"+gameId+"</a> ("+numBranches+", "+gameScore+")");
 }
 </script>
 
