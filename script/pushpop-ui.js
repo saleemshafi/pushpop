@@ -5,6 +5,7 @@ var audioExt = !!audioPlayer.canPlayType && "" != audioPlayer.canPlayType('audio
 var PushPopUI = {
   game: null,
   sound: true,
+  difficulty: "easy",
 
   newPuzzle: function() {
 	$("#gameMenu").hide(100);
@@ -22,7 +23,7 @@ var PushPopUI = {
 	$("#game-board").empty();
 	$("#solution").empty();
  	
-  	this.game = genGame(4,4, puzzleId);
+  	this.game = genGame(4,4, this.difficulty, puzzleId);
   	window.location.hash = "puzzle?game="+this.game.id;
   	this.render();
   	this.game.start(this.updateTimer);
@@ -55,6 +56,10 @@ var PushPopUI = {
   	} else {
   		$(".game").removeClass("shapes").addClass("numbers");
   	}
+  },
+  setDifficulty: function(level) {
+	this.difficulty = level;
+	this.resetPuzzle(null);
   },
   pieceMarkup: function(piece, depth) {
   	return '<div id="'+piece.id+'" style="z-index:'+(depth+1)+'" data-stack="'+piece.stack+'" class="piece color_'+piece.color+'"><div class="shape shape_'+piece.shape+'"></div></div>';

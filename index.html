@@ -50,11 +50,18 @@
 				<a data-role="button" data-theme="b" id="newBtn" data-mini="false" data-icon="star">New Puzzle</a>
 				<a data-role="button" data-theme="b" id="startOverBtn" data-mini="false" data-icon="refresh">Start Over</a>
 				<a data-role="button" data-theme="b" href="help.html" data-mini="false" data-icon="info" data-transition="slide">Help</a>
-				<select name="slider" id="sound-toggle" data-mini="false" data-theme="b" data-role="slider">
+				<select name="difficulty" id="difficulty" data-mini="false" data-theme="b" data-native-menu="false">
+					<option value="easy" selected="selected">Easy</option>
+					<option value="medium">Medium</option>
+					<option value="hard">Hard</option>
+					<option value="harder">Really Hard</option>
+					<option value="insane">Insane</option>
+				</select>
+				<select name="sound-toggle" id="sound-toggle" data-mini="false" data-theme="b" data-role="slider">
 					<option value="off">Sound Off</option>
 					<option value="on" selected="selected">Sound On</option>
 				</select>
-				<select name="slider" id="shape-toggle" data-mini="false" data-theme="b" data-role="slider">
+				<select name="shape-toggle" id="shape-toggle" data-mini="false" data-theme="b" data-role="slider">
 					<option value="off">Numbers</option>
 					<option value="on" selected="selected">Shapes</option>
 				</select>
@@ -115,6 +122,7 @@ $("#puzzle").bind('pageinit', function() {
 	$("#workarea").bind("click", function() { $("#gameMenu").hide(100); } );
 	$("#sound-toggle").bind("change", function() { PushPopUI.setSound($(this).val() == "on"); } );
 	$("#shape-toggle").bind("change", function() { PushPopUI.setShapes($(this).val() == "on"); } );
+	$("#difficulty").bind("change", function() { PushPopUI.setDifficulty($(this).val()); } );
     $("audio").trigger('load');
 	setSize();
 	window.addEventListener("resize", setSize);
