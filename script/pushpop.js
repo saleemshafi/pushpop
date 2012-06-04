@@ -1,10 +1,10 @@
 
-function genGame(numStacks, depth, id) {
+function genGame(numStacks, depth, difficulty, id) {
 	if (!numStacks) numStacks = 4;
 	if (!depth) depth = 4;
 	if (!id) id = null;
 
-	return new PushPop().init(numStacks, depth, id);
+	return new PushPop().init(numStacks, depth, difficulty, id);
 }
 
 function range(begin, end){
@@ -143,18 +143,47 @@ $.extend(PushPop.prototype, {
 			}
 			this.id = boardId;
 		},
-		init: function(numStacks, depth, id) {
+		init: function(numStacks, depth, difficulty, id) {
 			this.numStacks = numStacks;
 			this.depth = depth;
 			if (id == null || id == "") {
-				this.solution = this.generateSolution();
-				this.generateBoard( this.solution );
+				while (!this.matchesDifficulty(difficulty)) {
+					this.solution = this.generateSolution();
+					this.generateBoard( this.solution );
+				}
 			} else if (id.length==32){
 				this.rebuildBoard(id);
 			} else {
 				this.rememberBoard(id);
 			}
 			return this;
+		},
+		matchesDifficulty: function(level) {
+			if (this.id == null) return false;
+			var maxRatio, minRatio, maxBranches = 0;
+			if (level == "easy") {
+				minRatio = 0.3;
+				maxRatio = 1;
+				maxBranches = 20;
+			} else if (level == "medium") {
+				minRatio = 0.15;
+				maxRatio = 0.3;
+				maxBranches = 50;
+			} else if (level == "hard") {
+				minRatio = 0.06;
+				maxRatio = 0.15;
+			} else if (level == "harder") {
+				minRatio = 0.01;
+				maxRatio = 0.06;
+			} else if (level == "insane") {
+				minRatio = 0;
+				maxRatio = 0.01;
+			}
+
+			var t = this.buildTree(null, this.stacks);
+			var gameScore = t.numSolutions/t.numBranches;
+			var numBranches = t.numBranches;
+			return (gameScore >= minRatio && gameScore <= maxRatio) || numBranches < maxBranches;
 		},
 		start: function(timerListener) {
 			this.timer = new Timer();
