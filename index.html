@@ -54,8 +54,12 @@
 					<option value="off">Sound Off</option>
 					<option value="on" selected="selected">Sound On</option>
 				</select>
+				<select name="slider" id="shape-toggle" data-mini="false" data-theme="b" data-role="slider">
+					<option value="off">Numbers</option>
+					<option value="on" selected="selected">Shapes</option>
+				</select>
 			</div>
-			<div id="game" class="game">
+			<div id="game" class="game shapes">
 				<div id="game-stack" class="stack"></div>
 				<div id="game-board" class="game_board"></div>
 			</div>
@@ -110,6 +114,7 @@ $("#puzzle").bind('pageinit', function() {
   	$("#startOverBtn").bind("click", $.proxy(PushPopUI.startOver, PushPopUI));
 	$("#workarea").bind("click", function() { $("#gameMenu").hide(100); } );
 	$("#sound-toggle").bind("change", function() { PushPopUI.setSound($(this).val() == "on"); } );
+	$("#shape-toggle").bind("change", function() { PushPopUI.setShapes($(this).val() == "on"); } );
     $("audio").trigger('load');
 	setSize();
 	window.addEventListener("resize", setSize);

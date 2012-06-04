@@ -37,6 +37,15 @@ body {
   #pushpop .ui-dialog .buttons {
     margin-top: 25px; }
 
+#pushpop.small .ui-dialog .ui-dialog-contain {
+  padding: 10px; }
+  #pushpop.small .ui-dialog .ui-dialog-contain h1 {
+    font-size: 1.5em; }
+#pushpop.small .ui-dialog #quip {
+  font-size: 16px; }
+#pushpop.small .ui-dialog .buttons {
+  margin-top: 15px; }
+
 #pushpop #gameOver {
   width: 325px; }
 
@@ -45,6 +54,14 @@ body {
     width: 66px;
     min-height: 1px;
     padding-left: 10px; }
+  #pushpop.small .numbers .shape {
+    height: 36px;
+    margin-top: -18px;
+    font-size: 36px; }
+  #pushpop.small .shapes .shape_2 {
+    border-bottom-width: 40px;
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent; }
   #pushpop.small .piece {
     border-width: 3px;
     border-style: solid;
@@ -58,10 +75,6 @@ body {
     -webkit-box-shadow: 0 4px 5px 3px rgba(0, 0, 0, 0.5);
     -moz-box-shadow: 0 4px 5px 3px rgba(0, 0, 0, 0.5);
     box-shadow: 0 4px 5px 3px rgba(0, 0, 0, 0.5); }
-    #pushpop.small .piece .shape {
-      height: 36px;
-      margin-top: -18px;
-      font-size: 36px; }
   #pushpop.small #game-board {
     margin-right: auto;
     margin-left: auto;
@@ -95,6 +108,14 @@ body {
     width: 98px;
     min-height: 1px;
     padding-left: 15px; }
+  #pushpop.medium .numbers .shape {
+    height: 54px;
+    margin-top: -27px;
+    font-size: 54px; }
+  #pushpop.medium .shapes .shape_2 {
+    border-bottom-width: 60px;
+    border-left: 30px solid transparent;
+    border-right: 30px solid transparent; }
   #pushpop.medium .piece {
     border-width: 4px;
     border-style: solid;
@@ -108,10 +129,6 @@ body {
     -webkit-box-shadow: 0 4px 5px 3px rgba(0, 0, 0, 0.5);
     -moz-box-shadow: 0 4px 5px 3px rgba(0, 0, 0, 0.5);
     box-shadow: 0 4px 5px 3px rgba(0, 0, 0, 0.5); }
-    #pushpop.medium .piece .shape {
-      height: 54px;
-      margin-top: -27px;
-      font-size: 54px; }
   #pushpop.medium #game-board {
     margin-right: auto;
     margin-left: auto;
@@ -137,6 +154,14 @@ body {
     width: 130px;
     min-height: 1px;
     padding-left: 20px; }
+  #pushpop.large .numbers .shape {
+    height: 72px;
+    margin-top: -36px;
+    font-size: 72px; }
+  #pushpop.large .shapes .shape_2 {
+    border-bottom-width: 80px;
+    border-left: 40px solid transparent;
+    border-right: 40px solid transparent; }
   #pushpop.large .piece {
     border-width: 5px;
     border-style: solid;
@@ -150,10 +175,6 @@ body {
     -webkit-box-shadow: 0 4px 5px 3px rgba(0, 0, 0, 0.5);
     -moz-box-shadow: 0 4px 5px 3px rgba(0, 0, 0, 0.5);
     box-shadow: 0 4px 5px 3px rgba(0, 0, 0, 0.5); }
-    #pushpop.large .piece .shape {
-      height: 72px;
-      margin-top: -36px;
-      font-size: 72px; }
   #pushpop.large #game-board {
     margin-right: auto;
     margin-left: auto;
@@ -179,6 +200,14 @@ body {
     width: 66px;
     min-height: 1px;
     padding-left: 10px; }
+  #pushpop.small .numbers .shape {
+    height: 36px;
+    margin-top: -18px;
+    font-size: 36px; }
+  #pushpop.small .shapes .shape_2 {
+    border-bottom-width: 40px;
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent; }
   #pushpop.small .piece {
     border-width: 3px;
     border-style: solid;
@@ -192,10 +221,6 @@ body {
     -webkit-box-shadow: 0 4px 5px 3px rgba(0, 0, 0, 0.5);
     -moz-box-shadow: 0 4px 5px 3px rgba(0, 0, 0, 0.5);
     box-shadow: 0 4px 5px 3px rgba(0, 0, 0, 0.5); }
-    #pushpop.small .piece .shape {
-      height: 36px;
-      margin-top: -18px;
-      font-size: 36px; }
   #pushpop.small .game {
     width: 410px;
     top: 50%;
@@ -217,6 +242,14 @@ body {
     width: 98px;
     min-height: 1px;
     padding-left: 15px; }
+  #pushpop.medium .numbers .shape {
+    height: 54px;
+    margin-top: -27px;
+    font-size: 54px; }
+  #pushpop.medium .shapes .shape_2 {
+    border-bottom-width: 60px;
+    border-left: 30px solid transparent;
+    border-right: 30px solid transparent; }
   #pushpop.medium .piece {
     border-width: 4px;
     border-style: solid;
@@ -230,10 +263,6 @@ body {
     -webkit-box-shadow: 0 4px 5px 3px rgba(0, 0, 0, 0.5);
     -moz-box-shadow: 0 4px 5px 3px rgba(0, 0, 0, 0.5);
     box-shadow: 0 4px 5px 3px rgba(0, 0, 0, 0.5); }
-    #pushpop.medium .piece .shape {
-      height: 54px;
-      margin-top: -27px;
-      font-size: 54px; }
   #pushpop.medium .game {
     width: 580px;
     top: 50%;
@@ -255,6 +284,14 @@ body {
     width: 130px;
     min-height: 1px;
     padding-left: 20px; }
+  #pushpop.large .numbers .shape {
+    height: 72px;
+    margin-top: -36px;
+    font-size: 72px; }
+  #pushpop.large .shapes .shape_2 {
+    border-bottom-width: 80px;
+    border-left: 40px solid transparent;
+    border-right: 40px solid transparent; }
   #pushpop.large .piece {
     border-width: 5px;
     border-style: solid;
@@ -268,10 +305,6 @@ body {
     -webkit-box-shadow: 0 4px 5px 3px rgba(0, 0, 0, 0.5);
     -moz-box-shadow: 0 4px 5px 3px rgba(0, 0, 0, 0.5);
     box-shadow: 0 4px 5px 3px rgba(0, 0, 0, 0.5); }
-    #pushpop.large .piece .shape {
-      height: 72px;
-      margin-top: -36px;
-      font-size: 72px; }
   #pushpop.large .game {
     width: 824px;
     top: 50%;
@@ -297,8 +330,8 @@ body {
   border-color: red; }
 
 .color_1 {
-  background-color: #ffff80;
-  border-color: yellow; }
+  background-color: #ffd880;
+  border-color: #ffb000; }
 
 .color_2 {
   background-color: #8080ff;
@@ -307,6 +340,81 @@ body {
 .color_3 {
   background-color: lime;
   border-color: green; }
+
+.shapes .color_0 .shape {
+  background-color: red;
+  border-bottom-color: red; }
+.shapes .color_1 .shape {
+  background-color: #FFB000;
+  border-bottom-color: #FFB000; }
+.shapes .color_2 .shape {
+  background-color: blue;
+  border-bottom-color: blue; }
+.shapes .color_3 .shape {
+  background-color: green;
+  border-bottom-color: green; }
+
+.numbers .shape {
+  position: absolute;
+  top: 50%;
+  text-align: center;
+  text-shadow: none;
+  color: #000;
+  width: 100%;
+  line-height: 1; }
+.numbers .shape_0::before {
+  content: "1"; }
+.numbers .shape_1::before {
+  content: "2"; }
+.numbers .shape_2::before {
+  content: "3"; }
+.numbers .shape_3::before {
+  content: "4"; }
+
+.shapes .piece .shape_0 {
+  width: 66%;
+  height: 66%;
+  border-radius: 120px;
+  top: 50%;
+  margin: -33% auto 0 auto;
+  position: relative;
+  content: ""; }
+.shapes .shape_1 {
+  width: 60%;
+  height: 60%;
+  top: 50%;
+  margin: -30% auto 0 auto;
+  position: relative;
+  content: ""; }
+.shapes .shape_2 {
+  width: 0;
+  height: 0;
+  top: 50%;
+  background: none !important;
+  border-bottom-style: solid;
+  margin: -33% auto 0 auto;
+  position: relative;
+  content: ""; }
+.shapes .shape_3 {
+  width: 50%;
+  height: 50%;
+  top: 50%;
+  left: 50%;
+  margin: -12% 0 0 0;
+  position: relative;
+  content: "";
+  /* Rotate */
+  -webkit-transform: rotate(-45deg);
+  -moz-transform: rotate(-45deg);
+  -ms-transform: rotate(-45deg);
+  -o-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+  /* Rotate Origin */
+  -webkit-transform-origin: 0 100%;
+  -moz-transform-origin: 0 100%;
+  -ms-transform-origin: 0 100%;
+  -o-transform-origin: 0 100%;
+  transform-origin: 0 100%; }
 
 #game-stack {
   border-color: #888; }
@@ -434,14 +542,6 @@ body .help-text {
 
 .piece {
   position: relative; }
-  .piece .shape {
-    position: absolute;
-    top: 50%;
-    text-align: center;
-    text-shadow: none;
-    color: #000;
-    width: 100%;
-    line-height: 1; }
 
 @media screen and (orientation:portrait) {
   .ui-page {

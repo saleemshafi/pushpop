@@ -49,8 +49,15 @@ var PushPopUI = {
   setSound: function(soundOn) {
   	this.sound = soundOn === true;
   },
+  setShapes: function(shapesOn) {
+  	if (shapesOn) {
+  		$(".game").removeClass("numbers").addClass("shapes");
+  	} else {
+  		$(".game").removeClass("shapes").addClass("numbers");
+  	}
+  },
   pieceMarkup: function(piece, depth) {
-  	return '<div id="'+piece.id+'" style="z-index:'+(depth+1)+'" data-stack="'+piece.stack+'" class="piece color_'+piece.color+'"><div class="shape">'+piece.shape+'</div></div>';
+  	return '<div id="'+piece.id+'" style="z-index:'+(depth+1)+'" data-stack="'+piece.stack+'" class="piece color_'+piece.color+'"><div class="shape shape_'+piece.shape+'"></div></div>';
   },
   startOver: function() {
 	$("#gameMenu").hide(100);
@@ -127,7 +134,7 @@ var PushPopUI = {
 			} else {
 				endPoint = {"left":"0","opacity":1,"position":"absolute"};
 			}
-			$("#game-stack").prepend('<div id="stack-'+piece.id+'" class="piece color_'+piece.color+'" style="'+mainStyle+startPoint+'"><div class="shape">'+piece.shape+'</div></div>');
+			$("#game-stack").prepend('<div id="stack-'+piece.id+'" class="piece color_'+piece.color+'" style="'+mainStyle+startPoint+'"><div class="shape shape_'+piece.shape+'"></div></div>');
 			var topStack = $("#game-stack .piece").filter(":first");
 			topStack.click( $.proxy(this.renderPopGuessStack, this) );
 			topStack.animate(endPoint, {complete: $.proxy(function() { 
