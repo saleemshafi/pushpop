@@ -46,6 +46,8 @@ var PushPop = function() {
 		this.solution = null;
 }
 
+PushPop.DIFFICULTIES = ["easy","medium","hard","harder","insane"];
+
 $.extend(PushPop.prototype, {
 		startOver: function() {
 			while (this.popGuessStack());
@@ -146,6 +148,10 @@ $.extend(PushPop.prototype, {
 		init: function(numStacks, depth, difficulty, id) {
 			this.numStacks = numStacks;
 			this.depth = depth;
+			if (PushPop.DIFFICULTIES.indexOf(difficulty) == -1) {
+				difficulty = "easy";
+			}
+
 			if (id == null || id == "") {
 				while (!this.matchesDifficulty(difficulty)) {
 					this.solution = this.generateSolution();

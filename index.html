@@ -59,13 +59,13 @@
 					<option value="harder">Really Hard</option>
 					<option value="insane">Insane</option>
 				</select>
-				<select name="sound-toggle" id="sound-toggle" data-mini="false" data-theme="b" data-role="slider">
+				<select name="sound" id="sound" data-mini="false" data-theme="b" data-role="slider">
 					<option value="off">Sound Off</option>
 					<option value="on" selected="selected">Sound On</option>
 				</select>
-				<select name="shape-toggle" id="shape-toggle" data-mini="false" data-theme="b" data-role="slider">
-					<option value="off">Numbers</option>
-					<option value="on" selected="selected">Shapes</option>
+				<select name="shapes" id="shapes" data-mini="false" data-theme="b" data-role="slider">
+					<option value="numbers">Numbers</option>
+					<option value="shapes" selected="selected">Shapes</option>
 				</select>
 			</div>
 			<div id="game" class="game shapes">
@@ -122,10 +122,11 @@ $("#puzzle").bind('pageinit', function() {
   	$("#newBtn").bind("click", $.proxy(PushPopUI.newPuzzle, PushPopUI));
   	$("#startOverBtn").bind("click", $.proxy(PushPopUI.startOver, PushPopUI));
 	$("#workarea").bind("click", function() { $("#gameMenu").hide(100); } );
-	$("#sound-toggle").bind("change", function() { PushPopUI.setSound($(this).val() == "on"); } );
-	$("#shape-toggle").bind("change", function() { PushPopUI.setShapes($(this).val() == "on"); } );
+	$("#sound").bind("change", function() { PushPopUI.setSound($(this).val() != "off"); } );
+	$("#shapes").bind("change", function() { PushPopUI.setShapes($(this).val()); } );
 	$("#difficulty").bind("change", function() { PushPopUI.setDifficulty($(this).val()); } );
     $("audio").trigger('load');
+
 	setSize();
 	window.addEventListener("resize", setSize);
 });
