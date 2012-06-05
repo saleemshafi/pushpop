@@ -176,15 +176,17 @@ var PushPopUI = {
 			});
 		},
 		renderPopGuessStack: function(event) {
-			var card = $("#game-stack .piece").filter(":first");
 			var piece = this.game.popGuessStack();
-			var orientation = this.currentOrientation();
-			var endPoint = orientation == "landscape" ? {"top":"-110px","opacity":0} : {"left":"-235px","opacity":0};
-			this.renderPushToGameStack(piece);
-            this.playSound("push");
-			card.animate(endPoint, {complete: $.proxy(function() { 
-				card.remove(); } )
-			});
+			if (piece) {
+				var card = $("#stack-"+piece.id);
+				var orientation = this.currentOrientation();
+				var endPoint = orientation == "landscape" ? {"top":"-110px","opacity":0} : {"left":"-235px","opacity":0};
+				this.renderPushToGameStack(piece);
+	            this.playSound("push");
+				card.animate(endPoint, {complete: function() { 
+					$(this).remove();
+				} });
+			}
 		},
 		renderPushToGameStack: function(piece) {
 			var depth = this.game.stacks[piece.stack].length;
