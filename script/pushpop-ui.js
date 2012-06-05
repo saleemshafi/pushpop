@@ -4,9 +4,24 @@ var audioExt = !!audioPlayer.canPlayType && "" != audioPlayer.canPlayType('audio
 
 var PushPopUI = {
   game: null,
-  sound: true,
-  difficulty: "easy",
+  sound: false,
+  difficulty: null,
 
+  init: function() {
+	if (window.localStorage) {
+		this.sound = localStorage.getItem("pushpop.sound") != "off";
+		this.difficulty = localStorage.getItem("pushpop.difficulty");
+		this.setShapes(localStorage.getItem("pushpop.shapes"));
+	} else {
+		this.sound = true;
+		this.setShapes("shapes");
+	}
+	if (PushPop.DIFFICULTIES.indexOf(this.difficulty) == -1) {
+		this.difficulty = "easy";
+	}
+	$("#sound").val(this.sound ? "on":"off").slider("refresh");
+	$("#difficulty").val(this.difficulty).selectmenu("refresh");
+  },
   newPuzzle: function() {
 	$("#gameMenu").hide(100);
   	if (this.game.attempted && !this.game.puzzleFinished()) {
@@ -49,16 +64,28 @@ var PushPopUI = {
   },
   setSound: function(soundOn) {
   	this.sound = soundOn === true;
+  	if (window.localStorage) {
+  		localStorage.setItem("pushpop.sound", soundOn ? "on" : "off");
+  	}
   },
-  setShapes: function(shapesOn) {
-  	if (shapesOn) {
-  		$(".game").removeClass("numbers").addClass("shapes");
-  	} else {
+  setShapes: function(shapes) {
+  	if (shapes == "numbers") {
   		$(".game").removeClass("shapes").addClass("numbers");
+  		$("#shapes").val("numbers").slider("refresh");
+  	} else {
+  		$(".game").removeClass("numbers").addClass("shapes");
+  		$("#shapes").val("shapes").slider("refresh");
+  		shapes = "shapes";
+  	}
+  	if (window.localStorage) {
+  		localStorage.setItem("pushpop.shapes", shapes);
   	}
   },
   setDifficulty: function(level) {
 	this.difficulty = level;
+  	if (window.localStorage) {
+  		localStorage.setItem("pushpop.difficulty", level);
+  	}
 	this.resetPuzzle(null);
   },
   pieceMarkup: function(piece, depth) {
@@ -239,3 +266,7 @@ var PushPopUI = {
 							"I'd like to see you do that again."],
 			},
 };
+
+$(document).ready(function() {
+	PushPopUI.init();
+});
