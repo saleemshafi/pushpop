@@ -1,54 +1,47 @@
-
-function genGame(numStacks, depth, difficulty, id) {
-	if (!numStacks) numStacks = 4;
-	if (!depth) depth = 4;
-	if (!id) id = null;
-
-	return new PushPop().init(numStacks, depth, difficulty, id);
-}
-
-function range(begin, end){
-	var range = [];
-    for (var i = 0; i < end; ++i){
-        range[i]=i;
-    }
-    return range;
-}
-
-var Piece = function(color, shape, stack) {
-	this.color = color;
-	this.shape = shape;
-	this.stack = stack;
-}
-
-$.extend(Piece.prototype, {
-	matches: function(piece) { 
-		return this.color == piece.color || this.shape == piece.shape;
-	},
-	findMatchingPieces: function(pieces) {
-		var matching = [];
-		for (var i = 0; i < pieces.length; i++) {
-			if (this.matches(pieces[i])) {
-				matching.push(i);
-			}
-		}
-		return matching;
+(function($) {
+	
+	function range(begin, end){
+		var range = [];
+	    for (var i = 0; i < end; ++i){
+	        range[i]=i;
+	    }
+	    return range;
 	}
-});
+	
+	var Piece = function(color, shape, stack) {
+		this.color = color;
+		this.shape = shape;
+		this.stack = stack;
+	}
+	
+	$.extend(Piece.prototype, {
+		matches: function(piece) { 
+			return this.color == piece.color || this.shape == piece.shape;
+		},
+		findMatchingPieces: function(pieces) {
+			var matching = [];
+			for (var i = 0; i < pieces.length; i++) {
+				if (this.matches(pieces[i])) {
+					matching.push(i);
+				}
+			}
+			return matching;
+		}
+	});
 
-var PushPop = function() {
-		this.stacks = [];
-		this.guess = [];
-		this.timer = null;
-		this.timerRefresh = 0;
-		this.id = null;
-		this.attempted = false;
-		this.solution = null;
-}
+	var _PushPop = function() {
+			this.stacks = [];
+			this.guess = [];
+			this.timer = null;
+			this.timerRefresh = 0;
+			this.id = null;
+			this.attempted = false;
+			this.solution = null;
+	}
 
-PushPop.DIFFICULTIES = ["easy","medium","hard","harder","insane"];
+	_PushPop.DIFFICULTIES = ["easy","medium","hard","harder","insane"];
 
-$.extend(PushPop.prototype, {
+	$.extend(_PushPop.prototype, {
 		startOver: function() {
 			while (this.popGuessStack());
 		},
@@ -272,3 +265,6 @@ $.extend(PushPop.prototype, {
 			return solutionTree;
 		}
 	});
+
+	window.PushPop = _PushPop;
+})(jQuery);

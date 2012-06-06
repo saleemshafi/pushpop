@@ -31,14 +31,15 @@ var PushPopUI = {
   	}
   },
   resetPuzzle: function(puzzleId) {
+	if (!puzzleId) puzzleId = null;
   	if (this.game != null) {
 	  	this.game.shutdown();
   	}
 	$("#game-stack").empty();
 	$("#game-board").empty();
 	$("#solution").empty();
- 	
-  	this.game = genGame(4,4, this.difficulty, puzzleId);
+
+	this.game = new PushPop().init(4, 4, this.difficulty, puzzleId);
   	window.location.hash = "puzzle?game="+this.game.id;
   	this.render();
   	this.game.start(this.updateTimer);
