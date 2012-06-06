@@ -1,54 +1,47 @@
-
-function genGame(numStacks, depth, difficulty, id) {
-	if (!numStacks) numStacks = 4;
-	if (!depth) depth = 4;
-	if (!id) id = null;
-
-	return new PushPop().init(numStacks, depth, difficulty, id);
-}
-
-function range(begin, end){
-	var range = [];
-    for (var i = 0; i < end; ++i){
-        range[i]=i;
-    }
-    return range;
-}
-
-var Piece = function(color, shape, stack) {
-	this.color = color;
-	this.shape = shape;
-	this.stack = stack;
-}
-
-$.extend(Piece.prototype, {
-	matches: function(piece) { 
-		return this.color == piece.color || this.shape == piece.shape;
-	},
-	findMatchingPieces: function(pieces) {
-		var matching = [];
-		for (var i = 0; i < pieces.length; i++) {
-			if (this.matches(pieces[i])) {
-				matching.push(i);
-			}
-		}
-		return matching;
+(function($, window, undefined) {
+	
+	function range(begin, end){
+		var range = [];
+	    for (var i = 0; i < end; ++i){
+	        range[i]=i;
+	    }
+	    return range;
 	}
-});
+	
+	var Piece = function(color, shape, stack) {
+		this.color = color;
+		this.shape = shape;
+		this.stack = stack;
+	}
+	
+	$.extend(Piece.prototype, {
+		matches: function(piece) { 
+			return this.color == piece.color || this.shape == piece.shape;
+		},
+		findMatchingPieces: function(pieces) {
+			var matching = [];
+			for (var i = 0; i < pieces.length; i++) {
+				if (this.matches(pieces[i])) {
+					matching.push(i);
+				}
+			}
+			return matching;
+		}
+	});
 
-var PushPop = function() {
-		this.stacks = [];
-		this.guess = [];
-		this.timer = null;
-		this.timerRefresh = 0;
-		this.id = null;
-		this.attempted = false;
-		this.solution = null;
-}
+	var _PushPop = function() {
+			this.stacks = [];
+			this.guess = [];
+			this.timer = null;
+			this.timerRefresh = 0;
+			this.id = null;
+			this.attempted = false;
+			this.solution = null;
+	}
 
-PushPop.DIFFICULTIES = ["easy","medium","hard","harder","insane"];
+	_PushPop.DIFFICULTIES = ["easy","medium","hard","harder","insane"];
 
-$.extend(PushPop.prototype, {
+	$.extend(_PushPop.prototype, {
 		startOver: function() {
 			while (this.popGuessStack());
 		},
@@ -218,14 +211,16 @@ $.extend(PushPop.prototype, {
 		popStack: function(stack) {
 			var lastPiece = this.guess.length > 0 ? this.guess[this.guess.length-1] : null;
 			var piece = this.stacks[stack].pop();
-			if (lastPiece == null || lastPiece.matches(piece)) {
-				this.guess.push(piece);
-				this.attempted = true;
-				return piece;
-			} else {
-				this.stacks[stack].push(piece);
-				return false;
+			if (piece) {
+				if (lastPiece == null || lastPiece.matches(piece)) {
+					this.guess.push(piece);
+					this.attempted = true;
+					return piece;
+				} else {
+					this.stacks[stack].push(piece);
+				}
 			}
+			return false;
 		},
 		buildTree: function(solutionTree, treeStacks) {
 			solutionTree = solutionTree || { piece: null, options: []};
@@ -235,43 +230,39 @@ $.extend(PushPop.prototype, {
 			for (var i = 0; i < treeStacks.length; i++) {
 				var stackLength = treeStacks[i].length;
 				if (solutionTree.piece == null || (stackLength > 0 && treeStacks[i][stackLength-1].matches(solutionTree.piece))) {
-					var newStacks = doubleSlice(treeStacks);
+					var newStacks = treeStacks.slice();
+					for (var j = 0; j < newStacks.length; j++) {
+						newStacks[j] = newStacks[j].slice();
+					}
 					var newBranch = this.buildTree({ piece: newStacks[i].pop(), options: []}, newStacks);
 					solutionTree.options.push(newBranch);
 				}
 			}
 
-					if (solutionTree.options.length == 0) {
-						var finished = true;
-						for (var j = 0; j< treeStacks.length; j++) {
-							finished = finished && treeStacks[j].length == 0;
-						}
-						solutionTree.solution = finished;
-						solutionTree.numBranches = 1;
-						solutionTree.numSolutions = finished ? 1 : 0;
-					} else {
-						solutionTree.solution = solutionTree.options[0].solution;
-						for (var j = 0; j < solutionTree.options.length; j++) {
-							solutionTree.numSolutions += solutionTree.options[j].numSolutions;
-							solutionTree.numBranches += solutionTree.options[j].numBranches;
-							if (solutionTree.solution != solutionTree.options[j].solution) {
-								solutionTree.decisionPoint = solutionTree.solution != undefined &&
-									solutionTree.options[j].solution != undefined;
-								solutionTree.solution = undefined;
-							}
-						}
+			if (solutionTree.options.length == 0) {
+				var finished = true;
+				for (var j = 0; j< treeStacks.length; j++) {
+					finished = finished && treeStacks[j].length == 0;
+				}
+				solutionTree.solution = finished;
+				solutionTree.numBranches = 1;
+				solutionTree.numSolutions = finished ? 1 : 0;
+			} else {
+				solutionTree.solution = solutionTree.options[0].solution;
+				for (var j = 0; j < solutionTree.options.length; j++) {
+					solutionTree.numSolutions += solutionTree.options[j].numSolutions;
+					solutionTree.numBranches += solutionTree.options[j].numBranches;
+					if (solutionTree.solution != solutionTree.options[j].solution) {
+						solutionTree.decisionPoint = solutionTree.solution != undefined &&
+							solutionTree.options[j].solution != undefined;
+						solutionTree.solution = undefined;
 					}
-
-
+				}
+			}
 
 			return solutionTree;
 		}
 	});
 
-function doubleSlice(oldArray) {
-	var newArray = oldArray.slice();
-	for (var j = 0; j < newArray.length; j++) {
-		newArray[j] = newArray[j].slice();
-	}
-	return newArray;
-}
+	window.PushPop = _PushPop;
+})(jQuery, window);

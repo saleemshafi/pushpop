@@ -13,9 +13,9 @@
 	<script src="script/jquery.jrumble.1.3.js"></script>
 	<script src="script/jqm.page.params.js"></script>
 
-	<script src="script/pushpop-ui.js"></script>
 	<script src="script/timer.js"></script>
 	<script src="script/pushpop.js"></script>
+	<script src="script/pushpop-ui.js"></script>
 	
 	<script src="../src-platform/cordova-1.7.0.js"></script>
 	<script src="../src-platform/adPlugin.js"></script>
@@ -98,61 +98,6 @@
 			<a href="#puzzle" data-role="button" data-theme="b" data-icon="star">I'm ready for a new puzzle</a>
 		</div>
 	</div>
-	
-	<script>
-	
-function setSize() {
-	var sWidth = window.innerWidth;
-	var sHeight = window.innerHeight;
-	if ((sWidth > 900 && sHeight >= 600) 
-		|| (sWidth > 600 && sHeight > 900)) {
-		$("body").addClass("large").removeClass("medium").removeClass("small");
-	} else if ((sWidth >= 640 && sHeight >= 480) 
-		|| (sWidth >= 480 && sHeight >= 640)) {
-		$("body").removeClass("large").addClass("medium").removeClass("small");
-	} else {
-		$("body").removeClass("large").removeClass("medium").addClass("small");
-	}	
-}
-
-$("#puzzle").bind('pageinit', function() {
-  	// not using vclick or tap because of note on http://jquerymobile.com/test/docs/api/events.html
-  	// need to revisit if the click responsiveness is too slow
-  	$("#menuBtn").bind("click", function() { $("#gameMenu").toggle(100); });
-  	$("#newBtn").bind("click", $.proxy(PushPopUI.newPuzzle, PushPopUI));
-  	$("#startOverBtn").bind("click", $.proxy(PushPopUI.startOver, PushPopUI));
-	$("#workarea").bind("click", function() { $("#gameMenu").hide(100); } );
-	$("#sound").bind("change", function() { PushPopUI.setSound($(this).val() != "off"); } );
-	$("#shapes").bind("change", function() { PushPopUI.setShapes($(this).val()); } );
-	$("#difficulty").bind("change", function() { PushPopUI.setDifficulty($(this).val()); } );
-    $("audio").trigger('load');
-
-	setSize();
-	window.addEventListener("resize", setSize);
-});
-
-$(document).bind('pagechange', function(e, data) {
-	if (data.toPage[0].id == "puzzle") {
-		var id = data.options.pageData ? data.options.pageData.game : null;
-		if (!PushPopUI.game || id != PushPopUI.game.id) {
-			PushPopUI.resetPuzzle(id);
-		}
-	}
-});
-
-$("#puzzle").bind('pagebeforehide', function() {
-	PushPopUI.pauseTimer();
-});
-$("#puzzle").bind('pageshow', function() {
-	PushPopUI.resumeTimer();
-});
-$("#gameOver").bind('pageshow', function() {
-    PushPopUI.playSound("applause");
-});
-$("#gameOver").bind('pagehide', function() {
-	PushPopUI.resetPuzzle();
-});
-	</script>
 	<script src="script/jqmobiledialogfix.js"></script>
 </body>
 </html>

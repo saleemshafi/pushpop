@@ -479,10 +479,7 @@ body .help-text {
   .stack {
     display: inline-block;
     vertical-align: top;
-    .piece:first-child {
-      cursor: pointer;
-      opacity:1;
-    }
+    cursor: pointer;
   }
   .stack:first-child {
     padding-left:0 !important;

@@ -533,10 +533,8 @@ body .help-text {
 
 #game-board .stack {
   display: inline-block;
-  vertical-align: top; }
-  #game-board .stack .piece:first-child {
-    cursor: pointer;
-    opacity: 1; }
+  vertical-align: top;
+  cursor: pointer; }
 #game-board .stack:first-child {
   padding-left: 0 !important; }
 
