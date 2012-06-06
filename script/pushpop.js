@@ -218,14 +218,16 @@ $.extend(PushPop.prototype, {
 		popStack: function(stack) {
 			var lastPiece = this.guess.length > 0 ? this.guess[this.guess.length-1] : null;
 			var piece = this.stacks[stack].pop();
-			if (lastPiece == null || lastPiece.matches(piece)) {
-				this.guess.push(piece);
-				this.attempted = true;
-				return piece;
-			} else {
-				this.stacks[stack].push(piece);
-				return false;
+			if (piece) {
+				if (lastPiece == null || lastPiece.matches(piece)) {
+					this.guess.push(piece);
+					this.attempted = true;
+					return piece;
+				} else {
+					this.stacks[stack].push(piece);
+				}
 			}
+			return false;
 		},
 		buildTree: function(solutionTree, treeStacks) {
 			solutionTree = solutionTree || { piece: null, options: []};

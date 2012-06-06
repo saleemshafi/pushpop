@@ -70,10 +70,10 @@ var PushPopUI = {
   },
   setShapes: function(shapes) {
   	if (shapes == "numbers") {
-  		$(".game").removeClass("shapes").addClass("numbers");
+  		$("#game").removeClass("shapes").addClass("numbers");
   		$("#shapes").val("numbers").slider("refresh");
   	} else {
-  		$(".game").removeClass("numbers").addClass("shapes");
+  		$("#game").removeClass("numbers").addClass("shapes");
   		$("#shapes").val("shapes").slider("refresh");
   		shapes = "shapes";
   	}
@@ -101,23 +101,23 @@ var PushPopUI = {
 				var gb = $('#game-board');
 				gb.empty();
 				var index = 0;
+				var gbHtml = "";
 				for(var i=0; i < this.game.stacks.length; i++) {
-					gb.append('<div class="stack" id="stack'+i+'"></div>');
-					var row = $('#stack'+i);
-					row.hover(function() {$(this).addClass("hover"); }, function() {$(this).removeClass("hover"); });
+					gbHtml += '<div class="stack" id="stack'+i+'" data-stack="'+i+'">';
 					var max = this.game.stacks[i].length-1;
 					for(var j=max; j >= 0; j--) {
 						var piece = this.game.stacks[i][j];
-						row.append(this.pieceMarkup(piece, j));
+						gbHtml += this.pieceMarkup(piece, j);
 						index++;
 					}
-					var stackNum = i;
-					row.find(".piece").filter(":first").click( $.proxy( this.renderPopStack, this) );
+					gbHtml += '</div>';
 				}
-				$(".piece").jrumble({x:3, y:3, rotation:5});
+				gb.append(gbHtml);
+				gb.find("div.stack").click( $.proxy( this.renderPopStack, this) );
+				gb.find("div.piece").jrumble({x:3, y:3, rotation:5});
 		},
 		getSize: function() {
-			var body = $("body");
+			var body = $("#pushpop");
 			return body.hasClass("large") ? "large" : (body.hasClass("medium") ? "medium" : "small");
 		},
         playSound: function(soundName) {
@@ -137,17 +137,19 @@ var PushPopUI = {
 				if (size == "medium") endPoint = "-75px";
 				else if (size == "small") endPoint = "-50px";
 				$("#"+piece.id).animate({"opacity":0, "margin-top":endPoint}, 
-					{complete:$.proxy(function() { this.render(); }, this)});	
+					{complete:function() { $(this).remove(); }});	
                 this.playSound("pop");
 				if (this.game.puzzleFinished()) {
 					this.onPuzzleFinished();
 				}
 			} else {
 				var stx = this.game.stacks[stack];
-				var wouldBePiece = $("#"+stx[stx.length-1].id);
-				wouldBePiece.trigger("startRumble");
-                this.playSound("error");
-				setTimeout(function() { wouldBePiece.trigger("stopRumble"); }, 300);
+				if (stx.length > 0) {
+					var wouldBePiece = $("#"+stx[stx.length-1].id);
+					wouldBePiece.trigger("startRumble");
+	                this.playSound("error");
+					setTimeout(function() { wouldBePiece.trigger("stopRumble"); }, 300);
+				}
 			}
 		},
 		currentOrientation: function() {
@@ -167,7 +169,7 @@ var PushPopUI = {
 				endPoint = {"left":"0","opacity":1,"position":"absolute"};
 			}
 			$("#game-stack").prepend('<div id="stack-'+piece.id+'" class="piece color_'+piece.color+'" style="'+mainStyle+startPoint+'"><div class="shape shape_'+piece.shape+'"></div></div>');
-			var topStack = $("#game-stack .piece").filter(":first");
+			var topStack = $("#game-stack .piece:first");
 			topStack.click( $.proxy(this.renderPopGuessStack, this) );
 			topStack.animate(endPoint, {complete: $.proxy(function() { 
 				// clear the style setting so that the elements can move from one orientation
@@ -200,7 +202,7 @@ var PushPopUI = {
 			pieceDiv.css("margin-top", "-105px");
 			
 			$("#"+piece.id).animate({"opacity":1, "margin-top":"0"}, 
-				{complete:$.proxy(function() { this.render(); }, this)});	
+				{complete:function() { $(this).css("position","relative"); } });	
 		},
 		onPuzzleFinished: function() {
 			var endTime = this.game.timer;
