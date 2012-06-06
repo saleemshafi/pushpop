@@ -237,7 +237,10 @@ $.extend(PushPop.prototype, {
 			for (var i = 0; i < treeStacks.length; i++) {
 				var stackLength = treeStacks[i].length;
 				if (solutionTree.piece == null || (stackLength > 0 && treeStacks[i][stackLength-1].matches(solutionTree.piece))) {
-					var newStacks = doubleSlice(treeStacks);
+					var newStacks = treeStacks.slice();
+					for (var j = 0; j < newStacks.length; j++) {
+						newStacks[j] = newStacks[j].slice();
+					}
 					var newBranch = this.buildTree({ piece: newStacks[i].pop(), options: []}, newStacks);
 					solutionTree.options.push(newBranch);
 				}
@@ -269,11 +272,3 @@ $.extend(PushPop.prototype, {
 			return solutionTree;
 		}
 	});
-
-function doubleSlice(oldArray) {
-	var newArray = oldArray.slice();
-	for (var j = 0; j < newArray.length; j++) {
-		newArray[j] = newArray[j].slice();
-	}
-	return newArray;
-}
