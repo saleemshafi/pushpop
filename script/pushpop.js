@@ -1,4 +1,4 @@
-(function($) {
+(function($, window, undefined) {
 	
 	function range(begin, end){
 		var range = [];
@@ -239,32 +239,30 @@
 				}
 			}
 
-					if (solutionTree.options.length == 0) {
-						var finished = true;
-						for (var j = 0; j< treeStacks.length; j++) {
-							finished = finished && treeStacks[j].length == 0;
-						}
-						solutionTree.solution = finished;
-						solutionTree.numBranches = 1;
-						solutionTree.numSolutions = finished ? 1 : 0;
-					} else {
-						solutionTree.solution = solutionTree.options[0].solution;
-						for (var j = 0; j < solutionTree.options.length; j++) {
-							solutionTree.numSolutions += solutionTree.options[j].numSolutions;
-							solutionTree.numBranches += solutionTree.options[j].numBranches;
-							if (solutionTree.solution != solutionTree.options[j].solution) {
-								solutionTree.decisionPoint = solutionTree.solution != undefined &&
-									solutionTree.options[j].solution != undefined;
-								solutionTree.solution = undefined;
-							}
-						}
+			if (solutionTree.options.length == 0) {
+				var finished = true;
+				for (var j = 0; j< treeStacks.length; j++) {
+					finished = finished && treeStacks[j].length == 0;
+				}
+				solutionTree.solution = finished;
+				solutionTree.numBranches = 1;
+				solutionTree.numSolutions = finished ? 1 : 0;
+			} else {
+				solutionTree.solution = solutionTree.options[0].solution;
+				for (var j = 0; j < solutionTree.options.length; j++) {
+					solutionTree.numSolutions += solutionTree.options[j].numSolutions;
+					solutionTree.numBranches += solutionTree.options[j].numBranches;
+					if (solutionTree.solution != solutionTree.options[j].solution) {
+						solutionTree.decisionPoint = solutionTree.solution != undefined &&
+							solutionTree.options[j].solution != undefined;
+						solutionTree.solution = undefined;
 					}
-
-
+				}
+			}
 
 			return solutionTree;
 		}
 	});
 
 	window.PushPop = _PushPop;
-})(jQuery);
+})(jQuery, window);
