@@ -54,6 +54,9 @@ body {
     width: 66px;
     min-height: 1px;
     padding-left: 10px; }
+  #pushpop.small #game-board .popped {
+    margin-top: -51px;
+    opacity: 0; }
   #pushpop.small .numbers .shape {
     height: 36px;
     margin-top: -18px;
@@ -108,6 +111,9 @@ body {
     width: 98px;
     min-height: 1px;
     padding-left: 15px; }
+  #pushpop.medium #game-board .popped {
+    margin-top: -75.5px;
+    opacity: 0; }
   #pushpop.medium .numbers .shape {
     height: 54px;
     margin-top: -27px;
@@ -154,6 +160,9 @@ body {
     width: 130px;
     min-height: 1px;
     padding-left: 20px; }
+  #pushpop.large #game-board .popped {
+    margin-top: -100px;
+    opacity: 0; }
   #pushpop.large .numbers .shape {
     height: 72px;
     margin-top: -36px;
@@ -200,6 +209,9 @@ body {
     width: 66px;
     min-height: 1px;
     padding-left: 10px; }
+  #pushpop.small #game-board .popped {
+    margin-top: -51px;
+    opacity: 0; }
   #pushpop.small .numbers .shape {
     height: 36px;
     margin-top: -18px;
@@ -242,6 +254,9 @@ body {
     width: 98px;
     min-height: 1px;
     padding-left: 15px; }
+  #pushpop.medium #game-board .popped {
+    margin-top: -75.5px;
+    opacity: 0; }
   #pushpop.medium .numbers .shape {
     height: 54px;
     margin-top: -27px;
@@ -284,6 +299,9 @@ body {
     width: 130px;
     min-height: 1px;
     padding-left: 20px; }
+  #pushpop.large #game-board .popped {
+    margin-top: -100px;
+    opacity: 0; }
   #pushpop.large .numbers .shape {
     height: 72px;
     margin-top: -36px;
@@ -420,6 +438,16 @@ body {
   border-color: #888; }
   #game-stack .piece {
     cursor: pointer; }
+
+#game-board .piece {
+  transition: opacity 600ms, margin-top 600ms;
+  -moz-transition: opacity 600ms, margin-top 600ms;
+  -webkit-transition: opacity 600ms, margin-top 600ms;
+  -o-transition: opacity 600ms, margin-top 600ms; }
+
+.piece.pushed {
+  margin-top: 0 !important;
+  opacity: 1 !important; }
 
 .ui-icon-pause {
   background-image: url("images/pause.png") !important; }

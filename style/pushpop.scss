@@ -6,6 +6,23 @@
   -webkit-border-radius: $radius;
 }
 
+@mixin transition($param1, $param2:false, $param3:false, $param4:false, $param5:false) {
+ $params: $param1;
+  @if $param2 
+    { $params: $param1, $param2; }
+    @if $param3 != false
+      { $params: $param1, $param2, $param3; }
+      @if $param4 != false
+        { $params: $param1, $param2, $param3, $param4; }
+        @if $param5 != false
+          { $params: $param1, $param2, $param3, $param4, $param5; }
+
+  transition: $params;
+  -moz-transition:$params;
+  -webkit-transition:$params;
+  -o-transition:$params;
+}
+
 @mixin box-shadow($shadow1, $shadow2:false, $shadow3:false, $shadow4:false, $shadow5:false) {
  $params: $shadow1;
   @if $shadow2 
@@ -112,6 +129,11 @@ body {
       width:$pieceWidth + ($pieceBorder * 2);
       min-height:1px;
       padding-left:$stack-padding; 
+    }
+    
+    .popped {
+      margin-top: -$pieceHeight - $pieceOverlap - (2*$pieceBorder);
+      opacity: 0;
     }
   }
 
@@ -239,17 +261,6 @@ body {
   }
 }
 
-@media (min-device-width: 480px) and (min-device-height: 640px) and (orientation:portrait) {
-}
-@media (min-device-width: 640px) and (min-device-height: 480px) and (orientation:landscape) {
-}
-
-@media (min-device-width: 600px) and (min-device-height: 1024px) and (orientation:portrait){
-}
-@media (min-device-width: 1024px) and (min-device-height: 600px) and (orientation:landscape){
-}
-
-
 /////////////////////////////////////////////////////////
 
 ///////////// Size agnostic ////////////////////
@@ -363,6 +374,15 @@ body {
   .piece {
     cursor: pointer;
   }
+}
+
+#game-board .piece {
+  @include transition(opacity 600ms, margin-top 600ms);
+}
+
+.piece.pushed {
+  margin-top: 0 !important;
+  opacity: 1 !important;  
 }
 
 .ui-icon-pause {

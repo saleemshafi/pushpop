@@ -90,8 +90,8 @@ var audioExt = !!audioPlayer.canPlayType && "" != audioPlayer.canPlayType('audio
 	  	}
 		this.resetPuzzle(null);
 	  },
-	  pieceMarkup: function(piece, depth) {
-	  	return '<div id="'+piece.id+'" style="z-index:'+(depth+1)+'" data-stack="'+piece.stack+'" class="piece color_'+piece.color+'"><div class="shape shape_'+piece.shape+'"></div></div>';
+	  pieceMarkup: function(piece, depth, extraClass) {
+	  	return '<div id="'+piece.id+'" style="z-index:'+(depth+1)+'" data-stack="'+piece.stack+'" class="piece color_'+piece.color+(extraClass?" "+extraClass:"")+'"><div class="shape shape_'+piece.shape+'"></div></div>';
 	  },
 	  startOver: function() {
 		$("#gameMenu").hide(100);
@@ -134,13 +134,9 @@ var audioExt = !!audioPlayer.canPlayType && "" != audioPlayer.canPlayType('audio
 				var piece = this.game.popStack(stack);
 				if (piece) {
 					this.renderPushToGuessStack(piece);
-					var size = this.getSize();
-					var endPoint = "-100px";
-					if (size == "medium") endPoint = "-75px";
-					else if (size == "small") endPoint = "-50px";
-					$("#"+piece.id).animate({"opacity":0, "margin-top":endPoint}, 
-						{complete:function() { $(this).remove(); }});	
 	                this.playSound("pop");
+					$("#"+piece.id).addClass("popped");
+					setTimeout(function() { $("#"+piece.id).remove() }, 600);
 					if (this.game.puzzleFinished()) {
 						this.onPuzzleFinished();
 					}
@@ -194,17 +190,12 @@ var audioExt = !!audioPlayer.canPlayType && "" != audioPlayer.canPlayType('audio
 			},
 			renderPushToGameStack: function(piece) {
 				var depth = this.game.stacks[piece.stack].length;
-				var markup = this.pieceMarkup(piece, depth);
+				var markup = this.pieceMarkup(piece, depth, "popped");
 				var row = $('#stack'+piece.stack);
 	
 				row.prepend(markup);
 				var pieceDiv = $("#"+piece.id);
-				pieceDiv.css("position", "absolute");
-				pieceDiv.css("opacity", 0);
-				pieceDiv.css("margin-top", "-105px");
-				
-				$("#"+piece.id).animate({"opacity":1, "margin-top":"0"}, 
-					{complete:function() { $(this).css("position","relative"); } });	
+				setTimeout(function() { pieceDiv.removeClass("popped"); }, 10);
 			},
 			onPuzzleFinished: function() {
 				var endTime = this.game.timer;
