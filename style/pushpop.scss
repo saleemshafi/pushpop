@@ -163,7 +163,6 @@ body {
 
 @mixin portrait_sizes($screenWidth, $screenHeight, $pieceWidth, $pieceHeight, $puzzleSidePadding, $pieceBorder) {
   @include all_the_sizes($screenWidth, $screenHeight, $pieceWidth, $pieceHeight, $puzzleSidePadding, $pieceBorder);
-  $solutionOverlap: 0.75;
   $stack-padding: $pieceWidth / 6;
   $pieceOverlap: -$pieceHeight / 4;
   #game-board {
@@ -177,6 +176,7 @@ body {
     margin-top: (-$gameHeight / 2) - ($toolbarHeight / 2);
   }
   #game-stack {
+    $solutionOverlap: 0.75;
     padding: 5px 0 5px 3px;
     margin: 0 auto $pieceHeight * 0.4 auto;
     height: $pieceHeight + ($pieceBorder*2);
@@ -194,7 +194,6 @@ body {
 
 @mixin landscape_sizes($screenWidth, $screenHeight, $pieceWidth, $pieceHeight, $puzzleSidePadding, $pieceBorder) {
   @include all_the_sizes($screenWidth, $screenHeight, $pieceWidth, $pieceHeight, $puzzleSidePadding, $pieceBorder);
-  $solutionOverlap: 0.85;
   $stack-padding: $pieceWidth / 6;
   $pieceOverlap: -$pieceHeight / 4;
   .game {
@@ -205,15 +204,17 @@ body {
     margin-top: (-$gameHeight / 2) - ($toolbarHeight / 2) - 10px;
   }
   #game-stack {
+    $solutionOverlap: 0.85;
+    $solutionOverlapPx: round(($pieceHeight + ($pieceBorder * 2)) * $solutionOverlap);
     $stackWidth: $pieceWidth + ($pieceBorder*2);
-    $stackHeight: round($pieceHeight * (1-$solutionOverlap)) * 15 + $pieceHeight;
+    $stackHeight: ($pieceHeight + ($pieceBorder * 2) - $solutionOverlapPx) * 15  + $pieceHeight + ($pieceBorder * 2);
     $stackSidePadding: 5px;
     left: $screenWidth - (2 * $puzzleSidePadding) - $stackWidth - (2 * $gameStackBorderWidth) - (2*$stackSidePadding);
     width: $stackWidth;
     height: $stackHeight;
-    padding: 5px 5px 0 5px;
+    padding: 5px;
     .piece {
-      margin-bottom: round($pieceHeight * -$solutionOverlap) - ($pieceBorder * 2);
+      margin-bottom: -$solutionOverlapPx;
       @include box-shadow(0 6px 6px -3px #333);
     }
     .piece.popped {

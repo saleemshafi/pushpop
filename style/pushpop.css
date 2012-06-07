@@ -250,10 +250,10 @@ body {
   #pushpop.small #game-stack {
     left: 328px;
     width: 66px;
-    height: 195px;
-    padding: 5px 5px 0 5px; }
+    height: 216px;
+    padding: 5px; }
     #pushpop.small #game-stack .piece {
-      margin-bottom: -57px;
+      margin-bottom: -56px;
       -webkit-appearance: none;
       -webkit-box-shadow: 0 6px 6px -3px #333333;
       -moz-box-shadow: 0 6px 6px -3px #333333;
@@ -298,10 +298,10 @@ body {
   #pushpop.medium #game-stack {
     left: 466px;
     width: 98px;
-    height: 300px;
-    padding: 5px 5px 0 5px; }
+    height: 323px;
+    padding: 5px; }
     #pushpop.medium #game-stack .piece {
-      margin-bottom: -85px;
+      margin-bottom: -83px;
       -webkit-appearance: none;
       -webkit-box-shadow: 0 6px 6px -3px #333333;
       -moz-box-shadow: 0 6px 6px -3px #333333;
@@ -346,10 +346,10 @@ body {
   #pushpop.large #game-stack {
     left: 678px;
     width: 130px;
-    height: 390px;
-    padding: 5px 5px 0 5px; }
+    height: 415px;
+    padding: 5px; }
     #pushpop.large #game-stack .piece {
-      margin-bottom: -112px;
+      margin-bottom: -111px;
       -webkit-appearance: none;
       -webkit-box-shadow: 0 6px 6px -3px #333333;
       -moz-box-shadow: 0 6px 6px -3px #333333;
