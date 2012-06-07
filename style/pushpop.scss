@@ -6,6 +6,23 @@
   -webkit-border-radius: $radius;
 }
 
+@mixin transition($param1, $param2:false, $param3:false, $param4:false, $param5:false) {
+ $params: $param1;
+  @if $param2 
+    { $params: $param1, $param2; }
+    @if $param3 != false
+      { $params: $param1, $param2, $param3; }
+      @if $param4 != false
+        { $params: $param1, $param2, $param3, $param4; }
+        @if $param5 != false
+          { $params: $param1, $param2, $param3, $param4, $param5; }
+
+  transition: $params;
+  -moz-transition:$params;
+  -webkit-transition:$params;
+  -o-transition:$params;
+}
+
 @mixin box-shadow($shadow1, $shadow2:false, $shadow3:false, $shadow4:false, $shadow5:false) {
  $params: $shadow1;
   @if $shadow2 
@@ -34,8 +51,6 @@
   position: relative;
   width: $width;
 }
-
-$solutionOverlap: 0.85;
 
 
 //////////////////  Sized ///////////////
@@ -113,6 +128,11 @@ body {
       min-height:1px;
       padding-left:$stack-padding; 
     }
+    
+    .popped {
+      margin-top: -$pieceHeight - $pieceOverlap - (2*$pieceBorder);
+      opacity: 0;
+    }
   }
 
   .numbers {
@@ -156,13 +176,19 @@ body {
     margin-top: (-$gameHeight / 2) - ($toolbarHeight / 2);
   }
   #game-stack {
-    padding: 5px round($pieceWidth*$solutionOverlap)+5 5px 3px;
+    $solutionOverlap: 0.75;
+    $solutionOverlapPx: round(($pieceWidth + ($pieceBorder * 2)) * $solutionOverlap);
+    padding: 5px;
     margin: 0 auto $pieceHeight * 0.4 auto;
     height: $pieceHeight + ($pieceBorder*2);
-    width: (round($pieceWidth * (1-$solutionOverlap)) + ($pieceBorder * 2)) * 16;
+    width: ($pieceWidth + ($pieceBorder * 2) - $solutionOverlapPx) * 15  + $pieceWidth + ($pieceBorder * 2);
     .piece {  
-      margin-right: round($pieceWidth * -$solutionOverlap);
+      margin-right: -$solutionOverlapPx;
       @include box-shadow(6px 0 6px -3px #333);
+    }
+    .piece.popped {
+      left: -$pieceHeight;
+      opacity: 0;
     }
   }
 }
@@ -179,16 +205,22 @@ body {
     margin-top: (-$gameHeight / 2) - ($toolbarHeight / 2) - 10px;
   }
   #game-stack {
+    $solutionOverlap: 0.85;
+    $solutionOverlapPx: round(($pieceHeight + ($pieceBorder * 2)) * $solutionOverlap);
     $stackWidth: $pieceWidth + ($pieceBorder*2);
-    $stackHeight: round($pieceHeight * (1-$solutionOverlap)) * 16;
+    $stackHeight: ($pieceHeight + ($pieceBorder * 2) - $solutionOverlapPx) * 15  + $pieceHeight + ($pieceBorder * 2);
     $stackSidePadding: 5px;
     left: $screenWidth - (2 * $puzzleSidePadding) - $stackWidth - (2 * $gameStackBorderWidth) - (2*$stackSidePadding);
     width: $stackWidth;
     height: $stackHeight;
-    padding: round($pieceHeight*$solutionOverlap)+($pieceBorder*2)+5 5px 0 5px;
+    padding: 5px;
     .piece {
-      margin-top: round($pieceHeight * -$solutionOverlap) - ($pieceBorder * 2);
+      margin-bottom: -$solutionOverlapPx;
       @include box-shadow(0 6px 6px -3px #333);
+    }
+    .piece.popped {
+      top: -$pieceHeight - $pieceOverlap - (2*$pieceBorder);
+      opacity: 0;
     }
   }
 }
@@ -238,17 +270,6 @@ body {
     @include landscape_sizes(1024px, 768px, 120px, 120px, 100px, 5px);
   }
 }
-
-@media (min-device-width: 480px) and (min-device-height: 640px) and (orientation:portrait) {
-}
-@media (min-device-width: 640px) and (min-device-height: 480px) and (orientation:landscape) {
-}
-
-@media (min-device-width: 600px) and (min-device-height: 1024px) and (orientation:portrait){
-}
-@media (min-device-width: 1024px) and (min-device-height: 600px) and (orientation:landscape){
-}
-
 
 /////////////////////////////////////////////////////////
 
@@ -362,7 +383,18 @@ body {
   border-color: #888;
   .piece {
     cursor: pointer;
+    top: 0;
+    left: 0;
   }
+}
+
+.piece {
+  @include transition(opacity 600ms, margin-top 600ms, left 600ms, top 600ms);
+}
+
+.piece.pushed {
+  margin-top: 0 !important;
+  opacity: 1 !important;  
 }
 
 .ui-icon-pause {

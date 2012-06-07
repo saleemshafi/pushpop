@@ -90,8 +90,8 @@ var audioExt = !!audioPlayer.canPlayType && "" != audioPlayer.canPlayType('audio
 	  	}
 		this.resetPuzzle(null);
 	  },
-	  pieceMarkup: function(piece, depth) {
-	  	return '<div id="'+piece.id+'" style="z-index:'+(depth+1)+'" data-stack="'+piece.stack+'" class="piece color_'+piece.color+'"><div class="shape shape_'+piece.shape+'"></div></div>';
+	  pieceMarkup: function(piece, depth, extraClass) {
+	  	return '<div id="'+piece.id+'" style="z-index:'+(depth+1)+'" data-stack="'+piece.stack+'" class="piece color_'+piece.color+(extraClass?" "+extraClass:"")+'"><div class="shape shape_'+piece.shape+'"></div></div>';
 	  },
 	  startOver: function() {
 		$("#gameMenu").hide(100);
@@ -124,9 +124,10 @@ var audioExt = !!audioPlayer.canPlayType && "" != audioPlayer.canPlayType('audio
 			},
 	        playSound: function(soundName) {
 	            if (this.sound) {
-	                audioPlayer.pause();
-	                audioPlayer.src=soundName+"."+audioExt;
-	                audioPlayer.play();
+//	                audioPlayer.pause();
+//	                audioPlayer.src=soundName+"."+audioExt;
+//	                audioPlayer.play();
+					$("#"+soundName+"_sound").trigger('pause').trigger('play');
 	            }
 	        },
 			renderPopStack: function(event) {
@@ -134,13 +135,9 @@ var audioExt = !!audioPlayer.canPlayType && "" != audioPlayer.canPlayType('audio
 				var piece = this.game.popStack(stack);
 				if (piece) {
 					this.renderPushToGuessStack(piece);
-					var size = this.getSize();
-					var endPoint = "-100px";
-					if (size == "medium") endPoint = "-75px";
-					else if (size == "small") endPoint = "-50px";
-					$("#"+piece.id).animate({"opacity":0, "margin-top":endPoint}, 
-						{complete:function() { $(this).remove(); }});	
 	                this.playSound("pop");
+					$("#"+piece.id).addClass("popped");
+					setTimeout(function() { $("#"+piece.id).remove() }, 600);
 					if (this.game.puzzleFinished()) {
 						this.onPuzzleFinished();
 					}
@@ -158,53 +155,27 @@ var audioExt = !!audioPlayer.canPlayType && "" != audioPlayer.canPlayType('audio
 				return window.innerHeight > window.innerWidth ? "portrait" : "landscape";
 			},
 			renderPushToGuessStack: function(piece) {
-				var mainStyle = "z-index:"+this.game.guess.length+";";
-				var size = this.getSize();
-				var orientation = this.currentOrientation();
-				var startPoint = orientation == "landscape" ? "top:-20px;opacity:0;position:absolute" : "left:-235px;opacity:0;position:absolute";
-				var endPoint = null;
-				if (orientation == "landscape") {
-					endPoint = {"top":"110px","opacity":1, "position":"absolute"};
-					if (size == "medium") endPoint.top = "90px";
-					else if (size == "small") endPoint.top = "60px";
-				} else {
-					endPoint = {"left":"0","opacity":1,"position":"absolute"};
-				}
-				$("#game-stack").prepend('<div id="stack-'+piece.id+'" class="piece color_'+piece.color+'" style="'+mainStyle+startPoint+'"><div class="shape shape_'+piece.shape+'"></div></div>');
-				var topStack = $("#game-stack .piece:first");
-				topStack.click( $.proxy(this.renderPopGuessStack, this) );
-				topStack.animate(endPoint, {complete: $.proxy(function() { 
-					// clear the style setting so that the elements can move from one orientation
-					// to another
-					for (var prop in endPoint) { this.css(prop, ""); } }, topStack)
-				});
+				$("#game-stack").prepend('<div id="stack-'+piece.id+'" style="z-index:'+this.game.guess.length+';" class="piece color_'+piece.color+' popped"><div class="shape shape_'+piece.shape+'"></div></div>');
+				$("#stack-"+piece.id).click( $.proxy(this.renderPopGuessStack, this) );
+				setTimeout(function() { $("#stack-"+piece.id).removeClass("popped"); }, 10);
 			},
 			renderPopGuessStack: function(event) {
 				var piece = this.game.popGuessStack();
 				if (piece) {
-					var card = $("#stack-"+piece.id);
-					var orientation = this.currentOrientation();
-					var endPoint = orientation == "landscape" ? {"top":"-110px","opacity":0} : {"left":"-235px","opacity":0};
 					this.renderPushToGameStack(piece);
 		            this.playSound("push");
-					card.animate(endPoint, {complete: function() { 
-						$(this).remove();
-					} });
+		            $("#stack-"+piece.id).addClass("popped");
+		            setTimeout(function() { $("#stack-"+piece.id).remove(); }, 600);
 				}
 			},
 			renderPushToGameStack: function(piece) {
 				var depth = this.game.stacks[piece.stack].length;
-				var markup = this.pieceMarkup(piece, depth);
+				var markup = this.pieceMarkup(piece, depth, "popped");
 				var row = $('#stack'+piece.stack);
 	
 				row.prepend(markup);
 				var pieceDiv = $("#"+piece.id);
-				pieceDiv.css("position", "absolute");
-				pieceDiv.css("opacity", 0);
-				pieceDiv.css("margin-top", "-105px");
-				
-				$("#"+piece.id).animate({"opacity":1, "margin-top":"0"}, 
-					{complete:function() { $(this).css("position","relative"); } });	
+				setTimeout(function() { pieceDiv.removeClass("popped"); }, 10);
 			},
 			onPuzzleFinished: function() {
 				var endTime = this.game.timer;
@@ -290,10 +261,10 @@ var audioExt = !!audioPlayer.canPlayType && "" != audioPlayer.canPlayType('audio
 	$(document).bind('pageinit', function() {
 	  	// not using vclick or tap because of note on http://jquerymobile.com/test/docs/api/events.html
 	  	// need to revisit if the click responsiveness is too slow
-	  	$("#menuBtn").bind("click", function() { $("#gameMenu").toggle(100); });
-	  	$("#newBtn").bind("click", $.proxy(PushPopUI.newPuzzle, PushPopUI));
-	  	$("#startOverBtn").bind("click", $.proxy(PushPopUI.startOver, PushPopUI));
-		$("#workarea").bind("click", function() { $("#gameMenu").hide(100); } );
+	  	$("#menuBtn").bind("tap", function() { $("#gameMenu").toggle(100); });
+	  	$("#newBtn").bind("tap", $.proxy(PushPopUI.newPuzzle, PushPopUI));
+	  	$("#startOverBtn").bind("tap", $.proxy(PushPopUI.startOver, PushPopUI));
+		$("#workarea").bind("tap", function() { $("#gameMenu").hide(100); } );
 		$("#sound").bind("change", function() { PushPopUI.setSound($(this).val() != "off"); } );
 		$("#shapes").bind("change", function() { PushPopUI.setShapes($(this).val()); } );
 		$("#difficulty").bind("change", function() { PushPopUI.setDifficulty($(this).val()); } );
