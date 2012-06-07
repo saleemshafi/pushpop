@@ -124,9 +124,10 @@ var audioExt = !!audioPlayer.canPlayType && "" != audioPlayer.canPlayType('audio
 			},
 	        playSound: function(soundName) {
 	            if (this.sound) {
-	                audioPlayer.pause();
-	                audioPlayer.src=soundName+"."+audioExt;
-	                audioPlayer.play();
+//	                audioPlayer.pause();
+//	                audioPlayer.src=soundName+"."+audioExt;
+//	                audioPlayer.play();
+					$("#"+soundName+"_sound").trigger('pause').trigger('play');
 	            }
 	        },
 			renderPopStack: function(event) {
@@ -260,10 +261,10 @@ var audioExt = !!audioPlayer.canPlayType && "" != audioPlayer.canPlayType('audio
 	$(document).bind('pageinit', function() {
 	  	// not using vclick or tap because of note on http://jquerymobile.com/test/docs/api/events.html
 	  	// need to revisit if the click responsiveness is too slow
-	  	$("#menuBtn").bind("click", function() { $("#gameMenu").toggle(100); });
-	  	$("#newBtn").bind("click", $.proxy(PushPopUI.newPuzzle, PushPopUI));
-	  	$("#startOverBtn").bind("click", $.proxy(PushPopUI.startOver, PushPopUI));
-		$("#workarea").bind("click", function() { $("#gameMenu").hide(100); } );
+	  	$("#menuBtn").bind("tap", function() { $("#gameMenu").toggle(100); });
+	  	$("#newBtn").bind("tap", $.proxy(PushPopUI.newPuzzle, PushPopUI));
+	  	$("#startOverBtn").bind("tap", $.proxy(PushPopUI.startOver, PushPopUI));
+		$("#workarea").bind("tap", function() { $("#gameMenu").hide(100); } );
 		$("#sound").bind("change", function() { PushPopUI.setSound($(this).val() != "off"); } );
 		$("#shapes").bind("change", function() { PushPopUI.setShapes($(this).val()); } );
 		$("#difficulty").bind("change", function() { PushPopUI.setDifficulty($(this).val()); } );
