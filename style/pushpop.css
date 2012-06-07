@@ -88,16 +88,19 @@ body {
     top: 50%;
     margin-top: -196px; }
   #pushpop.small #game-stack {
-    padding: 5px 56px 5px 3px;
+    padding: 5px 0 5px 3px;
     margin: 0 auto 24px auto;
     height: 66px;
-    width: 240px; }
+    width: 285px; }
     #pushpop.small #game-stack .piece {
       margin-right: -51px;
       -webkit-appearance: none;
       -webkit-box-shadow: 6px 0 6px -3px #333333;
       -moz-box-shadow: 6px 0 6px -3px #333333;
       box-shadow: 6px 0 6px -3px #333333; }
+    #pushpop.small #game-stack .piece.popped {
+      left: -60px;
+      opacity: 0; }
   #pushpop.small #newGameConfirm {
     width: 250px; }
     #pushpop.small #newGameConfirm .buttons a {
@@ -145,16 +148,19 @@ body {
     top: 50%;
     margin-top: -264.75px; }
   #pushpop.medium #game-stack {
-    padding: 5px 82px 5px 3px;
+    padding: 5px 0 5px 3px;
     margin: 0 auto 36px auto;
     height: 98px;
-    width: 352px; }
+    width: 435px; }
     #pushpop.medium #game-stack .piece {
-      margin-right: -77px;
+      margin-right: -76px;
       -webkit-appearance: none;
       -webkit-box-shadow: 6px 0 6px -3px #333333;
       -moz-box-shadow: 6px 0 6px -3px #333333;
       box-shadow: 6px 0 6px -3px #333333; }
+    #pushpop.medium #game-stack .piece.popped {
+      left: -90px;
+      opacity: 0; }
 
   #pushpop.large #game-board .stack {
     width: 130px;
@@ -194,16 +200,19 @@ body {
     top: 50%;
     margin-top: -333.5px; }
   #pushpop.large #game-stack {
-    padding: 5px 107px 5px 3px;
+    padding: 5px 0 5px 3px;
     margin: 0 auto 48px auto;
     height: 130px;
-    width: 448px; }
+    width: 570px; }
     #pushpop.large #game-stack .piece {
-      margin-right: -102px;
+      margin-right: -100px;
       -webkit-appearance: none;
       -webkit-box-shadow: 6px 0 6px -3px #333333;
       -moz-box-shadow: 6px 0 6px -3px #333333;
-      box-shadow: 6px 0 6px -3px #333333; } }
+      box-shadow: 6px 0 6px -3px #333333; }
+    #pushpop.large #game-stack .piece.popped {
+      left: -120px;
+      opacity: 0; } }
 @media screen and (orientation:landscape) {
   #pushpop.small #game-board .stack {
     width: 66px;
@@ -241,14 +250,17 @@ body {
   #pushpop.small #game-stack {
     left: 328px;
     width: 66px;
-    height: 144px;
-    padding: 62px 5px 0 5px; }
+    height: 195px;
+    padding: 5px 5px 0 5px; }
     #pushpop.small #game-stack .piece {
-      margin-top: -57px;
+      margin-bottom: -57px;
       -webkit-appearance: none;
       -webkit-box-shadow: 0 6px 6px -3px #333333;
       -moz-box-shadow: 0 6px 6px -3px #333333;
       box-shadow: 0 6px 6px -3px #333333; }
+    #pushpop.small #game-stack .piece.popped {
+      top: -51px;
+      opacity: 0; }
 
   #pushpop.medium #game-board .stack {
     width: 98px;
@@ -286,14 +298,17 @@ body {
   #pushpop.medium #game-stack {
     left: 466px;
     width: 98px;
-    height: 224px;
-    padding: 90px 5px 0 5px; }
+    height: 300px;
+    padding: 5px 5px 0 5px; }
     #pushpop.medium #game-stack .piece {
-      margin-top: -85px;
+      margin-bottom: -85px;
       -webkit-appearance: none;
       -webkit-box-shadow: 0 6px 6px -3px #333333;
       -moz-box-shadow: 0 6px 6px -3px #333333;
       box-shadow: 0 6px 6px -3px #333333; }
+    #pushpop.medium #game-stack .piece.popped {
+      top: -75.5px;
+      opacity: 0; }
 
   #pushpop.large #game-board .stack {
     width: 130px;
@@ -331,14 +346,17 @@ body {
   #pushpop.large #game-stack {
     left: 678px;
     width: 130px;
-    height: 288px;
-    padding: 117px 5px 0 5px; }
+    height: 390px;
+    padding: 5px 5px 0 5px; }
     #pushpop.large #game-stack .piece {
-      margin-top: -112px;
+      margin-bottom: -112px;
       -webkit-appearance: none;
       -webkit-box-shadow: 0 6px 6px -3px #333333;
       -moz-box-shadow: 0 6px 6px -3px #333333;
-      box-shadow: 0 6px 6px -3px #333333; } }
+      box-shadow: 0 6px 6px -3px #333333; }
+    #pushpop.large #game-stack .piece.popped {
+      top: -100px;
+      opacity: 0; } }
 body {
   background-color: #121212;
   font-family: Segoe UI, Arial, Helvetica, sans-serif; }
@@ -439,11 +457,11 @@ body {
   #game-stack .piece {
     cursor: pointer; }
 
-#game-board .piece {
-  transition: opacity 600ms, margin-top 600ms;
-  -moz-transition: opacity 600ms, margin-top 600ms;
-  -webkit-transition: opacity 600ms, margin-top 600ms;
-  -o-transition: opacity 600ms, margin-top 600ms; }
+.piece {
+  transition: opacity 600ms, margin-top 600ms, left 600ms, top 600ms;
+  -moz-transition: opacity 600ms, margin-top 600ms, left 600ms, top 600ms;
+  -webkit-transition: opacity 600ms, margin-top 600ms, left 600ms, top 600ms;
+  -o-transition: opacity 600ms, margin-top 600ms, left 600ms, top 600ms; }
 
 .piece.pushed {
   margin-top: 0 !important;

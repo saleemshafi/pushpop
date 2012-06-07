@@ -154,38 +154,17 @@ var audioExt = !!audioPlayer.canPlayType && "" != audioPlayer.canPlayType('audio
 				return window.innerHeight > window.innerWidth ? "portrait" : "landscape";
 			},
 			renderPushToGuessStack: function(piece) {
-				var mainStyle = "z-index:"+this.game.guess.length+";";
-				var size = this.getSize();
-				var orientation = this.currentOrientation();
-				var startPoint = orientation == "landscape" ? "top:-20px;opacity:0;position:absolute" : "left:-235px;opacity:0;position:absolute";
-				var endPoint = null;
-				if (orientation == "landscape") {
-					endPoint = {"top":"110px","opacity":1, "position":"absolute"};
-					if (size == "medium") endPoint.top = "90px";
-					else if (size == "small") endPoint.top = "60px";
-				} else {
-					endPoint = {"left":"0","opacity":1,"position":"absolute"};
-				}
-				$("#game-stack").prepend('<div id="stack-'+piece.id+'" class="piece color_'+piece.color+'" style="'+mainStyle+startPoint+'"><div class="shape shape_'+piece.shape+'"></div></div>');
-				var topStack = $("#game-stack .piece:first");
-				topStack.click( $.proxy(this.renderPopGuessStack, this) );
-				topStack.animate(endPoint, {complete: $.proxy(function() { 
-					// clear the style setting so that the elements can move from one orientation
-					// to another
-					for (var prop in endPoint) { this.css(prop, ""); } }, topStack)
-				});
+				$("#game-stack").prepend('<div id="stack-'+piece.id+'" style="z-index:'+this.game.guess.length+';" class="piece color_'+piece.color+' popped"><div class="shape shape_'+piece.shape+'"></div></div>');
+				$("#stack-"+piece.id).click( $.proxy(this.renderPopGuessStack, this) );
+				setTimeout(function() { $("#stack-"+piece.id).removeClass("popped"); }, 10);
 			},
 			renderPopGuessStack: function(event) {
 				var piece = this.game.popGuessStack();
 				if (piece) {
-					var card = $("#stack-"+piece.id);
-					var orientation = this.currentOrientation();
-					var endPoint = orientation == "landscape" ? {"top":"-110px","opacity":0} : {"left":"-235px","opacity":0};
 					this.renderPushToGameStack(piece);
 		            this.playSound("push");
-					card.animate(endPoint, {complete: function() { 
-						$(this).remove();
-					} });
+		            $("#stack-"+piece.id).addClass("popped");
+		            setTimeout(function() { $("#stack-"+piece.id).remove(); }, 600);
 				}
 			},
 			renderPushToGameStack: function(piece) {
