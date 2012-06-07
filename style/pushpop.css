@@ -88,12 +88,12 @@ body {
     top: 50%;
     margin-top: -196px; }
   #pushpop.small #game-stack {
-    padding: 5px 0 5px 3px;
+    padding: 5px;
     margin: 0 auto 24px auto;
     height: 66px;
-    width: 285px; }
+    width: 306px; }
     #pushpop.small #game-stack .piece {
-      margin-right: -51px;
+      margin-right: -50px;
       -webkit-appearance: none;
       -webkit-box-shadow: 6px 0 6px -3px #333333;
       -moz-box-shadow: 6px 0 6px -3px #333333;
@@ -148,12 +148,12 @@ body {
     top: 50%;
     margin-top: -264.75px; }
   #pushpop.medium #game-stack {
-    padding: 5px 0 5px 3px;
+    padding: 5px;
     margin: 0 auto 36px auto;
     height: 98px;
-    width: 435px; }
+    width: 458px; }
     #pushpop.medium #game-stack .piece {
-      margin-right: -76px;
+      margin-right: -74px;
       -webkit-appearance: none;
       -webkit-box-shadow: 6px 0 6px -3px #333333;
       -moz-box-shadow: 6px 0 6px -3px #333333;
@@ -200,12 +200,12 @@ body {
     top: 50%;
     margin-top: -333.5px; }
   #pushpop.large #game-stack {
-    padding: 5px 0 5px 3px;
+    padding: 5px;
     margin: 0 auto 48px auto;
     height: 130px;
-    width: 570px; }
+    width: 610px; }
     #pushpop.large #game-stack .piece {
-      margin-right: -100px;
+      margin-right: -98px;
       -webkit-appearance: none;
       -webkit-box-shadow: 6px 0 6px -3px #333333;
       -moz-box-shadow: 6px 0 6px -3px #333333;
@@ -455,7 +455,9 @@ body {
 #game-stack {
   border-color: #888; }
   #game-stack .piece {
-    cursor: pointer; }
+    cursor: pointer;
+    top: 0;
+    left: 0; }
 
 .piece {
   transition: opacity 600ms, margin-top 600ms, left 600ms, top 600ms;

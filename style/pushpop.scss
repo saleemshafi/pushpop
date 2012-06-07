@@ -177,12 +177,13 @@ body {
   }
   #game-stack {
     $solutionOverlap: 0.75;
-    padding: 5px 0 5px 3px;
+    $solutionOverlapPx: round(($pieceWidth + ($pieceBorder * 2)) * $solutionOverlap);
+    padding: 5px;
     margin: 0 auto $pieceHeight * 0.4 auto;
     height: $pieceHeight + ($pieceBorder*2);
-    width: round($pieceWidth * (1-$solutionOverlap)) * 15 + $pieceWidth;
+    width: ($pieceWidth + ($pieceBorder * 2) - $solutionOverlapPx) * 15  + $pieceWidth + ($pieceBorder * 2);
     .piece {  
-      margin-right: round($pieceWidth * -$solutionOverlap) - (2*$pieceBorder);
+      margin-right: -$solutionOverlapPx;
       @include box-shadow(6px 0 6px -3px #333);
     }
     .piece.popped {
@@ -382,6 +383,8 @@ body {
   border-color: #888;
   .piece {
     cursor: pointer;
+    top: 0;
+    left: 0;
   }
 }
 
