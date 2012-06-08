@@ -10,18 +10,14 @@
 	
 	  init: function() {
 		if (window.localStorage) {
-			this.sound = localStorage.getItem("pushpop.sound") != "off";
-			this.difficulty = localStorage.getItem("pushpop.difficulty");
+			this.setSound(localStorage.getItem("pushpop.sound") != "off");
+			this.setDifficulty(this.difficulty = localStorage.getItem("pushpop.difficulty"));
 			this.setShapes(localStorage.getItem("pushpop.shapes"));
 		} else {
-			this.sound = true;
+			this.setSound(true);
+			this.setDifficulty("easy");
 			this.setShapes("shapes");
 		}
-		if (PushPop.DIFFICULTIES.indexOf(this.difficulty) == -1) {
-			this.difficulty = "easy";
-		}
-		$("#sound").val(this.sound ? "on":"off").slider("refresh");
-		$("#difficulty").val(this.difficulty).selectmenu("refresh");
 	  },
 	  newPuzzle: function() {
 		$("#gameMenu").hide(100);
@@ -69,8 +65,9 @@
 	  },
 	  setSound: function(soundOn) {
 	  	this.sound = soundOn === true;
+		$("#sound").val(this.sound ? "on":"off").slider("refresh");
 	  	if (window.localStorage) {
-	  		localStorage.setItem("pushpop.sound", soundOn ? "on" : "off");
+	  		localStorage.setItem("pushpop.sound", this.sound ? "on" : "off");
 	  	}
 	  },
 	  setShapes: function(shapes) {
@@ -87,11 +84,14 @@
 	  	}
 	  },
 	  setDifficulty: function(level) {
+		if (PushPop.DIFFICULTIES.indexOf(level) == -1) {
+			level = "easy";
+		}
 		this.difficulty = level;
+		$("#difficulty").val(this.difficulty).selectmenu("refresh");
 	  	if (window.localStorage) {
-	  		localStorage.setItem("pushpop.difficulty", level);
+	  		localStorage.setItem("pushpop.difficulty", this.difficulty);
 	  	}
-		this.resetPuzzle(null);
 	  },
 	  pieceMarkup: function(piece, depth, extraClass) {
 	  	return '<div id="'+piece.id+'" style="z-index:'+(depth+1)+'" data-stack="'+piece.stack+'" class="piece color_'+piece.color+(extraClass?" "+extraClass:"")+'"><div class="shape shape_'+piece.shape+'"></div></div>';
@@ -271,7 +271,10 @@
 			$("#workarea").bind("vclick", function() { $("#gameMenu").hide(100); } );
 			$("#sound").bind("change", function() { PushPopUI.setSound($(this).val() != "off"); } );
 			$("#shapes").bind("change", function() { PushPopUI.setShapes($(this).val()); } );
-			$("#difficulty").bind("change", function() { PushPopUI.setDifficulty($(this).val()); } );
+			$("#difficulty").bind("change", function() {
+				PushPopUI.setDifficulty($(this).val()); 
+				PushPopUI.resetPuzzle(null);
+ 			} );
 		    $("audio").trigger('load');
 		
 			setSize();
