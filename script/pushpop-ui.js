@@ -1,7 +1,7 @@
-var audioPlayer = new Audio();
-var audioExt = !!audioPlayer.canPlayType && "" != audioPlayer.canPlayType('audio/mpeg') ? "mp3" : "ogg";
 
 (function($, window, undefined) {
+	var audioPlayer = new Audio();
+	var audioExt = !!audioPlayer.canPlayType && "" != audioPlayer.canPlayType('audio/mpeg') ? "mp3" : "ogg";
 
 	var PushPopUI = {
 	  game: null,
@@ -64,6 +64,9 @@ var audioExt = !!audioPlayer.canPlayType && "" != audioPlayer.canPlayType('audio
 	  updateTimer: function(timer) {
 		$("#timer").text(timer.toString());
 	  },
+	  showMenu: function() { 
+	  	$("#gameMenu").toggle(100); 
+	  },
 	  setSound: function(soundOn) {
 	  	this.sound = soundOn === true;
 	  	if (window.localStorage) {
@@ -115,7 +118,7 @@ var audioExt = !!audioPlayer.canPlayType && "" != audioPlayer.canPlayType('audio
 						gbHtml += '</div>';
 					}
 					gb.append(gbHtml);
-					gb.find("div.stack").click( $.proxy( this.renderPopStack, this) );
+					gb.find("div.stack").bind("vclick", function(e) { PushPopUI.renderPopStack(e); } );
 					gb.find("div.piece").jrumble({x:3, y:3, rotation:5});
 			},
 			getSize: function() {
@@ -156,7 +159,7 @@ var audioExt = !!audioPlayer.canPlayType && "" != audioPlayer.canPlayType('audio
 			},
 			renderPushToGuessStack: function(piece) {
 				$("#game-stack").prepend('<div id="stack-'+piece.id+'" style="z-index:'+this.game.guess.length+';" class="piece color_'+piece.color+' popped"><div class="shape shape_'+piece.shape+'"></div></div>');
-				$("#stack-"+piece.id).click( $.proxy(this.renderPopGuessStack, this) );
+				$("#stack-"+piece.id).bind("vclick", function() { PushPopUI.renderPopGuessStack(); } );
 				setTimeout(function() { $("#stack-"+piece.id).removeClass("popped"); }, 10);
 			},
 			renderPopGuessStack: function(event) {
@@ -261,17 +264,21 @@ var audioExt = !!audioPlayer.canPlayType && "" != audioPlayer.canPlayType('audio
 	$(document).bind('pageinit', function() {
 	  	// not using vclick or tap because of note on http://jquerymobile.com/test/docs/api/events.html
 	  	// need to revisit if the click responsiveness is too slow
-	  	$("#menuBtn").bind("tap", function() { $("#gameMenu").toggle(100); });
-	  	$("#newBtn").bind("tap", $.proxy(PushPopUI.newPuzzle, PushPopUI));
-	  	$("#startOverBtn").bind("tap", $.proxy(PushPopUI.startOver, PushPopUI));
-		$("#workarea").bind("tap", function() { $("#gameMenu").hide(100); } );
-		$("#sound").bind("change", function() { PushPopUI.setSound($(this).val() != "off"); } );
-		$("#shapes").bind("change", function() { PushPopUI.setShapes($(this).val()); } );
-		$("#difficulty").bind("change", function() { PushPopUI.setDifficulty($(this).val()); } );
-	    $("audio").trigger('load');
-	
-		setSize();
-		window.addEventListener("resize", setSize);
+	  	if (!PushPopUI.eventsRegistered) {
+		  	$("#menuBtn").bind("vclick", function(e) { PushPopUI.showMenu(); e.preventDefault(); } );
+		  	$("#newBtn").bind("vclick", function() { PushPopUI.newPuzzle(); } );
+		  	$("#startOverBtn").bind("vclick", function() { PushPopUI.startOver(); } );
+			$("#workarea").bind("vclick", function() { $("#gameMenu").hide(100); } );
+			$("#sound").bind("change", function() { PushPopUI.setSound($(this).val() != "off"); } );
+			$("#shapes").bind("change", function() { PushPopUI.setShapes($(this).val()); } );
+			$("#difficulty").bind("change", function() { PushPopUI.setDifficulty($(this).val()); } );
+		    $("audio").trigger('load');
+		
+			setSize();
+			window.addEventListener("resize", setSize);
+			
+			PushPopUI.eventsRegistered = true;
+	  	}
 	});
 	
 	$(document).bind('pagechange', function(e, data) {
@@ -299,5 +306,13 @@ var audioExt = !!audioPlayer.canPlayType && "" != audioPlayer.canPlayType('audio
 			PushPopUI.resetPuzzle();
 		});
 	});
-})(jQuery, window);
 
+	document.addEventListener("deviceready", onCordovaReady, false);
+	
+	function onCordovaReady() {
+		document.addEventListener("pause", function() { PushPopUI.pauseTimer(); }, false);
+		document.addEventListener("resume", function() { PushPopUI.resumeTimer(); }, false);
+		document.addEventListener("backbutton", function() { PushPopUI.renderPopGuessStack(); }, false);
+		document.addEventListener("menubutton", function() { PushPopUI.showMenu(); }, false);
+	}
+})(jQuery, window);
