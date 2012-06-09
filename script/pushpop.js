@@ -37,6 +37,7 @@
 			this.id = null;
 			this.attempted = false;
 			this.solution = null;
+			this.solutionTree = null;
 	}
 
 	_PushPop.DIFFICULTIES = ["easy","medium","hard","harder","insane"];
@@ -148,6 +149,7 @@
 			if (id == null || id == "") {
 				while (!this.matchesDifficulty(difficulty)) {
 					this.solution = this.generateSolution();
+					this.solutionTree = null;
 					this.generateBoard( this.solution );
 				}
 			} else if (id.length==32){
@@ -156,6 +158,12 @@
 				this.rememberBoard(id);
 			}
 			return this;
+		},
+		getSolutionTree: function() {
+			if (!this.solutionTree) {
+				this.solutionTree = this.buildTree(null, this.stacks);
+			}
+			return this.solutionTree;
 		},
 		matchesDifficulty: function(level) {
 			if (this.id == null) return false;
@@ -179,9 +187,9 @@
 				maxRatio = 0.01;
 			}
 
-			var t = this.buildTree(null, this.stacks);
-			var gameScore = t.numSolutions/t.numBranches;
-			var numBranches = t.numBranches;
+			var st = this.getSolutionTree();
+			var gameScore = st.numSolutions/st.numBranches;
+			var numBranches = st.numBranches;
 			return (gameScore >= minRatio && gameScore <= maxRatio) || numBranches < maxBranches;
 		},
 		start: function(timerListener) {
@@ -201,6 +209,7 @@
 			this.stacks = [];
 			this.guess = [];
 			this.solution = null;
+			this.solutionTree = null;
 		},
 		puzzleFinished: function() {
 			for (var i = 0; i < this.stacks.length; i++) {
@@ -221,6 +230,36 @@
 				}
 			}
 			return false;
+		},
+		getHint: function() {
+			var onTrack = true;
+			var currentNode = this.getSolutionTree();
+			for (var i = 0; i < this.guess.length && onTrack; i++) {
+				var piece = this.guess[i];
+				for (var j=0; j < currentNode.options.length && onTrack; j++) {
+					if (currentNode.options[j].piece.id == piece.id) {
+						if (currentNode.options[j].numSolutions > 0) {
+							currentNode = currentNode.options[j];
+						} else {
+							onTrack = false;
+						}
+						break;
+					}
+				}
+			}
+			if (!onTrack) {
+				return -1;
+			} else {
+				var maxStack = -1;
+				var maxSolutions = 0;
+				for (var j=0; j < currentNode.options.length; j++) {
+					if (currentNode.options[j].numSolutions > maxSolutions) {
+						maxSolutions = currentNode.options[j].numSolutions;
+						maxStack = currentNode.options[j].piece.stack; 
+					}
+				}
+				return maxStack;
+			}
 		},
 		buildTree: function(solutionTree, treeStacks) {
 			solutionTree = solutionTree || { piece: null, options: []};
