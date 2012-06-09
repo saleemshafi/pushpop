@@ -102,6 +102,14 @@
 		$("#game-stack").empty();
 		this.render();	
 	  },
+	  getAHint: function() {
+		var hint = this.game.getHint();
+		if (hint >= 0 && hint < this.game.stacks.length) {
+			this.renderPopStack(hint);
+		} else {
+			this.renderPopGuessStack();
+		}
+	  },
 			render: function() {
 					var gb = $('#game-board');
 					gb.empty();
@@ -134,7 +142,7 @@
 	            }
 	        },
 			renderPopStack: function(event) {
-				var stack = $(event.currentTarget).data("stack");
+				var stack = isNaN(event) ? $(event.currentTarget).data("stack") : event;
 				var piece = this.game.popStack(stack);
 				if (piece) {
 					this.renderPushToGuessStack(piece);
@@ -265,9 +273,10 @@
 	  	// not using vclick or tap because of note on http://jquerymobile.com/test/docs/api/events.html
 	  	// need to revisit if the click responsiveness is too slow
 	  	if (!PushPopUI.eventsRegistered) {
-		  	$("#menuBtn").bind("vclick", function(e) { PushPopUI.showMenu(); e.preventDefault(); } );
+		  	$("#menuBtn").bind("vclick", function(e) { PushPopUI.showMenu(); } );
 		  	$("#newBtn").bind("vclick", function() { PushPopUI.newPuzzle(); } );
 		  	$("#startOverBtn").bind("vclick", function() { PushPopUI.startOver(); } );
+		  	$("#hintBtn").bind("vclick", function(e) { PushPopUI.getAHint(); } );
 			$("#workarea").bind("vclick", function() { $("#gameMenu").hide(100); } );
 			$("#sound").bind("change", function() { PushPopUI.setSound($(this).val() != "off"); } );
 			$("#shapes").bind("change", function() { PushPopUI.setShapes($(this).val()); } );
