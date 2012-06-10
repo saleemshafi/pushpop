@@ -37,7 +37,7 @@
 		$("#solution").empty();
 	
 		this.game = new PushPop().init(4, 4, this.difficulty, puzzleId);
-	  	window.location.hash = "puzzle?game="+this.game.id;
+	  	window.history.pushState({}, "PushPop", "#puzzle?game="+this.game.id);
 	  	this.render();
 	  	this.game.start(this.updateTimer);
 	  },
@@ -101,6 +101,12 @@
 		this.game.startOver();
 		$("#game-stack").empty();
 		this.render();	
+	  },
+	  dismissStartup: function() {
+	  	if (window.localStorage) {
+//	  		localStorage.setItem("pushpop.startup", "dismiss");
+	  	}
+		window.history.back();	  	
 	  },
 	  getAHint: function() {
 		var hint = this.game.getHint();
@@ -278,6 +284,7 @@
 		  	$("#startOverBtn").bind("vclick", function() { PushPopUI.startOver(); } );
 		  	$("#hintBtn").bind("vclick", function(e) { PushPopUI.getAHint(); } );
 			$("#workarea").bind("vclick", function() { $("#gameMenu").hide(100); } );
+			$("#lets-go").bind("vclick", function() { PushPopUI.dismissStartup(); } );
 			$("#sound").bind("change", function() { PushPopUI.setSound($(this).val() != "off"); } );
 			$("#shapes").bind("change", function() { PushPopUI.setShapes($(this).val()); } );
 			$("#difficulty").bind("change", function() {
@@ -293,8 +300,19 @@
 	  	}
 	});
 	
-	$(document).bind('pagechange', function(e, data) {
+	$(document).bind('pagebeforechange', function(e, data) {
+		if (data.toPage[0].id == "startup" && data.options.fromPage && data.options.fromPage[0].id == "help") {
+			// this happens because the help "back" button might go to the startup dialog
+			// instead of the actual puzzle
+			data.toPage = $("#puzzle");
+		}
 		if (data.toPage[0].id == "puzzle") {
+			if (!data.options.fromPage) {
+				// first page load
+				if (!window.localStorage || window.localStorage.getItem("pushpop.startup") != "dismiss") {
+					setTimeout( function() { $.mobile.changePage("#startup"); }, 1000);
+				}
+			}
 			var id = data.options.pageData ? data.options.pageData.game : null;
 			if (!PushPopUI.game || id != PushPopUI.game.id) {
 				PushPopUI.resetPuzzle(id);
