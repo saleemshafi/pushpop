@@ -35,9 +35,9 @@
 			this.timer = null;
 			this.timerRefresh = 0;
 			this.id = null;
-			this.attempted = false;
 			this.solution = null;
 			this.solutionTree = null;
+			this.counter = 0;
 	}
 
 	_PushPop.DIFFICULTIES = ["easy","medium","hard","harder","insane"];
@@ -50,6 +50,7 @@
 			var piece = this.guess.pop();
 			if (piece) {
 				this.stacks[piece.stack].push(piece);
+				this.counter++;
 			}
 			return piece;
 		},
@@ -193,6 +194,7 @@
 			return (gameScore >= minRatio && gameScore <= maxRatio) || numBranches < maxBranches;
 		},
 		start: function(timerListener) {
+			this.counter = 0;
 			this.timer = new Timer();
 			this.timer.start();
 			if (this.timerRefresh) {
@@ -210,6 +212,7 @@
 			this.guess = [];
 			this.solution = null;
 			this.solutionTree = null;
+			this.counter = 0;
 		},
 		puzzleFinished: function() {
 			for (var i = 0; i < this.stacks.length; i++) {
@@ -223,7 +226,7 @@
 			if (piece) {
 				if (lastPiece == null || lastPiece.matches(piece)) {
 					this.guess.push(piece);
-					this.attempted = true;
+					this.counter++;
 					return piece;
 				} else {
 					this.stacks[stack].push(piece);

@@ -21,7 +21,7 @@
 	  },
 	  newPuzzle: function() {
 		$("#gameMenu").hide(100);
-	  	if (this.game.attempted && !this.game.puzzleFinished()) {
+	  	if (this.game.counter > 0 && !this.game.puzzleFinished()) {
 	  		$.mobile.changePage("#newGameConfirm", {transition: "slidedown"});
 	  	} else {
 	  		this.reallyNewPuzzle();
@@ -190,7 +190,7 @@
 			},
 			onPuzzleFinished: function() {
 				var endTime = this.game.timer;
-				$("#stats").text("You completed this puzzle in "+endTime.toString()+".");
+				$("#stats").text("You completed this puzzle in "+endTime.toString()+" with "+this.game.counter+" moves.");
 				this.game.shutdown();
 				$("#quip").text("\""+this.getComment(endTime)+"\"");
 				$.mobile.changePage("#gameOver", {transition: "slidedown"});
