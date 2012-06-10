@@ -278,7 +278,7 @@
 		$("#puzzle").bind('pagebeforehide', pushPopUi.pauseTimer.bind(pushPopUi) );
 		$("#puzzle").bind('pageshow', pushPopUi.resumeTimer.bind(pushPopUi) );
 		$("#gameOver").bind('pageshow', pushPopUi.playSound.bind(pushPopUi, "applause") );
-		$("#gameOver").bind('pagehide', pushPopUi.resetPuzzle.bind(pushPopUi) );
+		$("#gameOver").bind('pagehide', pushPopUi.resetPuzzle.bind(pushPopUi, null) );
 
 	  	$("#menuBtn").bind("vclick", pushPopUi.showMenu.bind(pushPopUi) );
 	  	$("#newBtn").bind("vclick", pushPopUi.newPuzzle.bind(pushPopUi) );
