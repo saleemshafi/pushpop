@@ -29,7 +29,7 @@
 	  	}
 	  },
 	  resetPuzzle: function(puzzleId) {
-		if (!puzzleId) puzzleId = null;
+		if (!puzzleId || puzzleId == "new") puzzleId = null;
 	  	if (this.game != null) {
 		  	this.game.shutdown();
 	  	}
