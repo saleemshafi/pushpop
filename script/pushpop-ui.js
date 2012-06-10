@@ -1,9 +1,10 @@
 
 (function($, window, undefined) {
 	function PushPopUI() {
-	  var game = null;
-	  var sound = false;
-	  var difficulty = null;
+	  this.game = null;
+	  this.sound = false;
+	  this.difficulty = null;
+	  this.size = 4;
 	}
 	
 	$.extend(PushPopUI.prototype, {
@@ -36,7 +37,7 @@
 		$("#game-board").empty();
 		$("#solution").empty();
 	
-		this.game = new PushPop().init(4, 4, this.difficulty, puzzleId);
+		this.game = new PushPop().init(this.size, this.size, this.difficulty, puzzleId);
 	  	window.location.hash = "puzzle?game="+this.game.id;
 	  	this.render();
 	  	this.game.start(this.updateTimer);
@@ -299,7 +300,7 @@
 	$(document).bind('pagechange', function(e, data) {
 		if (data.toPage[0].id == "puzzle") {
 			var id = data.options.pageData ? data.options.pageData.game : null;
-			if (!pushPopUi.game || id != pushPopUi.game.id) {
+			if (!pushPopUi.game || (id && id != pushPopUi.game.id)) {
 				pushPopUi.resetPuzzle(id);
 			}
 		}
