@@ -147,6 +147,7 @@
 				difficulty = "easy";
 			}
 
+			this.solutionTree = null;
 			if (id == null || id == "") {
 				while (!this.matchesDifficulty(difficulty)) {
 					this.solution = this.generateSolution();
@@ -158,6 +159,7 @@
 			} else {
 				this.rememberBoard(id);
 			}
+			this.getSolutionTree();
 			return this;
 		},
 		getSolutionTree: function() {
