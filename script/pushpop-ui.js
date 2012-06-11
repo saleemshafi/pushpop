@@ -108,7 +108,7 @@
 	  },
 	  dismissStartup: function() {
 	  	if (window.localStorage) {
-//	  		localStorage.setItem("pushpop.startup", "dismiss");
+	  		localStorage.setItem("pushpop.startup", "dismiss");
 	  	}
 	  	$.mobile.changePage($("#puzzle"), { changeHash: false });
 	  },
