@@ -103,11 +103,11 @@ body {
       opacity: 0; }
   #pushpop.small #newGameConfirm {
     width: 250px; }
-    #pushpop.small #newGameConfirm .buttons a {
-      display: block; }
-  #pushpop.small #gameOver {
+  #pushpop.small .ui-dialog, #pushpop.small #gameOver {
     width: 302px; }
-    #pushpop.small #gameOver .ui-dialog-contain {
+    #pushpop.small .ui-dialog .buttons a, #pushpop.small #gameOver .buttons a {
+      display: block; }
+    #pushpop.small .ui-dialog .ui-dialog-contain, #pushpop.small #gameOver .ui-dialog-contain {
       padding: 15px; }
 
   #pushpop.medium #game-board .stack {
@@ -537,7 +537,7 @@ body {
   #pushpop .ui-dialog .ui-dialog-contain {
     background-color: #000;
     position: absolute;
-    top: 0;
+    top: 43px;
     margin-top: 0;
     border-color: #666;
     border-width: 1px;
@@ -545,6 +545,7 @@ body {
     border-radius: 0px 0px 0.6em 0.6em;
     -moz-border-radius: 0px 0px 0.6em 0.6em;
     -webkit-border-radius: 0px 0px 0.6em 0.6em;
+    border-top: none;
     text-shadow: none;
     color: #fff; }
   #pushpop .ui-dialog #quip {
