@@ -530,6 +530,9 @@ body {
 .game, .help-text {
   position: relative; }
 
+#pushpop .ui-slider {
+  width: 100%; }
+
 #pushpop .ui-dialog {
   margin: 0 auto;
   position: relative;
@@ -547,7 +550,11 @@ body {
     -webkit-border-radius: 0px 0px 0.6em 0.6em;
     border-top: none;
     text-shadow: none;
-    color: #fff; }
+    color: #fff;
+    width: 100%;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box; }
   #pushpop .ui-dialog #quip {
     text-align: center;
     font-size: 18px;
