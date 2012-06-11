@@ -240,13 +240,13 @@ body {
     
     #newGameConfirm {
       width: 250px;
+    }
+    
+    .ui-dialog, #gameOver {
+      width: 302px;
       .buttons a {
         display: block;
       }
-    }
-    
-    #gameOver {
-      width: 302px;
       .ui-dialog-contain {
         padding:15px;
       }
@@ -476,10 +476,11 @@ body {
   .ui-dialog-contain {
     background-color: #000;
     position: absolute;
-    top: 0;
+    top: 43px;
     margin-top: 0;
     border-color: #666;
     @include rounded(1px, 0px 0px .6em .6em);
+    border-top: none;
     text-shadow: none;
     color: #fff;
   }

@@ -23,7 +23,7 @@
 	  newPuzzle: function() {
 		$("#gameMenu").hide(100);
 	  	if (this.game.counter > 0 && !this.game.puzzleFinished()) {
-	  		$.mobile.changePage("#newGameConfirm", {transition: "slidedown"});
+	  		$.mobile.changePage($("#newGameConfirm"), {transition: "slidedown", changeHash: false});
 	  	} else {
 	  		this.reallyNewPuzzle();
 	  	}
@@ -105,6 +105,12 @@
 		this.game.startOver();
 		$("#game-stack").empty();
 		this.render();	
+	  },
+	  dismissStartup: function() {
+	  	if (window.localStorage) {
+	  		localStorage.setItem("pushpop.startup", "dismiss");
+	  	}
+	  	$.mobile.changePage($("#puzzle"), { changeHash: false });
 	  },
 	  getAHint: function() {
 		var hint = this.game.getHint();
@@ -194,7 +200,7 @@
 				$("#stats").text("You completed this puzzle in "+endTime.toString()+" with "+this.game.counter+" moves.");
 				this.game.shutdown();
 				$("#quip").text("\""+this.getComment(endTime)+"\"");
-				$.mobile.changePage("#gameOver", {transition: "slidedown"});
+				$.mobile.changePage($("#gameOver"), {transition: "slidedown", changeHash: false});
 			},
 			getComment: function(time) {
 				var appropriate_quips;
@@ -284,6 +290,7 @@
 	  	$("#newBtn").bind("vclick", pushPopUi.newPuzzle.bind(pushPopUi) );
 	  	$("#startOverBtn").bind("vclick", pushPopUi.startOver.bind(pushPopUi) );
 	  	$("#hintBtn").bind("vclick", pushPopUi.getAHint.bind(pushPopUi) );
+		$("#lets-go").bind("vclick", pushPopUi.dismissStartup.bind(pushPopUi) );
 		$("#workarea").bind("vclick", pushPopUi.hideMenu.bind(pushPopUi) );
 		$("#sound").bind("change", function() { pushPopUi.setSound($(this).val() != "off"); } );
 		$("#shapes").bind("change", function() { pushPopUi.setShapes($(this).val()); } );
@@ -297,8 +304,14 @@
 		window.addEventListener("resize", setSize);
 	});
 	
-	$(document).bind('pagechange', function(e, data) {
+	$(document).bind('pagebeforechange', function(e, data) {
 		if (data.toPage[0].id == "puzzle") {
+			if (!data.options.fromPage) {
+				// first page load
+				if (!window.localStorage || window.localStorage.getItem("pushpop.startup") != "dismiss") {
+					setTimeout( function() { $.mobile.changePage($("#startup"), { transition: "slidedown", changeHash: false }); }, 250);
+				}
+			}
 			var id = data.options.pageData ? data.options.pageData.game : null;
 			if (!pushPopUi.game || (id && id != pushPopUi.game.id)) {
 				pushPopUi.resetPuzzle(id);
