@@ -39,9 +39,13 @@
 		$("#solution").empty();
 	
 		this.game = new PushPop().init(this.size, this.size, this.difficulty, puzzleId);
-	  	window.location.hash = "puzzle?game="+this.game.id;
+// this is turned off so that changing the difficulty of a puzzle doesn't close the settings page
+//	  	window.location.hash = "puzzle?game="+this.game.id;
 	  	this.render();
 	  	this.game.start(this.updateTimer);
+	  	if (!$("#puzzle").hasClass("ui-page-active")) {
+	  		this.pauseTimer();
+	  	}
 	  },
 	  reallyNewPuzzle: function() {
 	  	// TODO: i think we can do better than this
@@ -277,16 +281,11 @@
 	var pushPopUi = new PushPopUI();
 	
 	$("#settings").live('pageinit', function() {
-		$("#settings").click( function(e) {
-			if (e.srcElement.id == "settings") {
-				$.mobile.changePage($("#puzzle"));
-			}
-		});
 		$("#sound").bind("change", function() { pushPopUi.setSound($(this).val() != "off"); } );
 		$("#shapes").bind("change", function() { pushPopUi.setShapes($(this).val()); } );
 		$("#difficulty").bind("change", function() {
-			pushPopUi.setDifficulty($(this).val()); 
-			pushPopUi.resetPuzzle(null);
+			pushPopUi.setDifficulty($(this).val());
+			setTimeout( pushPopUi.resetPuzzle.bind(pushPopUi, null), 250); 
 		} );
 	});
 	

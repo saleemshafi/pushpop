@@ -53,7 +53,7 @@
 				<a data-role="button" data-theme="b" id="startOverBtn" data-mini="false" data-icon="refresh">Start Over</a>
 				<a data-role="button" data-theme="b" id="hintBtn" data-mini="false" data-icon="check">Hint</a>
 				<a data-role="button" data-theme="b" id="newBtn" data-mini="false" data-icon="star">New Puzzle</a>
-				<a data-role="button" data-theme="b" href="#settings" data-mini="false" data-icon="info">Settings</a>
+				<a data-role="button" data-theme="b" href="#settings" data-mini="false" data-icon="info" data-transition="slidedown">Settings</a>
 				<a data-role="button" data-theme="b" href="help.html" data-mini="false" data-icon="info" data-transition="none">Help</a>
 				</div>
 			</div>
@@ -89,6 +89,8 @@
 			<option value="numbers">Numbers</option>
 			<option value="shapes" selected="selected">Shapes</option>
 		</select>
+		
+		<a href="#puzzle" data-role="button" data-transition="none" data-inline="false">Close</a>
 	</div>
 	
 	<div id="pause" data-role="page" data-theme="a" data-title="PushPop - Paused">
