@@ -23,7 +23,7 @@
 	  newPuzzle: function() {
 		$("#gameMenu").hide(100);
 	  	if (this.game.counter > 0 && !this.game.puzzleFinished()) {
-	  		$.mobile.changePage("#newGameConfirm", {transition: "slidedown"});
+	  		$.mobile.changePage($("#newGameConfirm"), {transition: "slidedown", changeHash: false});
 	  	} else {
 	  		this.reallyNewPuzzle();
 	  	}
@@ -110,7 +110,7 @@
 	  	if (window.localStorage) {
 //	  		localStorage.setItem("pushpop.startup", "dismiss");
 	  	}
-		window.history.back();	  	
+	  	$.mobile.changePage($("#puzzle"), { changeHash: false });
 	  },
 	  getAHint: function() {
 		var hint = this.game.getHint();
@@ -200,7 +200,7 @@
 				$("#stats").text("You completed this puzzle in "+endTime.toString()+" with "+this.game.counter+" moves.");
 				this.game.shutdown();
 				$("#quip").text("\""+this.getComment(endTime)+"\"");
-				$.mobile.changePage("#gameOver", {transition: "slidedown"});
+				$.mobile.changePage($("#gameOver"), {transition: "slidedown", changeHash: false});
 			},
 			getComment: function(time) {
 				var appropriate_quips;
@@ -305,16 +305,11 @@
 	});
 	
 	$(document).bind('pagebeforechange', function(e, data) {
-		if (data.toPage[0].id == "startup" && data.options.fromPage && data.options.fromPage[0].id == "help") {
-			// this happens because the help "back" button might go to the startup dialog
-			// instead of the actual puzzle
-			data.toPage = $("#puzzle");
-		}
 		if (data.toPage[0].id == "puzzle") {
 			if (!data.options.fromPage) {
 				// first page load
 				if (!window.localStorage || window.localStorage.getItem("pushpop.startup") != "dismiss") {
-					setTimeout( function() { $.mobile.changePage("#startup"); }, 1000);
+					setTimeout( function() { $.mobile.changePage($("#startup"), { transition: "slidedown", changeHash: false }); }, 250);
 				}
 			}
 			var id = data.options.pageData ? data.options.pageData.game : null;
