@@ -69,7 +69,7 @@
 	  },
 	  setSound: function(soundOn) {
 	  	this.sound = soundOn === true;
-		$("#sound").val(this.sound ? "on":"off").slider("refresh");
+//		$("#sound").val(this.sound ? "on":"off").slider("refresh");
 	  	if (window.localStorage) {
 	  		localStorage.setItem("pushpop.sound", this.sound ? "on" : "off");
 	  	}
@@ -77,10 +77,10 @@
 	  setShapes: function(shapes) {
 	  	if (shapes == "numbers") {
 	  		$("#game").removeClass("shapes").addClass("numbers");
-	  		$("#shapes").val("numbers").slider("refresh");
+//	  		$("#shapes").val("numbers").slider("refresh");
 	  	} else {
 	  		$("#game").removeClass("numbers").addClass("shapes");
-	  		$("#shapes").val("shapes").slider("refresh");
+//	  		$("#shapes").val("shapes").slider("refresh");
 	  		shapes = "shapes";
 	  	}
 	  	if (window.localStorage) {
@@ -92,7 +92,7 @@
 			level = "easy";
 		}
 		this.difficulty = level;
-		$("#difficulty").val(this.difficulty).selectmenu("refresh");
+//		$("#difficulty").val(this.difficulty).selectmenu("refresh");
 	  	if (window.localStorage) {
 	  		localStorage.setItem("pushpop.difficulty", this.difficulty);
 	  	}
@@ -277,6 +277,14 @@
 	}
 	
 	var pushPopUi = new PushPopUI();
+	
+	$("#settings").live('pageinit', function() {
+		$("#settings").click( function(e) {
+			if (e.srcElement.id == "settings") {
+				$.mobile.changePage($("#puzzle"));
+			}
+		});
+	});
 
 	$("#puzzle").live('pageinit', function() {
 		pushPopUi.init();

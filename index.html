@@ -49,25 +49,13 @@
 		</div>
 		<div id="workarea" class="workarea" data-role="content">
 			<div id="gameMenu" class="ui-body ui-body-a">
-				<a data-role="button" data-theme="b" id="newBtn" data-mini="false" data-icon="star">New Puzzle</a>
+				<div data-role="controlgroup">
 				<a data-role="button" data-theme="b" id="startOverBtn" data-mini="false" data-icon="refresh">Start Over</a>
-				<a data-role="button" data-theme="b" href="help.html" data-mini="false" data-icon="info" data-transition="none">Help</a>
-				<select name="difficulty" id="difficulty" data-mini="false" data-theme="b" data-native-menu="false">
-					<option value="easy" selected="selected">Easy</option>
-					<option value="medium">Medium</option>
-					<option value="hard">Hard</option>
-					<option value="harder">Really Hard</option>
-					<option value="insane">Insane</option>
-				</select>
-				<select name="sound" id="sound" data-mini="false" data-theme="b" data-role="slider">
-					<option value="off">Sound Off</option>
-					<option value="on" selected="selected">Sound On</option>
-				</select>
-				<select name="shapes" id="shapes" data-mini="false" data-theme="b" data-role="slider">
-					<option value="numbers">Numbers</option>
-					<option value="shapes" selected="selected">Shapes</option>
-				</select>
 				<a data-role="button" data-theme="b" id="hintBtn" data-mini="false" data-icon="check">Hint</a>
+				<a data-role="button" data-theme="b" id="newBtn" data-mini="false" data-icon="star">New Puzzle</a>
+				<a data-role="button" data-theme="b" href="#settings" data-mini="false" data-icon="info">Settings</a>
+				<a data-role="button" data-theme="b" href="help.html" data-mini="false" data-icon="info" data-transition="none">Help</a>
+				</div>
 			</div>
 			<div id="game" class="game shapes">
 				<div id="game-stack" class="stack"></div>
@@ -82,6 +70,25 @@
 			<a href="help.html" data-role="button" data-inline="true" data-icon="star" data-transition="none">More Help</a>
 			<a id="lets-go" data-role="button" data-inline="true" data-icon="back" data-transition="slideup" data-theme="b">Get On With It!</a>
 		</div>
+	</div>
+
+	<div id="settings" data-role="dialog" data-theme="c" data-transition="slidedown">
+		<h1>Settings</h1>
+		<select name="difficulty" id="difficulty" data-mini="false" data-theme="b" data-native-menu="false">
+			<option value="easy" selected="selected">Easy</option>
+			<option value="medium">Medium</option>
+			<option value="hard">Hard</option>
+			<option value="harder">Really Hard</option>
+			<option value="insane">Insane</option>
+		</select>
+		<select name="sound" id="sound" data-mini="false" data-theme="b" data-role="slider">
+			<option value="off">Sound Off</option>
+			<option value="on" selected="selected">Sound On</option>
+		</select>
+		<select name="shapes" id="shapes" data-mini="false" data-theme="b" data-role="slider">
+			<option value="numbers">Numbers</option>
+			<option value="shapes" selected="selected">Shapes</option>
+		</select>
 	</div>
 	
 	<div id="pause" data-role="page" data-theme="a" data-title="PushPop - Paused">

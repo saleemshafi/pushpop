@@ -467,6 +467,9 @@ body {
   position: relative;
 }
 
+#pushpop .ui-slider {
+  width: 100%;
+}
 
 #pushpop .ui-dialog {
   margin: 0 auto;
@@ -483,6 +486,10 @@ body {
     border-top: none;
     text-shadow: none;
     color: #fff;
+    width: 100%;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
   }
   #quip {
     text-align: center;
