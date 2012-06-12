@@ -479,11 +479,11 @@ body {
   .ui-dialog-contain {
     background-color: #000;
     position: absolute;
-    top: 43px;
-    margin-top: 0;
+    bottom: 0;
+    margin-bottom: 0;
     border-color: #666;
-    @include rounded(1px, 0px 0px .6em .6em);
-    border-top: none;
+    @include rounded(1px, .6em .6em 0 0);
+    border-bottom: none;
     text-shadow: none;
     color: #fff;
     width: 100%;

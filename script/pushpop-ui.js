@@ -25,7 +25,7 @@
 	  newPuzzle: function() {
 		$("#gameMenu").hide(100);
 	  	if (this.game.counter > 0 && !this.game.puzzleFinished()) {
-	  		$.mobile.changePage($("#newGameConfirm"), {transition: "slidedown", changeHash: false});
+	  		$.mobile.changePage($("#newGameConfirm"), {transition: "slideup", changeHash: false});
 	  	} else {
 	  		this.reallyNewPuzzle();
 	  	}
@@ -231,13 +231,13 @@
 			},
 			onPuzzleFinished: function() {
 				if (this.inDemo) {
-					$.mobile.changePage($("#demoOver"), {transition: "slidedown", changeHash: false});
+					$.mobile.changePage($("#demoOver"), {transition: "slideup", changeHash: false});
 				} else {
 					var endTime = this.game.timer;
 					$("#stats").text("You completed this puzzle in "+endTime.toString()+" with "+this.game.counter+" moves.");
 					this.game.shutdown();
 					$("#quip").text("\""+this.getComment(endTime)+"\"");
-					$.mobile.changePage($("#gameOver"), {transition: "slidedown", changeHash: false});
+					$.mobile.changePage($("#gameOver"), {transition: "slideup", changeHash: false});
 				}
 			},
 			getComment: function(time) {
@@ -361,7 +361,7 @@
 			if (!data.options.fromPage) {
 				// first page load
 				if (!window.localStorage || window.localStorage.getItem("pushpop.startup") != "dismiss") {
-					setTimeout( function() { $.mobile.changePage($("#startup"), { transition: "slidedown", changeHash: false }); }, 250);
+					setTimeout( function() { $.mobile.changePage($("#startup"), { transition: "slideup", changeHash: false }); }, 250);
 				}
 			}
 			var id = data.options.pageData ? data.options.pageData.game : null;
