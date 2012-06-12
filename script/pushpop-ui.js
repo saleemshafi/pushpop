@@ -5,6 +5,7 @@
 	  this.sound = false;
 	  this.shapes = null;
 	  this.difficulty = null;
+	  this.inDemo = false;
 	  this.size = 4;
 	}
 	
@@ -30,7 +31,13 @@
 	  	}
 	  },
 	  resetPuzzle: function(puzzleId) {
-		if (!puzzleId || puzzleId == "new") puzzleId = null;
+  		this.inDemo = false;
+	  	if (puzzleId == "demo") {
+	  		puzzleId = null;
+	  		this.inDemo = true;
+	  	} else if (!puzzleId || puzzleId == "new") { 
+	  		puzzleId = null;
+	  	}
 	  	if (this.game != null) {
 		  	this.game.shutdown();
 	  	}
@@ -45,6 +52,9 @@
 	  	this.game.start(this.updateTimer);
 	  	if (!$("#puzzle").hasClass("ui-page-active")) {
 	  		this.pauseTimer();
+	  	}
+	  	if (this.inDemo) {
+	  		this.demoRun();
 	  	}
 	  },
 	  reallyNewPuzzle: function() {
@@ -108,11 +118,15 @@
 		$("#game-stack").empty();
 		this.render();	
 	  },
-	  dismissStartup: function() {
+	  dismissStartup: function(newPuzzle) {
 	  	if (window.localStorage) {
 	  		localStorage.setItem("pushpop.startup", "dismiss");
 	  	}
-	  	$.mobile.changePage($("#puzzle"), { changeHash: false });
+	  	if (newPuzzle) {
+		  	$.mobile.changePage("#puzzle?game=new");
+	  	} else {
+		  	$.mobile.changePage($("#puzzle"), { changeHash: false });
+	  	}
 	  },
 	  getAHint: function() {
 		var hint = this.game.getHint();
@@ -121,6 +135,22 @@
 		} else {
 			this.renderPopGuessStack();
 		}
+	  },
+	  demoRun: function() {
+	  	this.inDemo = true;
+	  	$("#game-board div.stack").unbind("vclick");
+	  	$("#game-stack div.piece").unbind("vclick");
+	  	var stop  = 100;
+	  	var repeater = null;
+	  	var that = this;
+	  	repeater = setInterval(function() {
+	  		if (stop-- <= 0 || that.game.puzzleFinished()) {
+	  			clearInterval(repeater);
+	  			this.inDemo = false;
+	  		} else {
+		  		that.getAHint();
+	  		}
+	  	}, 1000);
 	  },
 			render: function() {
 					var gb = $('#game-board');
@@ -176,7 +206,9 @@
 			},
 			renderPushToGuessStack: function(piece) {
 				$("#game-stack").prepend('<div id="stack-'+piece.id+'" style="z-index:'+this.game.guess.length+';" class="piece color_'+piece.color+' popped"><div class="shape shape_'+piece.shape+'"></div></div>');
-				$("#stack-"+piece.id).bind("vclick", this.renderPopGuessStack.bind(this) );
+				if (!this.inDemo) {
+					$("#stack-"+piece.id).bind("vclick", this.renderPopGuessStack.bind(this) );
+				}
 				setTimeout(function() { $("#stack-"+piece.id).removeClass("popped"); }, 10);
 			},
 			renderPopGuessStack: function(event) {
@@ -198,11 +230,15 @@
 				setTimeout(function() { pieceDiv.removeClass("popped"); }, 10);
 			},
 			onPuzzleFinished: function() {
-				var endTime = this.game.timer;
-				$("#stats").text("You completed this puzzle in "+endTime.toString()+" with "+this.game.counter+" moves.");
-				this.game.shutdown();
-				$("#quip").text("\""+this.getComment(endTime)+"\"");
-				$.mobile.changePage($("#gameOver"), {transition: "slidedown", changeHash: false});
+				if (this.inDemo) {
+					$.mobile.changePage($("#demoOver"), {transition: "slidedown", changeHash: false});
+				} else {
+					var endTime = this.game.timer;
+					$("#stats").text("You completed this puzzle in "+endTime.toString()+" with "+this.game.counter+" moves.");
+					this.game.shutdown();
+					$("#quip").text("\""+this.getComment(endTime)+"\"");
+					$.mobile.changePage($("#gameOver"), {transition: "slidedown", changeHash: false});
+				}
 			},
 			getComment: function(time) {
 				var appropriate_quips;
@@ -288,6 +324,15 @@
 			setTimeout( pushPopUi.resetPuzzle.bind(pushPopUi, null), 250); 
 		} );
 	});
+
+	$("#startup").live('pageinit', function() {
+	    $("#demoBtn").bind("vclick", pushPopUi.demoRun.bind(pushPopUi) );
+		$("#gotIt").bind("vclick", pushPopUi.dismissStartup.bind(pushPopUi) );
+	});
+	
+	$("#demoOver").live('pageinit', function() {
+		$("#letsGo").bind("vclick", pushPopUi.dismissStartup.bind(pushPopUi, true) );
+	});
 	
 	$("#settings").live('pagebeforeshow', pushPopUi.showSettings.bind(pushPopUi) );
 
@@ -298,15 +343,15 @@
 		$("#puzzle").bind('pageshow', pushPopUi.resumeTimer.bind(pushPopUi) );
 		$("#gameOver").bind('pageshow', pushPopUi.playSound.bind(pushPopUi, "applause") );
 		$("#gameOver").bind('pagehide', pushPopUi.resetPuzzle.bind(pushPopUi, null) );
+		$("#workarea").bind("vclick", pushPopUi.hideMenu.bind(pushPopUi) );
 
 	  	$("#menuBtn").bind("vclick", pushPopUi.showMenu.bind(pushPopUi) );
 	  	$("#newBtn").bind("vclick", pushPopUi.newPuzzle.bind(pushPopUi) );
 	  	$("#startOverBtn").bind("vclick", pushPopUi.startOver.bind(pushPopUi) );
 	  	$("#hintBtn").bind("vclick", pushPopUi.getAHint.bind(pushPopUi) );
-		$("#lets-go").bind("vclick", pushPopUi.dismissStartup.bind(pushPopUi) );
-		$("#workarea").bind("vclick", pushPopUi.hideMenu.bind(pushPopUi) );
-	    $("audio").trigger('load');
 	
+	    $("audio").trigger('load');
+	    
 		setSize();
 		window.addEventListener("resize", setSize);
 	});
