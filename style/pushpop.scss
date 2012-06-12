@@ -126,7 +126,7 @@ body {
     .stack {
       width:$pieceWidth + ($pieceBorder * 2);
       min-height:1px;
-      padding-left:$stack-padding; 
+      margin-left:$stack-padding; 
     }
     
     .popped {
@@ -522,7 +522,7 @@ body .help-text {
     cursor: pointer;
   }
   .stack:first-child {
-    padding-left:0 !important;
+    margin-left:0 !important;
   }
 }
 
@@ -537,7 +537,7 @@ body .help-text {
   }
   #game-board {
     .stack:first-child {
-      padding-left:0;
+      margin-left:0;
     }    
   }
   #game-stack {
