@@ -3,7 +3,9 @@
 	function PushPopUI() {
 	  this.game = null;
 	  this.sound = false;
+	  this.shapes = null;
 	  this.difficulty = null;
+	  this.inDemo = false;
 	  this.size = 4;
 	}
 	
@@ -23,13 +25,19 @@
 	  newPuzzle: function() {
 		$("#gameMenu").hide(100);
 	  	if (this.game.counter > 0 && !this.game.puzzleFinished()) {
-	  		$.mobile.changePage($("#newGameConfirm"), {transition: "slidedown", changeHash: false});
+	  		$.mobile.changePage($("#newGameConfirm"), {transition: "slideup", changeHash: false});
 	  	} else {
 	  		this.reallyNewPuzzle();
 	  	}
 	  },
 	  resetPuzzle: function(puzzleId) {
-		if (!puzzleId || puzzleId == "new") puzzleId = null;
+  		this.inDemo = false;
+	  	if (puzzleId == "demo") {
+	  		puzzleId = null;
+	  		this.inDemo = true;
+	  	} else if (!puzzleId || puzzleId == "new") { 
+	  		puzzleId = null;
+	  	}
 	  	if (this.game != null) {
 		  	this.game.shutdown();
 	  	}
@@ -38,9 +46,16 @@
 		$("#solution").empty();
 	
 		this.game = new PushPop().init(this.size, this.size, this.difficulty, puzzleId);
-	  	window.location.hash = "puzzle?game="+this.game.id;
+// this is turned off so that changing the difficulty of a puzzle doesn't close the settings page
+//	  	window.location.hash = "puzzle?game="+this.game.id;
 	  	this.render();
 	  	this.game.start(this.updateTimer);
+	  	if (!$("#puzzle").hasClass("ui-page-active")) {
+	  		this.pauseTimer();
+	  	}
+	  	if (this.inDemo) {
+	  		this.demoRun();
+	  	}
 	  },
 	  reallyNewPuzzle: function() {
 	  	// TODO: i think we can do better than this
@@ -69,22 +84,15 @@
 	  },
 	  setSound: function(soundOn) {
 	  	this.sound = soundOn === true;
-		$("#sound").val(this.sound ? "on":"off").slider("refresh");
 	  	if (window.localStorage) {
 	  		localStorage.setItem("pushpop.sound", this.sound ? "on" : "off");
 	  	}
 	  },
 	  setShapes: function(shapes) {
-	  	if (shapes == "numbers") {
-	  		$("#game").removeClass("shapes").addClass("numbers");
-	  		$("#shapes").val("numbers").slider("refresh");
-	  	} else {
-	  		$("#game").removeClass("numbers").addClass("shapes");
-	  		$("#shapes").val("shapes").slider("refresh");
-	  		shapes = "shapes";
-	  	}
+	  	this.shapes = shapes == "numbers" ? "numbers" : "shapes";
+	  	$("#game").removeClass("shapes numbers").addClass(this.shapes);
 	  	if (window.localStorage) {
-	  		localStorage.setItem("pushpop.shapes", shapes);
+	  		localStorage.setItem("pushpop.shapes", this.shapes);
 	  	}
 	  },
 	  setDifficulty: function(level) {
@@ -92,10 +100,14 @@
 			level = "easy";
 		}
 		this.difficulty = level;
-		$("#difficulty").val(this.difficulty).selectmenu("refresh");
 	  	if (window.localStorage) {
 	  		localStorage.setItem("pushpop.difficulty", this.difficulty);
 	  	}
+	  },
+	  showSettings: function() {
+  		$("#shapes").val(this.shapes).slider("refresh");
+		$("#sound").val(this.sound ? "on":"off").slider("refresh");
+		$("#difficulty").val(this.difficulty).selectmenu("refresh");
 	  },
 	  pieceMarkup: function(piece, depth, extraClass) {
 	  	return '<div id="'+piece.id+'" style="z-index:'+(depth+1)+'" data-stack="'+piece.stack+'" class="piece color_'+piece.color+(extraClass?" "+extraClass:"")+'"><div class="shape shape_'+piece.shape+'"></div></div>';
@@ -106,11 +118,15 @@
 		$("#game-stack").empty();
 		this.render();	
 	  },
-	  dismissStartup: function() {
+	  dismissStartup: function(newPuzzle) {
 	  	if (window.localStorage) {
 	  		localStorage.setItem("pushpop.startup", "dismiss");
 	  	}
-	  	$.mobile.changePage($("#puzzle"), { changeHash: false });
+	  	if (newPuzzle) {
+		  	$.mobile.changePage("#puzzle?game=new");
+	  	} else {
+		  	$.mobile.changePage($("#puzzle"), { changeHash: false });
+	  	}
 	  },
 	  getAHint: function() {
 		var hint = this.game.getHint();
@@ -119,6 +135,22 @@
 		} else {
 			this.renderPopGuessStack();
 		}
+	  },
+	  demoRun: function() {
+	  	this.inDemo = true;
+	  	$("#game-board div.stack").unbind("vclick");
+	  	$("#game-stack div.piece").unbind("vclick");
+	  	var stop  = 100;
+	  	var repeater = null;
+	  	var that = this;
+	  	repeater = setInterval(function() {
+	  		if (stop-- <= 0 || that.game.puzzleFinished()) {
+	  			clearInterval(repeater);
+	  			this.inDemo = false;
+	  		} else {
+		  		that.getAHint();
+	  		}
+	  	}, 1000);
 	  },
 			render: function() {
 					var gb = $('#game-board');
@@ -174,7 +206,9 @@
 			},
 			renderPushToGuessStack: function(piece) {
 				$("#game-stack").prepend('<div id="stack-'+piece.id+'" style="z-index:'+this.game.guess.length+';" class="piece color_'+piece.color+' popped"><div class="shape shape_'+piece.shape+'"></div></div>');
-				$("#stack-"+piece.id).bind("vclick", this.renderPopGuessStack.bind(this) );
+				if (!this.inDemo) {
+					$("#stack-"+piece.id).bind("vclick", this.renderPopGuessStack.bind(this) );
+				}
 				setTimeout(function() { $("#stack-"+piece.id).removeClass("popped"); }, 10);
 			},
 			renderPopGuessStack: function(event) {
@@ -196,11 +230,15 @@
 				setTimeout(function() { pieceDiv.removeClass("popped"); }, 10);
 			},
 			onPuzzleFinished: function() {
-				var endTime = this.game.timer;
-				$("#stats").text("You completed this puzzle in "+endTime.toString()+" with "+this.game.counter+" moves.");
-				this.game.shutdown();
-				$("#quip").text("\""+this.getComment(endTime)+"\"");
-				$.mobile.changePage($("#gameOver"), {transition: "slidedown", changeHash: false});
+				if (this.inDemo) {
+					$.mobile.changePage($("#demoOver"), {transition: "slideup", changeHash: false});
+				} else {
+					var endTime = this.game.timer;
+					$("#stats").text("You completed this puzzle in "+endTime.toString()+" with "+this.game.counter+" moves.");
+					this.game.shutdown();
+					$("#quip").text("\""+this.getComment(endTime)+"\"");
+					$.mobile.changePage($("#gameOver"), {transition: "slideup", changeHash: false});
+				}
 			},
 			getComment: function(time) {
 				var appropriate_quips;
@@ -277,6 +315,31 @@
 	}
 	
 	var pushPopUi = new PushPopUI();
+	
+	$(document).bind("mobileinit", function(){
+	  $.mobile.defaultDialogTransition = 'none';
+	  $.mobile.defaultPageTransition = 'none';
+	});
+
+	$("#settings").live('pageinit', function() {
+		$("#sound").bind("change", function() { pushPopUi.setSound($(this).val() != "off"); } );
+		$("#shapes").bind("change", function() { pushPopUi.setShapes($(this).val()); } );
+		$("#difficulty").bind("change", function() {
+			pushPopUi.setDifficulty($(this).val());
+			setTimeout( pushPopUi.resetPuzzle.bind(pushPopUi, null), 250); 
+		} );
+	});
+
+	$("#startup").live('pageinit', function() {
+	    $("#demoBtn").bind("vclick", pushPopUi.demoRun.bind(pushPopUi) );
+		$("#gotIt").bind("vclick", pushPopUi.dismissStartup.bind(pushPopUi) );
+	});
+	
+	$("#demoOver").live('pageinit', function() {
+		$("#letsGo").bind("vclick", pushPopUi.dismissStartup.bind(pushPopUi, true) );
+	});
+	
+	$("#settings").live('pagebeforeshow', pushPopUi.showSettings.bind(pushPopUi) );
 
 	$("#puzzle").live('pageinit', function() {
 		pushPopUi.init();
@@ -285,21 +348,15 @@
 		$("#puzzle").bind('pageshow', pushPopUi.resumeTimer.bind(pushPopUi) );
 		$("#gameOver").bind('pageshow', pushPopUi.playSound.bind(pushPopUi, "applause") );
 		$("#gameOver").bind('pagehide', pushPopUi.resetPuzzle.bind(pushPopUi, null) );
+		$("#workarea").bind("vclick", pushPopUi.hideMenu.bind(pushPopUi) );
 
 	  	$("#menuBtn").bind("vclick", pushPopUi.showMenu.bind(pushPopUi) );
 	  	$("#newBtn").bind("vclick", pushPopUi.newPuzzle.bind(pushPopUi) );
 	  	$("#startOverBtn").bind("vclick", pushPopUi.startOver.bind(pushPopUi) );
 	  	$("#hintBtn").bind("vclick", pushPopUi.getAHint.bind(pushPopUi) );
-		$("#lets-go").bind("vclick", pushPopUi.dismissStartup.bind(pushPopUi) );
-		$("#workarea").bind("vclick", pushPopUi.hideMenu.bind(pushPopUi) );
-		$("#sound").bind("change", function() { pushPopUi.setSound($(this).val() != "off"); } );
-		$("#shapes").bind("change", function() { pushPopUi.setShapes($(this).val()); } );
-		$("#difficulty").bind("change", function() {
-			pushPopUi.setDifficulty($(this).val()); 
-			pushPopUi.resetPuzzle(null);
-		} );
-	    $("audio").trigger('load');
 	
+	    $("audio").trigger('load');
+	    
 		setSize();
 		window.addEventListener("resize", setSize);
 	});
@@ -309,7 +366,7 @@
 			if (!data.options.fromPage) {
 				// first page load
 				if (!window.localStorage || window.localStorage.getItem("pushpop.startup") != "dismiss") {
-					setTimeout( function() { $.mobile.changePage($("#startup"), { transition: "slidedown", changeHash: false }); }, 250);
+					setTimeout( function() { $.mobile.changePage($("#startup"), { transition: "slideup", changeHash: false }); }, 250);
 				}
 			}
 			var id = data.options.pageData ? data.options.pageData.game : null;
