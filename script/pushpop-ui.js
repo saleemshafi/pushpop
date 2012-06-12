@@ -316,6 +316,11 @@
 	
 	var pushPopUi = new PushPopUI();
 	
+	$(document).bind("mobileinit", function(){
+	  $.mobile.defaultDialogTransition = 'none';
+	  $.mobile.defaultPageTransition = 'none';
+	});
+
 	$("#settings").live('pageinit', function() {
 		$("#sound").bind("change", function() { pushPopUi.setSound($(this).val() != "off"); } );
 		$("#shapes").bind("change", function() { pushPopUi.setShapes($(this).val()); } );
