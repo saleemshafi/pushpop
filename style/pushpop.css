@@ -109,6 +109,12 @@ body {
       display: block; }
     #pushpop.small .ui-dialog .ui-dialog-contain, #pushpop.small #gameOver .ui-dialog-contain {
       padding: 15px; }
+  #pushpop.small .demo-controls .ui-icon {
+    display: none; }
+  #pushpop.small .demo-controls .ui-btn-inner {
+    padding-left: 20px; }
+  #pushpop.small .demo-controls .demo-buttons {
+    width: 315px; }
 
   #pushpop.medium #game-board .stack {
     width: 98px;
@@ -593,6 +599,18 @@ body .help-text {
   cursor: pointer; }
 #game-board .stack:first-child {
   margin-left: 0 !important; }
+
+.demo-controls {
+  display: none;
+  position: absolute;
+  width: 100%;
+  bottom: 0; }
+  .demo-controls .demo-buttons {
+    width: 400px;
+    margin: 0 auto; }
+
+.in-demo .demo-controls {
+  display: block; }
 
 .piece {
   position: relative; }
