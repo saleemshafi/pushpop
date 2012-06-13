@@ -5,7 +5,7 @@
 	  this.sound = false;
 	  this.shapes = null;
 	  this.difficulty = null;
-	  this.inDemo = false;
+	  this.demo = false;
 	  this.size = 4;
 	}
 	
@@ -31,10 +31,10 @@
 	  	}
 	  },
 	  resetPuzzle: function(puzzleId) {
-  		this.inDemo = false;
+  		this.inDemo(false);
 	  	if (puzzleId == "demo") {
 	  		puzzleId = null;
-	  		this.inDemo = true;
+	  		this.inDemo(true);
 	  	} else if (!puzzleId || puzzleId == "new") { 
 	  		puzzleId = null;
 	  	}
@@ -53,8 +53,8 @@
 	  	if (!$("#puzzle").hasClass("ui-page-active")) {
 	  		this.pauseTimer();
 	  	}
-	  	if (this.inDemo) {
-	  		this.demoRun();
+	  	if (this.inDemo()) {
+	  		setTimeout( this.getAHint.bind(this), 1000);
 	  	}
 	  },
 	  reallyNewPuzzle: function() {
@@ -136,17 +136,29 @@
 			this.renderPopGuessStack();
 		}
 	  },
+	  inDemo: function(demo) {
+	  	if (demo !== undefined) {
+	  		this.demo = demo == true;
+	  		if (this.demo) {
+	  			$("#puzzle").addClass("in-demo");
+	  			$("#toolbar h1").text("PushPop Demo");
+	  		} else {
+				$("#puzzle").removeClass("in-demo");
+	  			$("#toolbar h1").text("PushPop");
+	  		}
+	  	}
+	  	return this.demo;
+	  },
 	  demoRun: function() {
-	  	this.inDemo = true;
+	  	this.inDemo(true);
 	  	$("#game-board div.stack").unbind("vclick");
 	  	$("#game-stack div.piece").unbind("vclick");
 	  	var stop  = 100;
 	  	var repeater = null;
 	  	var that = this;
 	  	repeater = setInterval(function() {
-	  		if (stop-- <= 0 || that.game.puzzleFinished()) {
+	  		if (stop-- <= 0 || that.game.puzzleFinished() || !that.inDemo()) {
 	  			clearInterval(repeater);
-	  			this.inDemo = false;
 	  		} else {
 		  		that.getAHint();
 	  		}
@@ -168,7 +180,9 @@
 						gbHtml += '</div>';
 					}
 					gb.append(gbHtml);
-					gb.find("div.stack").bind("vclick", this.renderPopStack.bind(this) );
+					if (!this.inDemo()) {
+						gb.find("div.stack").bind("vclick", this.renderPopStack.bind(this) );
+					}
 					gb.find("div.piece").jrumble({x:3, y:3, rotation:5});
 			},
 			getSize: function() {
@@ -206,7 +220,7 @@
 			},
 			renderPushToGuessStack: function(piece) {
 				$("#game-stack").prepend('<div id="stack-'+piece.id+'" style="z-index:'+this.game.guess.length+';" class="piece color_'+piece.color+' popped"><div class="shape shape_'+piece.shape+'"></div></div>');
-				if (!this.inDemo) {
+				if (!this.inDemo()) {
 					$("#stack-"+piece.id).bind("vclick", this.renderPopGuessStack.bind(this) );
 				}
 				setTimeout(function() { $("#stack-"+piece.id).removeClass("popped"); }, 10);
@@ -230,7 +244,8 @@
 				setTimeout(function() { pieceDiv.removeClass("popped"); }, 10);
 			},
 			onPuzzleFinished: function() {
-				if (this.inDemo) {
+				if (this.inDemo()) {
+		  			this.inDemo(false);
 					$.mobile.changePage($("#demoOver"), {transition: "slideup", changeHash: false});
 				} else {
 					var endTime = this.game.timer;
@@ -331,8 +346,7 @@
 	});
 
 	$("#startup").live('pageinit', function() {
-	    $("#demoBtn").bind("vclick", pushPopUi.demoRun.bind(pushPopUi) );
-		$("#gotIt").bind("vclick", pushPopUi.dismissStartup.bind(pushPopUi) );
+		$("#gotIt").bind("vclick", pushPopUi.dismissStartup.bind(pushPopUi, true) );
 	});
 	
 	$("#demoOver").live('pageinit', function() {
@@ -354,6 +368,10 @@
 	  	$("#newBtn").bind("vclick", pushPopUi.newPuzzle.bind(pushPopUi) );
 	  	$("#startOverBtn").bind("vclick", pushPopUi.startOver.bind(pushPopUi) );
 	  	$("#hintBtn").bind("vclick", pushPopUi.getAHint.bind(pushPopUi) );
+
+		$("#stepDemoBtn").bind("vclick", pushPopUi.getAHint.bind(pushPopUi) );
+		$("#playDemoBtn").bind("vclick", pushPopUi.demoRun.bind(pushPopUi) );
+		$("#iGetItBtn").bind("vclick", pushPopUi.dismissStartup.bind(pushPopUi, true) );
 	
 	    $("audio").trigger('load');
 	    

@@ -126,7 +126,7 @@ body {
     .stack {
       width:$pieceWidth + ($pieceBorder * 2);
       min-height:1px;
-      padding-left:$stack-padding; 
+      margin-left:$stack-padding; 
     }
     
     .popped {
@@ -251,6 +251,15 @@ body {
         padding:15px;
       }
     }
+    
+    .demo-controls {
+      .ui-icon { display: none; }
+      .ui-btn-inner { padding-left: 20px; }
+      .demo-buttons { width: 315px; }
+    }
+
+    
+    
   }
   #pushpop.medium {
     @include portrait_sizes(640px, 480px, 90px, 90px, 30px, 4px);
@@ -522,8 +531,23 @@ body .help-text {
     cursor: pointer;
   }
   .stack:first-child {
-    padding-left:0 !important;
+    margin-left:0 !important;
   }
+}
+
+.demo-controls {
+  display: none; 
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  .demo-buttons {
+    width: 400px;
+    margin: 0 auto;
+  }
+}
+
+.in-demo .demo-controls {
+  display: block;
 }
 
 .piece {
@@ -537,7 +561,7 @@ body .help-text {
   }
   #game-board {
     .stack:first-child {
-      padding-left:0;
+      margin-left:0;
     }    
   }
   #game-stack {
