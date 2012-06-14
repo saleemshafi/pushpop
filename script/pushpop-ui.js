@@ -1,5 +1,13 @@
 
 (function($, window, undefined) {
+	if (!Function.prototype.bind) {
+		console.log("PushPop DEBUG: "+"Adding function.bind method");
+		Function.prototype.bind = function(context) {
+			return $.proxy(this, context);
+		}
+	}
+											
+											
 	function PushPopUI() {
 	  this.game = null;
 	  this.sound = false;
@@ -203,8 +211,7 @@
 					$("#"+piece.id).addClass("popped");
 					setTimeout(function() { $("#"+piece.id).remove() }, 600);
 					if (this.game.puzzleFinished()) {
-						this.onPuzzleFinished();
-					}
+						this.onPuzzleFinished(); }
 				} else {
 					var stx = this.game.stacks[stack];
 					if (stx.length > 0) {
