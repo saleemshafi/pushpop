@@ -141,7 +141,7 @@
 	  	$.mobile.changePage($("#getPremium"), {changeHash: false, transition: "slideup" });
 	  },
 	  downloadPremium: function() {
-	  	
+	  	window.open("http://www.pushpoppuzzle.com/");
 	  },
 	  inDemo: function(demo) {
 	  	if (demo !== undefined) {
