@@ -28,16 +28,16 @@
 			return ( paused ? baseline : (new Date().getTime()) - baseline) + elapsed;
 		},
 		getSeconds: function() {
-			return Math.round(this.getTime() / 1000);
+			return Math.floor(this.getTime() / 1000);
 		},
 		getMinutes: function() {
-			return this.getSeconds() / 60;
+			return Math.floor(this.getSeconds() / 60);
 		},
 		getHours: function() {
-			return this.getMinutes() / 60;
+			return Math.floor(this.getMinutes() / 60);
 		},
 		getDays: function() {
-			return this.getHours() / 24;
+			return Math.floor(this.getHours() / 24);
 		},
 		toString: function() {
 			var time = instance.getTime();

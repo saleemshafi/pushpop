@@ -593,5 +593,11 @@ body .help-text {
   }
 }
 
+li.disabled .ui-li {
+  padding-left: 25px;
+  background-image: url(images/lock.png);
+  background-repeat: no-repeat;
+  background-position: 0 50%;
+}
 ////////////////////////////////////////////////
 
