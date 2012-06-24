@@ -15,10 +15,11 @@
 		
 	  init: function() {
 		if (window.localStorage) {
-			this.setSound(localStorage.getItem("pushpop.sound") != "off");
-			this.setLevelsEnabled(localStorage.getItem("pushpop.levels") || ["easy"]);
-			this.setDifficulty(this.difficulty = localStorage.getItem("pushpop.difficulty"));
-			this.setShapes(localStorage.getItem("pushpop.shapes"));
+			this.setSound(window.localStorage.getItem("pushpop.sound") != "off");
+			var levels = window.localStorage.getItem("pushpop.levelsEnabled");
+			this.setLevelsEnabled( $.parseJSON(levels) || ["easy"]);
+			this.setDifficulty(this.difficulty = window.localStorage.getItem("pushpop.difficulty"));
+			this.setShapes(window.localStorage.getItem("pushpop.shapes"));
 		} else {
 			this.setSound(true);
 			this.setLevelsEnabled(["easy"]);
@@ -89,14 +90,14 @@
 	  setSound: function(soundOn) {
 	  	this.sound = soundOn === true;
 	  	if (window.localStorage) {
-	  		localStorage.setItem("pushpop.sound", this.sound ? "on" : "off");
+	  		window.localStorage.setItem("pushpop.sound", this.sound ? "on" : "off");
 	  	}
 	  },
 	  setShapes: function(shapes) {
 	  	this.shapes = shapes == "numbers" ? "numbers" : "shapes";
 	  	$("#game").removeClass("shapes numbers").addClass(this.shapes);
 	  	if (window.localStorage) {
-	  		localStorage.setItem("pushpop.shapes", this.shapes);
+	  		window.localStorage.setItem("pushpop.shapes", this.shapes);
 	  	}
 	  },
 	  setLevelsEnabled: function(levels) {
@@ -106,6 +107,9 @@
 	  			this.levelsEnabled.push(levels[i]);
 	  		}
 	  	}
+	  	if (window.localStorage) {
+	  		window.localStorage.setItem("pushpop.levelsEnabled", JSON.stringify(this.levelsEnabled));
+	  	}
 	  },
 	  setDifficulty: function(level) {
 		if (this.levelsEnabled.indexOf(level) == -1) {
@@ -113,7 +117,7 @@
 		}
 		this.difficulty = level;
 	  	if (window.localStorage) {
-	  		localStorage.setItem("pushpop.difficulty", this.difficulty);
+	  		window.localStorage.setItem("pushpop.difficulty", this.difficulty);
 	  	}
 	  },
 	  showSettings: function() {
@@ -132,7 +136,7 @@
 	  },
 	  dismissStartup: function(newPuzzle) {
 	  	if (window.localStorage) {
-	  		localStorage.setItem("pushpop.startup", "dismiss");
+	  		window.localStorage.setItem("pushpop.startup", "dismiss");
 	  	}
 	  	if (newPuzzle) {
 		  	$.mobile.changePage("#puzzle?game=new");
@@ -378,7 +382,7 @@
 	$("#settings").live('pageinit', function() {
 		$("#sound").bind("change", function() { pushPopUi.setSound($(this).val() != "off"); } );
 		$("#shapes").bind("change", function() { pushPopUi.setShapes($(this).val()); } );
-		$("#difficulty-button").bind("change", function() {
+		$("#difficulty").bind("change", function() {
 			var difficulty = $(this).val();
 			if (!pushPopUi.premium && (difficulty == "harder" || difficulty == "insane")) {
 				pushPopUi.showPremiumDLPage();
