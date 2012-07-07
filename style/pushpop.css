@@ -647,3 +647,9 @@ li.disabled .ui-li {
   background-image: url(images/lock.png);
   background-repeat: no-repeat;
   background-position: 0 50%; }
+
+#nextLevel {
+  display: none; }
+
+.upLevel #nextLevel {
+  display: block; }

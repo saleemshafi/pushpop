@@ -1,5 +1,12 @@
 
 (function($, window, undefined) {
+	var levelNames = {
+		"easy": "Easy",
+		"medium": "Medium",
+		"hard": "Hard",
+		"harder": "Harder",
+		"insane": "Insane"
+	};
 	function PushPopUI(version) {
 	  this.game = null;
 	  this.sound = false;
@@ -268,18 +275,21 @@
 				var pieceDiv = $("#"+piece.id);
 				setTimeout(function() { pieceDiv.removeClass("popped"); }, 10);
 			},
-			enableNextLevel: function() {
+			getNextLevel: function() {
 				var currentLevel = this.difficulty;
 				var levelNum = PushPop.DIFFICULTIES.indexOf(currentLevel);
-				var nextLevel = levelNum+1 < PushPop.DIFFICULTIES.length ? PushPop.DIFFICULTIES[levelNum+1] : currentLevel;
-				if (this.levelsEnabled.indexOf(nextLevel) == -1) {
+				return levelNum+1 < PushPop.DIFFICULTIES.length ? PushPop.DIFFICULTIES[levelNum+1] : null;
+			},
+			enableNextLevel: function() {
+				var nextLevel = this.getNextLevel();
+				if (nextLevel != null && this.levelsEnabled.indexOf(nextLevel) == -1) {
 					var newLevels = this.levelsEnabled.slice();
 					newLevels.push(nextLevel);
 					$("#difficulty-menu li[data-option-index="+(levelNum+1)+"]").removeClass("disabled");
 					this.setLevelsEnabled(newLevels);
-					return nextLevel;
+					return true;
 				}
-				return null;
+				return false;
 			},
 			onPuzzleFinished: function() {
 				if (this.inDemo()) {
@@ -289,12 +299,25 @@
 					var endTime = this.game.timer;
 					endTime.pause();
 					var leveledUp = false;
+					var nextLevel = null;
 					if (endTime.getMinutes() == 0 && this.game.counter <= 20) {
 						leveledUp = this.enableNextLevel();
+						nextLevel = this.getNextLevel();
+						if (nextLevel != null) {
+							nextLevel = levelNames[nextLevel];
+						}
 					}
 					$("#stats").text("You completed this puzzle in "+endTime.toString()+" with "+this.game.counter+" moves.");
 					this.game.shutdown();
-					$("#quip").text("\""+this.getComment(endTime)+"\"");
+					if (nextLevel) {
+						$("#gameOver .level").text(nextLevel);
+						$("#gameOver .buttons").addClass("upLevel");
+					}
+					if (leveledUp) {
+						$("#quip").text("Congratulations, you've unlocked the "+nextLevel+" level!");
+					} else {
+						$("#quip").text("\""+this.getComment(endTime, this.game.counter)+"\"");
+					}
 					$.mobile.changePage($("#gameOver"), {transition: "slideup", changeHash: false});
 				}
 			},

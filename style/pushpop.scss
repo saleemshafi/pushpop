@@ -599,5 +599,13 @@ li.disabled .ui-li {
   background-repeat: no-repeat;
   background-position: 0 50%;
 }
+
+#nextLevel {
+  display: none;
+}
+
+.upLevel #nextLevel {
+  display: block;
+}
 ////////////////////////////////////////////////
 
