@@ -168,6 +168,14 @@
 	  downloadPremium: function() {
 	  	window.open("http://www.pushpoppuzzle.com/");
 	  },
+	  tryNextLevel: function() {
+	  	var nextLevel = this.getNextLevel();
+	  	if (nextLevel != null) {
+	  		this.setDifficulty(nextLevel);
+		  	this.reallyNewPuzzle();
+	  	}
+	  	$.mobile.changePage("#puzzle");
+	  },
 	  inDemo: function(demo) {
 	  	if (demo !== undefined) {
 	  		this.demo = demo == true;
@@ -434,6 +442,10 @@
 	
 	$("#demoOver").live('pageinit', function() {
 		$("#letsGo").bind("vclick", pushPopUi.dismissStartup.bind(pushPopUi, true) );
+	});
+	
+	$("#gameOver").live('pageinit', function() {
+		$("#nextLevel").bind("vclick", pushPopUi.tryNextLevel.bind(pushPopUi, true) );
 	});
 	
 	$("#getPremium").live('pageinit', function() {
