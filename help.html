@@ -3,11 +3,23 @@
 <head>
 	<title>PushPop - Help</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" type="text/css" href="style/basic.css" />
+	<link rel="stylesheet" type="text/css" href="style/pushpop.css" />
 	<link rel="stylesheet" type="text/css" href="style/jquery-mobile-1.1.0.css" />
+	<link rel="stylesheet" type="text/css" href="style/jqmobiledialogfix.css" />
+	<link rel="stylesheet" type="text/css" href="../src-platform/pushpop.css" />
+	
 	<script src="script/jquery-1.7.1.js"></script>
-	<script src="script/jquery.jrumble.1.3.js"></script>
 	<script src="script/jquery-mobile-1.1.0.js"></script>
+	<script src="script/jquery.jrumble.1.3.js"></script>
+	<script src="script/jqm.page.params.js"></script>
+	<script src="../src-platform/cordova-1.7.0.js"></script>
+
+	<script src="script/timer.js"></script>
+	<script src="script/pushpop.js"></script>
+	<script src="script/pushpop-ui.js"></script>
+	
+	<script src="../src-platform/adPlugin.js"></script>
+	<script src="../src-platform/setup.js"></script>
 </head>
 <body id="pushpop" class="large">
 	<div id="help" data-role="page" data-title="PushPop - Help" data-theme="a">
@@ -23,9 +35,10 @@
 			<p>The point of the game is to pop all of the pieces from the puzzle stacks -- just tap the piece you'd
 			like to pop -- and push them onto the solution stack.  However, you can only push a piece onto the solution
 			stack if it matches either the shape/number or color of the piece at the head of the solution stack.</p>
-			<p>For example, if the current head of the solution stack is a <span id="yellow3" class="piece">3</span>, then you
-			can push a <span id="red3" class="piece">3</span> or a <span id="yellow1" class="piece">1</span>, but not a 
-			<span id="red1" class="piece">1</span>.</p>
+			<p>For example, if the current head of the solution stack is a <span id="yellow3" class="piece"></span>, then you
+			can push a <span id="red3" class="piece"></span> or a <span id="yellow1" class="piece"></span>, but not a 
+			<span id="red1" class="piece"></span>.</p>
+			<p style="text-align:center;font-size:16px"><a href="#puzzle?game=demo" data-role="button" data-inline="true" data-theme="b" data-mini="false" data-icon="what">See a Demo</a></p>
 			<p>If you try to pop a piece off a game stack that doesn't match the current head of the solution stack,
 			the piece you've selected will <span id="wiggle">wiggle</span> a bit to let you know.  If you feel like you've made a mistake, you
 			can always unwind by popping pieces back off of the solution stack or by opting to 
@@ -34,6 +47,8 @@
 			<p>If you really get stuck, you can ask for a hint.</p>
 			<p>Every puzzle has a solution and some puzzles have more than one.  See how fast you can solve them, and try to
 			use the least number of moves.</p>
+			<p>Initially, only the 'Easy' level is enabled, but you can unlock the next version by solving a puzzle quickly with
+			few mistakes.  The 'Harder' and 'Insane' levels are only available in the paid version of PushPop.</p>
 			<p>Enjoy.</p>
 		</div>
 		

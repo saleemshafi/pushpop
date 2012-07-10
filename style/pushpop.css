@@ -592,6 +592,10 @@ body .help-text {
   body .help-text #red3, body .help-text #red1 {
     background-color: #ff8080;
     border-color: red; }
+  body .help-text #yellow1::before, body .help-text #red1::before {
+    content: "1"; }
+  body .help-text #yellow3::before, body .help-text #red3::before {
+    content: "3"; }
 
 #game-board .stack {
   display: inline-block;
@@ -647,3 +651,15 @@ li.disabled .ui-li {
   background-image: url(images/lock.png);
   background-repeat: no-repeat;
   background-position: 0 50%; }
+
+#nextLevel {
+  display: none; }
+
+.upLevel #nextLevel {
+  display: block; }
+
+#gameOver .getPremiumBtn {
+  display: none; }
+
+#gameOver .upgrade .getPremiumBtn {
+  display: block; }
