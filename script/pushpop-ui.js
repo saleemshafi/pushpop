@@ -7,6 +7,60 @@
 		"harder": "Harder",
 		"insane": "Insane"
 	};
+	
+	var levels = {
+		easy: {
+					id: "easy",
+					name: "Easy",
+					nextLevel: "medium",
+					getNext: function() { return levels.medium; },
+					goodEnoughForNextLevel: function(time, counter) {
+						return time.getMinutes() == 0 && counter < 20;
+					},
+					isAvailable: function() { return true; }
+				},
+		medium: {
+					id: "medium",
+					name: "Medium",
+					nextLevel: "hard",
+					getNext: function() { return levels.hard; },
+					goodEnoughForNextLevel: function(time, counter) {
+						return time.getMinutes() == 0 && counter < 20;
+					},
+					isAvailable: function() { return true; }
+				},
+		hard: {
+					id: "hard",
+					name: "Hard",
+					nextLevel: "harder",
+					getNext: function() { return levels.harder; },
+					goodEnoughForNextLevel: function(time, counter) {
+						return time.getMinutes() <= 1 && counter < 25;
+					},
+					isAvailable: function() { return true; }
+				},
+		harder: {
+					id: "harder",
+					name: "Harder",
+					nextLevel: "insane",
+					getNext: function() { return levels.insane; },
+					goodEnoughForNextLevel: function(time, counter) {
+						return time.getMinutes() <= 2;
+					},
+					isAvailable: function(premium) { return premium; }
+				},
+		insane: {
+					id: "insane",
+					name: "Insane",
+					nextLevel: null,
+					getNext: function() { return null; },
+					goodEnoughForNextLevel: function(time, counter) {
+						return false;
+					},
+					isAvailable: function(premium) { return premium; }
+				}
+	}
+	
 	function PushPopUI(version) {
 	  this.game = null;
 	  this.sound = false;
@@ -17,7 +71,7 @@
 	  this.premium = version == "premium";
 	  this.levelsEnabled = ["easy"];
 	}
-	
+
 	$.extend(PushPopUI.prototype, {
 		
 	  init: function() {
@@ -169,7 +223,7 @@
 	  	window.open("http://www.pushpoppuzzle.com/");
 	  },
 	  tryNextLevel: function() {
-	  	var nextLevel = this.getNextLevel();
+	  	var nextLevel = levels[this.difficulty].nextLevel;
 	  	if (nextLevel != null) {
 	  		this.setDifficulty(nextLevel);
 		  	this.reallyNewPuzzle();
@@ -283,21 +337,23 @@
 				var pieceDiv = $("#"+piece.id);
 				setTimeout(function() { pieceDiv.removeClass("popped"); }, 10);
 			},
-			getNextLevel: function() {
-				var currentLevel = this.difficulty;
-				var levelNum = PushPop.DIFFICULTIES.indexOf(currentLevel);
-				return levelNum+1 < PushPop.DIFFICULTIES.length ? PushPop.DIFFICULTIES[levelNum+1] : null;
-			},
-			enableNextLevel: function() {
-				var nextLevel = this.getNextLevel();
-				if (nextLevel != null && this.levelsEnabled.indexOf(nextLevel) == -1) {
+			enableLevel: function(nextLevel) {
+				if (nextLevel != null && this.levelsEnabled.indexOf(nextLevel.id) == -1 && nextLevel.isAvailable(this.premium)) {
 					var newLevels = this.levelsEnabled.slice();
-					newLevels.push(nextLevel);
-					$("#difficulty-menu li[data-option-index="+(levelNum+1)+"]").removeClass("disabled");
+					newLevels.push(nextLevel.id);
+					var nextLevelNum = PushPop.DIFFICULTIES.indexOf(nextLevel.id);
+					$("#difficulty-menu li[data-option-index="+(nextLevelNum)+"]").removeClass("disabled");
 					this.setLevelsEnabled(newLevels);
 					return true;
 				}
 				return false;
+			},
+			goodEnoughToMoveUp: function(level, endTime, counter) {
+				if (level == "easy" || level == "medium") {
+					return endTime.getMinutes() == 0 && counter <= 20;
+				} else {
+					return endTime.getMinutes() >= 1; // less than 2 minutes
+				}
 			},
 			onPuzzleFinished: function() {
 				if (this.inDemo()) {
@@ -307,44 +363,45 @@
 					var endTime = this.game.timer;
 					endTime.pause();
 					var leveledUp = false;
-					var nextLevel = null;
-					if (endTime.getMinutes() == 0 && this.game.counter <= 20) {
-						leveledUp = this.enableNextLevel();
-						nextLevel = this.getNextLevel();
-						if (nextLevel != null) {
-							nextLevel = levelNames[nextLevel];
-						}
+					var currentLevel = levels[this.difficulty];
+					var goodEnough = currentLevel.goodEnoughForNextLevel(endTime, this.game.counter);
+					if (goodEnough) {
+						leveledUp = this.enableLevel(currentLevel.getNext());
 					}
 					$("#stats").text("You completed this puzzle in "+endTime.toString()+" with "+this.game.counter+" moves.");
 					this.game.shutdown();
+					var nextLevel = currentLevel.getNext();
 					if (nextLevel) {
-						$("#gameOver .level").text(nextLevel);
-						$("#gameOver .buttons").addClass("upLevel");
+						$("#gameOver .level").text(nextLevel.name);
 					}
+					$("#gameOver .buttons").toggleClass("upLevel", goodEnough && nextLevel != null && nextLevel.isAvailable(this.premium));
+					$("#gameOver .buttons").toggleClass("upgrade", goodEnough && nextLevel != null && !nextLevel.isAvailable(this.premium));
 					if (leveledUp) {
-						$("#quip").text("Congratulations, you've unlocked the "+nextLevel+" level!");
+						$("#quip").text("Congratulations, you've unlocked the "+currentLevel.getNext().name+" level!");
+					} else if (goodEnough && nextLevel != null && !nextLevel.isAvailable(this.premium)) {
+						$("#quip").text("Well done!  You've mastered the free version of PushPop.  Upgrade and try the 'Harder' and 'Insane' levels.");
 					} else {
-						$("#quip").text("\""+this.getComment(endTime, this.game.counter)+"\"");
+						$("#quip").text("\""+this.getComment(currentLevel, endTime, this.game.counter, goodEnough, this.levelsEnabled.indexOf(nextLevel.id) != -1)+"\"");
 					}
 					$.mobile.changePage($("#gameOver"), {transition: "slideup", changeHash: false});
 				}
 			},
-			getComment: function(time) {
+			getComment: function(level, time, counter, goodEnough, hasNext) {
 				var appropriate_quips;
 				if (time.getHours() > 1) {
 					appropriate_quips = this.quips.really_long;
-				} else if (time.getMinutes() > 30) {
+				} else if (time.getMinutes() > 15) {
 					appropriate_quips = this.quips["long"];
-				} else if (time.getMinutes() > 10) {
-					appropriate_quips = this.quips.difficult;
 				} else if (time.getMinutes() > 5) {
-					appropriate_quips = this.quips.medium;
-				} else if (time.getMinutes() > 2) {
-					appropriate_quips = this.quips.good;
-				} else if (time.getSeconds() > 45) {
-					appropriate_quips = this.quips.fast;
+					appropriate_quips = this.quips.difficult;
+				} else if (time.getMinutes() > 1) {
+					appropriate_quips = this.quips.medium.concat(this.quips.general);
 				} else if (time.getSeconds() > 10) {
-					appropriate_quips = this.quips.superfast;
+					appropriate_quips = this.quips.fast.concat(this.quips.general);
+					if (hasNext) {
+						appropriate_quips.push("This is getting boring.  Try one from the next level.");
+						appropriate_quips.push("Awesome!  Now, let's take this up a notch.");
+					}
 				} else {
 					appropriate_quips = this.quips.cheat;
 				}
@@ -355,14 +412,13 @@
 				"really_long": ["Fall asleep at the wheel again?",
 								"Think hard before clicking that button.",
 								"Thanks, I feel a lot better about myself now.",
-								"Just think how much Angry Birds you could have been playing instead.",
 								"Next time you go away, hit the Pause button first.",
-								"I think you should try again.  Really, you can only do better next time.",
-								"Don't worry, you're not the only person who took that long.  Of course the other person had to take breaks for naps.",
 								"Wow... just think how many books you could have read in that time.",
 								"Perhaps we should start counting your time in days?"],
 	 			"long": 	   ["Ok, great, but this time try it with your eyes open.",
 								"You probably shouldn't drive in this condition.  Let's try another puzzle instead.",
+								"I think you should try again.  Really, you can only do better next time.",
+								"Just think how much Angry Birds you could played instead.",
 								"Ah, you've left room for improvement.  Good strategy.",
 								"Hey, not bad (this WAS your first game, right?)",
 								"Well, on the bright side at least that was time well spent."],
@@ -370,22 +426,22 @@
 								"That was just practice.  Let's try one for real now.",
 								"You just need some more practice.",
 								"Well, maybe you just got a hard one -- try again!"],
-				"medium": 	   ["I can see your brain getting bigger from here.",
-								"That's a pretty good time -- Keep trying until you cut it in half.",
-								"Keep it up!"],
-				"good": 	   ["You probably can't tell, but I'm clapping for you.",
-								"Not bad -- with some practice I bet you could get into the Push Pop hall of fame!",
-								"Boom goes the dynamite!"],
-				"fast": 	   ["That's what I'm talking about!",
-								"Even I couldn't have done it that quickly!",
-						 		"I would shake your hand, but I don't want to burn myself on those hot fingers."],
-				"superfast":   ["Whoa, you're like a mental Bruce Lee.", 
+				"medium": 	   ["That's a pretty good time -- Keep trying until you cut it in half.",
+								"Not bad -- with some practice I bet you could get into the Push Pop hall of fame!"],
+				"fast": 	   ["Even I couldn't have done it that quickly!",
+						 		"I would shake your hand, but I don't want to burn myself on those hot fingers.",
+						 		"Whoa, you're like a mental Bruce Lee.", 
 								"Chuck Norris would like your autograph.", 
 								"Sorry, I blinked and missed that. Can you do that again, please?",
 								"Slow down, you're making the computer tired."],
 				"cheat": 	   ["I won't even dignify that with a response.",
 								"That was so fast I almost wonder if you're cheating.",
-								"I'd like to see you do that again."],
+								"I'd like to see you try that again."],
+				"general":     ["That's what I'm talking about!",
+								"You probably can't tell, but I'm clapping for you.",
+								"Boom goes the dynamite!",
+								"Keep it up!",
+								"I can see your brain getting bigger from here."]
 				},
 	});
 
@@ -446,10 +502,11 @@
 	
 	$("#gameOver").live('pageinit', function() {
 		$("#nextLevel").bind("vclick", pushPopUi.tryNextLevel.bind(pushPopUi, true) );
+		$(".getPremiumBtn").bind("vclick", pushPopUi.downloadPremium.bind(pushPopUi));
 	});
 	
 	$("#getPremium").live('pageinit', function() {
-		$("#getPremiumBtn").bind("vclick", pushPopUi.downloadPremium.bind(pushPopUi));
+		$(".getPremiumBtn").bind("vclick", pushPopUi.downloadPremium.bind(pushPopUi));
 	});
 	
 	$("#settings").live('pagebeforeshow', pushPopUi.showSettings.bind(pushPopUi) );

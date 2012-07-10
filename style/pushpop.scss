@@ -522,6 +522,8 @@ body .help-text {
   }
   #yellow3, #yellow1 { @include colored-piece(blue); }
   #red3, #red1 { @include colored-piece(red); }
+  #yellow1::before, #red1::before { content: "1"; }
+  #yellow3::before, #red3::before { content: "3"; }
 }
 
 #game-board {
@@ -605,6 +607,14 @@ li.disabled .ui-li {
 }
 
 .upLevel #nextLevel {
+  display: block;
+}
+
+#gameOver .getPremiumBtn {
+  display: none;
+}
+
+#gameOver .upgrade .getPremiumBtn {
   display: block;
 }
 ////////////////////////////////////////////////
