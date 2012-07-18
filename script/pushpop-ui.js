@@ -502,7 +502,7 @@
 	
 	$("#gameOver").live('pageinit', function() {
 		$("#nextLevel").bind("vclick", pushPopUi.tryNextLevel.bind(pushPopUi, true) );
-		$(".getPremiumBtn").bind("vclick", pushPopUi.downloadPremium.bind(pushPopUi));
+		$(".getPremiumBtn").bind("vclick", function() { pushPopUi.downloadPremium() });
 	});
 	
 	$("#getPremium").live('pageinit', function() {
@@ -523,6 +523,8 @@
 	  	$("#menuBtn").bind("vclick", pushPopUi.showMenu.bind(pushPopUi) );
 	  	$("#newBtn").bind("vclick", pushPopUi.newPuzzle.bind(pushPopUi) );
 	  	$("#startOverBtn").bind("vclick", pushPopUi.startOver.bind(pushPopUi) );
+		$("#settingsBtn").bind("vclick", function() { $.mobile.changePage("#settings"); } );
+		$("#helpBtn").bind("vclick", function() { $.mobile.changePage("help.html"); } );
 
 		$("#stepDemoBtn").bind("vclick", pushPopUi.getAHint.bind(pushPopUi) );
 		$("#playDemoBtn").bind("vclick", pushPopUi.demoRun.bind(pushPopUi) );
@@ -566,4 +568,6 @@
 	}
 	
 	window.PushPopUI = PushPopUI;
+	
+	window.pushPopUi = pushPopUi;
 })(jQuery, window);

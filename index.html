@@ -19,8 +19,6 @@
 	<script src="script/pushpop-ui.js"></script>
 	
 	<script src="../src-platform/adPlugin.js"></script>
-	<script src="../src-platform/setup.js"></script>
-
 </head>
 <body id="pushpop">
 	<audio id="pop_sound" preload="auto" autobuffer>
@@ -53,8 +51,8 @@
 				<a data-role="button" data-theme="b" id="startOverBtn" data-mini="false">Start Over</a>
 				<a data-role="button" data-theme="b" id="hintBtn" data-mini="false">Hint</a>
 				<a data-role="button" data-theme="b" id="newBtn" data-mini="false">New Puzzle</a>
-				<a data-role="button" data-theme="b" href="#settings" data-mini="false" data-transition="slideup">Settings</a>
-				<a data-role="button" data-theme="b" href="help.html" data-mini="false" data-transition="none">Help</a>
+				<a data-role="button" data-theme="b" id="settingsBtn" href="#settings" data-mini="false" data-transition="slideup">Settings</a>
+				<a data-role="button" data-theme="b" id="helpBtn" href="help.html" data-mini="false" data-transition="none">Help</a>
 				</div>
 			</div>
 			<div id="game" class="game shapes">
@@ -151,5 +149,6 @@
 		</div>
 	</div>
 	<script src="script/jqmobiledialogfix.js"></script>
+	<script src="../src-platform/setup.js"></script>
 </body>
 </html>
