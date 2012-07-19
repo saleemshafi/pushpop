@@ -1,6 +1,10 @@
 body {
   margin: 10px; }
 
+h1 {
+  font-size: 2em;
+  margin-bottom: 0.67em; }
+
 #game-stack {
   border-width: 3px;
   border-style: solid;
@@ -24,10 +28,10 @@ body {
     padding: 2px 10px; }
 
 #pushpop .ui-dialog {
-  width: 400px;
   padding: 0; }
   #pushpop .ui-dialog .ui-dialog-contain {
-    width: auto;
+    width: 400px;
+    margin-left: -200px;
     padding: 25px;
     -webkit-appearance: none;
     -webkit-box-shadow: 0 0 8px 10px rgba(0, 0, 0, 0.3);
@@ -45,9 +49,6 @@ body {
   font-size: 16px; }
 #pushpop.small .ui-dialog .buttons {
   margin-top: 15px; }
-
-#pushpop #gameOver {
-  width: 325px; }
 
 @media screen and (orientation:portrait) {
   #pushpop.small #game-board .stack {
@@ -101,14 +102,12 @@ body {
     #pushpop.small #game-stack .piece.popped {
       left: -60px;
       opacity: 0; }
-  #pushpop.small #newGameConfirm {
-    width: 250px; }
-  #pushpop.small .ui-dialog, #pushpop.small #gameOver {
-    width: 302px; }
-    #pushpop.small .ui-dialog .buttons a, #pushpop.small #gameOver .buttons a {
-      display: block; }
-    #pushpop.small .ui-dialog .ui-dialog-contain, #pushpop.small #gameOver .ui-dialog-contain {
-      padding: 15px; }
+  #pushpop.small .ui-dialog .buttons a {
+    display: block; }
+  #pushpop.small .ui-dialog .ui-dialog-contain {
+    width: 302px;
+    margin-left: -151px;
+    padding: 15px; }
   #pushpop.small .demo-controls .ui-icon {
     display: none; }
   #pushpop.small .demo-controls .ui-btn-inner {
@@ -540,12 +539,14 @@ body {
   width: 100%; }
 
 #pushpop .ui-dialog {
-  margin: 0 auto;
-  position: relative;
-  background-color: #000; }
+  margin: 0;
+  position: absolute;
+  background-color: #000;
+  width: 100%; }
   #pushpop .ui-dialog .ui-dialog-contain {
     background-color: #000;
     position: absolute;
+    left: 50%;
     bottom: 0;
     margin-bottom: 0;
     border-color: #666;
@@ -652,14 +653,11 @@ li.disabled .ui-li {
   background-repeat: no-repeat;
   background-position: 0 50%; }
 
-#nextLevel {
+#gameOver .buttons #nextLevel, #gameOver .buttons .getPremiumBtn, #pushpop.small #gameOver .buttons #nextLevel, #pushpop.small #gameOver .buttons .getPremiumBtn {
   display: none; }
 
-.upLevel #nextLevel {
+#gameOver .buttons.upLevel #nextLevel, #pushpop.small #gameOver .buttons.upLevel #nextLevel {
   display: block; }
 
-#gameOver .getPremiumBtn {
-  display: none; }
-
-#gameOver .upgrade .getPremiumBtn {
+#gameOver .buttons.upgrade .getPremiumBtn, #pushpop.small #gameOver .buttons.upgrade .getPremiumBtn {
   display: block; }

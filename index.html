@@ -3,6 +3,7 @@
 <head>
 	<title>PushPop</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="style/reset.css" />
 	<link rel="stylesheet" type="text/css" href="style/pushpop.css" />
 	<link rel="stylesheet" type="text/css" href="style/jquery-mobile-1.1.0.css" />
 	<link rel="stylesheet" type="text/css" href="style/jqmobiledialogfix.css" />
@@ -19,8 +20,6 @@
 	<script src="script/pushpop-ui.js"></script>
 	
 	<script src="../src-platform/adPlugin.js"></script>
-	<script src="../src-platform/setup.js"></script>
-
 </head>
 <body id="pushpop">
 	<audio id="pop_sound" preload="auto" autobuffer>
@@ -53,8 +52,8 @@
 				<a data-role="button" data-theme="b" id="startOverBtn" data-mini="false">Start Over</a>
 				<a data-role="button" data-theme="b" id="hintBtn" data-mini="false">Hint</a>
 				<a data-role="button" data-theme="b" id="newBtn" data-mini="false">New Puzzle</a>
-				<a data-role="button" data-theme="b" href="#settings" data-mini="false" data-transition="slideup">Settings</a>
-				<a data-role="button" data-theme="b" href="help.html" data-mini="false" data-transition="none">Help</a>
+				<a data-role="button" data-theme="b" id="settingsBtn" href="#settings" data-mini="false" data-transition="slideup">Settings</a>
+				<a data-role="button" data-theme="b" id="helpBtn" href="help.html" data-mini="false" data-transition="none">Help</a>
 				</div>
 			</div>
 			<div id="game" class="game shapes">
@@ -145,11 +144,12 @@
 		<div id="stats"></div>
 		<div id="quip"></div>
 		<div class="buttons">
-			<a href="#puzzle" data-role="button" data-theme="c">I'm ready for a new puzzle</a>
-			<a id="nextLevel" data-role="button" data-theme="b">Try a <span class="level"></span> one.</a>
+			<a href="#puzzle" data-role="button" data-inline="false" data-theme="c">I'm ready for a new puzzle</a>
+			<a id="nextLevel" data-role="button" data-inline="false" data-theme="b">Try a <span class="level"></span> one.</a>
 			<a class="getPremiumBtn" data-role="button" data-inline="false" data-transition="none" data-theme="b">Upgrade to Full Version</a>
 		</div>
 	</div>
 	<script src="script/jqmobiledialogfix.js"></script>
+	<script src="../src-platform/setup.js"></script>
 </body>
 </html>
