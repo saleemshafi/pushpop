@@ -526,7 +526,7 @@
         $("#menuBtn").bind("click", function() { pushPopUi.showMenu(); } );
         $("#newBtn").bind("click", function() { pushPopUi.newPuzzle(); } );
         $("#startOverBtn").bind("click", function() { pushPopUi.startOver(); } );
-        $("#settingsBtn").bind("click", function() { $.mobile.changePage("#settings"); } );
+        $("#settingsBtn").bind("click", function() { $.mobile.changePage("#settings", {transition: "slideup"}); } );
         $("#helpBtn").bind("click", function() { $.mobile.changePage("help.html"); } );
         
         $("#stepDemoBtn").bind("click", function() { pushPopUi.getAHint(); } );
