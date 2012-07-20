@@ -661,3 +661,10 @@ li.disabled .ui-li {
 
 #gameOver .buttons.upgrade .getPremiumBtn, #pushpop.small #gameOver .buttons.upgrade .getPremiumBtn {
   display: block; }
+
+.demo-controls {
+  position: absolute !important;
+  z-index: 5; }
+
+#pushpop.small .demo-controls .ui-btn {
+  margin: 0.5em 3px; }
