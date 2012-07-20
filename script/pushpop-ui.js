@@ -230,6 +230,10 @@
 	  	}
 	  	$.mobile.changePage("#puzzle");
 	  },
+	  startDemo: function() {
+	  	this.inDemo(true);
+	  	$.mobile.changePage("#puzzle?game=demo");
+	  },
 	  inDemo: function(demo) {
 	  	if (demo !== undefined) {
 	  		this.demo = demo == true;
@@ -497,6 +501,7 @@
 
 	$("#startup").live('pageinit', function() {
         $("#gotIt").bind("click", function() { pushPopUi.dismissStartup(); } );
+        $(".demoBtn").bind("click", function() {pushPopUi.startDemo(); });
 	});
 	
 	$("#demoOver").live('pageinit', function() {
