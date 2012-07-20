@@ -237,6 +237,10 @@
 	  	}
 	  	$.mobile.changePage("#puzzle");
 	  },
+	  startDemo: function() {
+	  	this.inDemo(true);
+	  	$.mobile.changePage("#puzzle?game=demo");
+	  },
 	  inDemo: function(demo) {
 	  	if (demo !== undefined) {
 	  		this.demo = demo == true;
@@ -503,10 +507,11 @@
 
 	$("#startup").live('pageinit', function() {
         $("#gotIt").bind("click", function() { pushPopUi.dismissStartup(); } );
+        $(".demoBtn").bind("click", function() {pushPopUi.startDemo(); });
 	});
 	
 	$("#demoOver").live('pageinit', function() {
-        $("#letsGo").bind("click", function() { pushPopUi.dismissStartup(); } );
+        $("#letsGo").bind("click", function() { pushPopUi.dismissStartup(true); } );
 	});
 	
 	$("#gameOver").live('pageinit', function() {
@@ -537,7 +542,7 @@
         
         $("#stepDemoBtn").bind("click", function() { pushPopUi.getAHint(); } );
         $("#playDemoBtn").bind("click", function() { pushPopUi.demoRun(); } );
-        $("#iGetItBtn").bind("click", function() { pushPopUi.dismissStartup(); } );
+        $("#iGetItBtn").bind("click", function() { pushPopUi.dismissStartup(true); } );
         
         if (pushPopUi.premium) {
             $("#hintBtn").bind("click", function() { pushPopUi.getAHint(); } );
