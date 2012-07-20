@@ -500,7 +500,7 @@
 	});
 	
 	$("#demoOver").live('pageinit', function() {
-        $("#letsGo").bind("click", function() { pushPopUi.dismissStartup(); } );
+        $("#letsGo").bind("click", function() { pushPopUi.dismissStartup(true); } );
 	});
 	
 	$("#gameOver").live('pageinit', function() {
@@ -531,7 +531,7 @@
         
         $("#stepDemoBtn").bind("click", function() { pushPopUi.getAHint(); } );
         $("#playDemoBtn").bind("click", function() { pushPopUi.demoRun(); } );
-        $("#iGetItBtn").bind("click", function() { pushPopUi.dismissStartup(); } );
+        $("#iGetItBtn").bind("click", function() { pushPopUi.dismissStartup(true); } );
         
         if (pushPopUi.premium) {
             $("#hintBtn").bind("click", function() { pushPopUi.getAHint(); } );
