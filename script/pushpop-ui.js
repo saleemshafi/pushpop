@@ -532,7 +532,7 @@
         
         $("#stepDemoBtn").bind("click", function() { pushPopUi.getAHint(); } );
         $("#playDemoBtn").bind("click", function() { pushPopUi.demoRun(); } );
-        $("#iGetItBtn").bind("click", function() { pushPopUi.dismissStartup(true); } );
+        $("#iGetItBtn").bind("click", function() { clearInterval(pushPopUi.demoPlay); setTimeout(function() { pushPopUi.dismissStartup(true); }, 600); } );
         
         if (pushPopUi.premium) {
             $("#hintBtn").bind("click", function() { pushPopUi.getAHint(); } );
