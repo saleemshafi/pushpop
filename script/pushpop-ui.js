@@ -15,7 +15,7 @@
 					nextLevel: "medium",
 					getNext: function() { return levels.medium; },
 					goodEnoughForNextLevel: function(time, counter) {
-						return time.getMinutes() == 0 && counter < 20;
+						return time.getMinutes() == 0 && counter <= 20;
 					},
 					isAvailable: function() { return true; }
 				},
@@ -25,7 +25,7 @@
 					nextLevel: "hard",
 					getNext: function() { return levels.hard; },
 					goodEnoughForNextLevel: function(time, counter) {
-						return time.getMinutes() == 0 && counter < 20;
+						return time.getMinutes() == 0 && counter <= 20;
 					},
 					isAvailable: function() { return true; }
 				},
@@ -35,7 +35,7 @@
 					nextLevel: "harder",
 					getNext: function() { return levels.harder; },
 					goodEnoughForNextLevel: function(time, counter) {
-						return time.getMinutes() <= 1 && counter < 25;
+						return time.getMinutes() <= 1 && counter <= 25;
 					},
 					isAvailable: function() { return true; }
 				},
