@@ -39,7 +39,7 @@
 			<p>For example, if the current head of the solution stack is a <span id="yellow3" class="piece"></span>, then you
 			can push a <span id="red3" class="piece"></span> or a <span id="yellow1" class="piece"></span>, but not a 
 			<span id="red1" class="piece"></span>.</p>
-			<p style="text-align:center;font-size:16px"><a class="demoBtn" data-role="button" data-inline="true" data-theme="b" data-mini="false" data-icon="gear">See a Demo</a></p>
+			<p style="text-align:center;font-size:16px"><a href="#puzzle?game=demo" data-role="button" data-inline="true" data-theme="b" data-mini="false" data-icon="gear">See a Demo</a></p>
 			<p>If you try to pop a piece off a game stack that doesn't match the current head of the solution stack,
 			the piece you've selected will <span id="wiggle">wiggle</span> a bit to let you know.  If you feel like you've made a mistake, you
 			can always unwind by popping pieces back off of the solution stack or by opting to 
@@ -61,7 +61,6 @@
 						wigglePiece.trigger("startRumble");
 						setTimeout(function() { wigglePiece.trigger("stopRumble"); }, 500);
 					}, 3000);
-					$(".demoBtn").bind("click", function() { pushPopUi.startDemo(); } );
 			});
 		</script>
 	</div>

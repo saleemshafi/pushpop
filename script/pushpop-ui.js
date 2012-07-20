@@ -127,7 +127,8 @@
 	  		this.pauseTimer();
 	  	}
 	  	if (this.inDemo()) {
-	  		setTimeout( this.getAHint.bind(this), 1000);
+	  		var that = this;
+	  		setTimeout( function() { that.getAHint(); }, 1000);
 	  	}
 	  },
 	  reallyNewPuzzle: function() {
@@ -236,10 +237,6 @@
 	  		this.setDifficulty(nextLevel);
 	  	}
 	  	$.mobile.changePage("#puzzle");
-	  },
-	  startDemo: function() {
-	  	this.inDemo(true);
-	  	$.mobile.changePage("#puzzle?game=demo");
 	  },
 	  inDemo: function(demo) {
 	  	if (demo !== undefined) {
@@ -488,7 +485,7 @@
 				pushPopUi.showPremiumDLPage();
 			} else if (pushPopUi.levelsEnabled.indexOf(difficulty) > -1) {
 				pushPopUi.setDifficulty(difficulty);
-				setTimeout( pushPopUi.resetPuzzle.bind(pushPopUi, null), 250); 
+				setTimeout( function() { pushPopUi.resetPuzzle(); }, 250); 
 			} else {
 				pushPopUi.showLockedLevelPage();
 			}
@@ -507,7 +504,6 @@
 
 	$("#startup").live('pageinit', function() {
         $("#gotIt").bind("click", function() { pushPopUi.dismissStartup(); } );
-        $(".demoBtn").bind("click", function() {pushPopUi.startDemo(); });
 	});
 	
 	$("#demoOver").live('pageinit', function() {
@@ -542,7 +538,7 @@
         
         $("#stepDemoBtn").bind("click", function() { pushPopUi.getAHint(); } );
         $("#playDemoBtn").bind("click", function() { pushPopUi.demoRun(); } );
-        $("#iGetItBtn").bind("click", function() { pushPopUi.dismissStartup(true); } );
+        $("#iGetItBtn").bind("click", function() { clearInterval(pushPopUi.demoPlay); setTimeout(function() { pushPopUi.dismissStartup(true); }, 600); } );
         
         if (pushPopUi.premium) {
             $("#hintBtn").bind("click", function() { pushPopUi.getAHint(); } );
