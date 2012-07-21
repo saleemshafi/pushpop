@@ -22,7 +22,7 @@
 					nextLevel: "medium",
 					getNext: function() { return levels.medium; },
 					goodEnoughForNextLevel: function(time, counter) {
-						return time.getMinutes() == 0 && counter < 20;
+						return time.getMinutes() == 0 && counter <= 20;
 					},
 					isAvailable: function() { return true; }
 				},
@@ -32,7 +32,7 @@
 					nextLevel: "hard",
 					getNext: function() { return levels.hard; },
 					goodEnoughForNextLevel: function(time, counter) {
-						return time.getMinutes() == 0 && counter < 20;
+						return time.getMinutes() == 0 && counter <= 20;
 					},
 					isAvailable: function() { return true; }
 				},
@@ -42,7 +42,7 @@
 					nextLevel: "harder",
 					getNext: function() { return levels.harder; },
 					goodEnoughForNextLevel: function(time, counter) {
-						return time.getMinutes() <= 1 && counter < 25;
+						return time.getMinutes() <= 1 && counter <= 25;
 					},
 					isAvailable: function() { return true; }
 				},
@@ -151,9 +151,11 @@
 		$("#timer").text(timer.toString());
 	  },
 	  showMenu: function() { 
-	  	$("#gameMenu").toggle(100); 
+	  	$("#gameMenu").toggle(100);
+             setTimeout( function() { $("#workarea").bind("click", hidePushPopMenu ); }, 500);
 	  },
 	  hideMenu: function() {
+	  	$("#workarea").unbind("click", hidePushPopMenu);
 	  	$("#gameMenu").hide();
 	  },
 	  setSound: function(soundOn) {
@@ -522,6 +524,10 @@
 	
     $("#settings").live('pagebeforeshow', function() { pushPopUi.showSettings(); } );
 
+    function hidePushPopMenu() {
+        pushPopUi.hideMenu();
+    }
+ 
     $("#puzzle").live('pageinit', function() {
         pushPopUi.init();
 
@@ -529,7 +535,6 @@
         $("#puzzle").bind('pageshow', function() { pushPopUi.resumeTimer(); } );
         $("#gameOver").bind('pageshow', function() { pushPopUi.playSound("applause"); } );
         $("#gameOver").bind('pagehide', function() { pushPopUi.resetPuzzle(null); } );
-        $("#workarea").bind("click", function() { pushPopUi.hideMenu(); } );
                       
         $("#menuBtn").bind("click", function() { pushPopUi.showMenu(); } );
         $("#newBtn").bind("click", function() { pushPopUi.newPuzzle(); } );
