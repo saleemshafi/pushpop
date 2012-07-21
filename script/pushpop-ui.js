@@ -107,13 +107,12 @@
 	  	if (this.game != null) {
 		  	this.game.shutdown();
 	  	}
-		$("#game-stack").empty();
-		$("#game-board").empty();
-		$("#solution").empty();
 	
 		this.game = new PushPop().init(this.size, this.size, this.difficulty, puzzleId);
 // this is turned off so that changing the difficulty of a puzzle doesn't close the settings page
 //	  	window.location.hash = "puzzle?game="+this.game.id;
+		$("#game-stack").empty();
+		$("#game-board").empty();
 	  	this.render();
 	  	this.game.start(this.updateTimer);
 	  	if (!$("#puzzle").hasClass("ui-page-active")) {
@@ -128,7 +127,9 @@
 	  	// TODO: i think we can do better than this
 	  	// it probably makes more sense to generate a game ID
 	  	// independently and then redirect to it
-	  	this.resetPuzzle(null);
+		$("#game-stack").empty();
+		$("#game-board").html("<div class='puzzle-loader'>Hold on, I'm thinking of a really good one.</div>");
+		setTimeout( function() { pushPopUi.resetPuzzle(null); }, 250); 
 	  },
 	  pauseTimer: function() {
 	  	if (this.game && this.game.timer) {
@@ -485,7 +486,7 @@
 				pushPopUi.showPremiumDLPage();
 			} else if (pushPopUi.levelsEnabled.indexOf(difficulty) > -1) {
 				pushPopUi.setDifficulty(difficulty);
-				setTimeout( function() { pushPopUi.resetPuzzle(); }, 250); 
+				pushPopUi.reallyNewPuzzle();
 			} else {
 				pushPopUi.showLockedLevelPage();
 			}
@@ -530,7 +531,7 @@
         $("#puzzle").bind('pagebeforehide', function() { pushPopUi.pauseTimer(); } );
         $("#puzzle").bind('pageshow', function() { pushPopUi.resumeTimer(); } );
         $("#gameOver").bind('pageshow', function() { pushPopUi.playSound("applause"); } );
-        $("#gameOver").bind('pagehide', function() { pushPopUi.resetPuzzle(null); } );
+        $("#gameOver").bind('pagehide', function() { pushPopUi.reallyNewPuzzle(); } );
                       
         $("#menuBtn").bind("click", function() { pushPopUi.showMenu(); } );
         $("#newBtn").bind("click", function() { pushPopUi.newPuzzle(); } );
