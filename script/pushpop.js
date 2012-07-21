@@ -38,6 +38,7 @@
 			this.solution = null;
 			this.solutionTree = null;
 			this.counter = 0;
+			this.gotHint = false;
 	}
 
 	_PushPop.DIFFICULTIES = ["easy","medium","hard","harder","insane"];
@@ -197,6 +198,7 @@
 		},
 		start: function(timerListener) {
 			this.counter = 0;
+			this.gotHint = false;
 			this.timer = new Timer();
 			this.timer.start();
 			if (this.timerRefresh) {
@@ -215,6 +217,7 @@
 			this.solution = null;
 			this.solutionTree = null;
 			this.counter = 0;
+			this.gotHint = false;
 		},
 		puzzleFinished: function() {
 			for (var i = 0; i < this.stacks.length; i++) {
@@ -252,6 +255,7 @@
 					}
 				}
 			}
+			this.gotHint = true;
 			if (!onTrack) {
 				return -1;
 			} else {

@@ -354,13 +354,6 @@
 				}
 				return false;
 			},
-			goodEnoughToMoveUp: function(level, endTime, counter) {
-				if (level == "easy" || level == "medium") {
-					return endTime.getMinutes() == 0 && counter <= 20;
-				} else {
-					return endTime.getMinutes() >= 1; // less than 2 minutes
-				}
-			},
 			onPuzzleFinished: function() {
 				if (this.inDemo()) {
 		  			this.inDemo(false);
@@ -370,7 +363,7 @@
 					endTime.pause();
 					var leveledUp = false;
 					var currentLevel = levels[this.difficulty];
-					var goodEnough = currentLevel.goodEnoughForNextLevel(endTime, this.game.counter);
+					var goodEnough = !this.game.gotHint && currentLevel.goodEnoughForNextLevel(endTime, this.game.counter);
 					if (goodEnough) {
 						leveledUp = this.enableLevel(currentLevel.getNext());
 					}
