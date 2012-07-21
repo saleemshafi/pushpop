@@ -394,7 +394,8 @@
 					} else if (goodEnough && nextLevel != null && !nextLevel.isAvailable(this.premium)) {
 						$("#quip").text("Well done!  You've mastered the free version of PushPop.  Upgrade and try the 'Harder' and 'Insane' levels.");
 					} else {
-						$("#quip").text("\""+this.getComment(currentLevel, endTime, this.game.counter, goodEnough, this.levelsEnabled.indexOf(nextLevel.id) != -1)+"\"");
+						var hasNext = nextLevel && this.levelsEnabled.indexOf(nextLevel.id) != -1;
+						$("#quip").text("\""+this.getComment(currentLevel, endTime, this.game.counter, goodEnough, hasNext)+"\"");
 					}
 					$.mobile.changePage($("#gameOver"), {transition: "slideup", changeHash: false});
 				}
@@ -472,7 +473,7 @@
 		}	
 	}
 	
-	var pushPopUi = new PushPopUI("ad-supported");  // "ad-supported" or "premium"
+	var pushPopUi = new PushPopUI("premium");  // "ad-supported" or "premium"
 	
 	$(document).bind("mobileinit", function(){
 	  $.mobile.defaultDialogTransition = 'none';
@@ -493,15 +494,14 @@
 				pushPopUi.showLockedLevelPage();
 			}
 		} );
+        for (var i=0; i < PushPop.DIFFICULTIES.length; i++) {
+            if (pushPopUi.levelsEnabled.indexOf(PushPop.DIFFICULTIES[i]) == -1) {
+                $("#difficulty-menu li[data-option-index="+(i)+"]").addClass("disabled");
+            }
+        }
 		if (!pushPopUi.premium) {
 			$("#difficulty-menu li[data-option-index=3]").removeClass("ui-btn-up-b").addClass("ui-btn-up-c");
 			$("#difficulty-menu li[data-option-index=4]").removeClass("ui-btn-up-b").addClass("ui-btn-up-c");
-			
-			for (var i=0; i < PushPop.DIFFICULTIES.length; i++) {
-				if (pushPopUi.levelsEnabled.indexOf(PushPop.DIFFICULTIES[i]) == -1) {
-					$("#difficulty-menu li[data-option-index="+(i)+"]").addClass("disabled");
-				}
-			}
 		}
 	});
 
