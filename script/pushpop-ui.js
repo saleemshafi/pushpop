@@ -229,7 +229,8 @@
 	  	$.mobile.changePage($("#showLocked"), {changeHash: false, transition: "slideup" });
 	  },
 	  downloadPremium: function() {
-	  	window.open("http://www.pushpoppuzzle.com/");
+	  	//window.open("http://www.pushpoppuzzle.com/");
+	  	window.open("itms-apps://itunes.apple.com/app/pushpop/id531782897?mt=8&uo=4")
 	  },
 	  tryNextLevel: function() {
 	  	var nextLevel = levels[this.difficulty].nextLevel;
