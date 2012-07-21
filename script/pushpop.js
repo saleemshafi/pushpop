@@ -184,11 +184,11 @@
 				minRatio = 0.06;
 				maxRatio = 0.15;
 			} else if (level == "harder") {
-				minRatio = 0.01;
+				minRatio = 0.02;
 				maxRatio = 0.06;
 			} else if (level == "insane") {
 				minRatio = 0;
-				maxRatio = 0.01;
+				maxRatio = 0.02;
 			}
 
 			var st = this.getSolutionTree();
