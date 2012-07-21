@@ -361,13 +361,6 @@
 				}
 				return false;
 			},
-			goodEnoughToMoveUp: function(level, endTime, counter) {
-				if (level == "easy" || level == "medium") {
-					return endTime.getMinutes() == 0 && counter <= 20;
-				} else {
-					return endTime.getMinutes() >= 1; // less than 2 minutes
-				}
-			},
 			onPuzzleFinished: function() {
 				if (this.inDemo()) {
 		  			this.inDemo(false);
@@ -377,7 +370,7 @@
 					endTime.pause();
 					var leveledUp = false;
 					var currentLevel = levels[this.difficulty];
-					var goodEnough = currentLevel.goodEnoughForNextLevel(endTime, this.game.counter);
+					var goodEnough = !this.game.gotHint && currentLevel.goodEnoughForNextLevel(endTime, this.game.counter);
 					if (goodEnough) {
 						leveledUp = this.enableLevel(currentLevel.getNext());
 					}
@@ -395,12 +388,12 @@
 						$("#quip").text("Well done!  You've mastered the free version of PushPop.  Upgrade and try the 'Harder' and 'Insane' levels.");
 					} else {
 						var hasNext = nextLevel && this.levelsEnabled.indexOf(nextLevel.id) != -1;
-						$("#quip").text("\""+this.getComment(currentLevel, endTime, this.game.counter, goodEnough, hasNext)+"\"");
+						$("#quip").text("\""+this.getComment(currentLevel, endTime, this.game.counter, this.game.gotHint, goodEnough, hasNext)+"\"");
 					}
 					$.mobile.changePage($("#gameOver"), {transition: "slideup", changeHash: false});
 				}
 			},
-			getComment: function(level, time, counter, goodEnough, hasNext) {
+			getComment: function(level, time, counter, gotHint, goodEnough, hasNext) {
 				var appropriate_quips;
 				if (time.getHours() > 1) {
 					appropriate_quips = this.quips.really_long;
@@ -410,11 +403,21 @@
 					appropriate_quips = this.quips.difficult;
 				} else if (time.getMinutes() > 1) {
 					appropriate_quips = this.quips.medium.concat(this.quips.general);
+					if (gotHint) {
+						appropriate_quips.push("Not bad, but try it without a hint this time.");
+					}
+					if (hasNext) {
+						appropriate_quips.push("Keep practicing, then give the next level a try.");
+					}					
 				} else if (time.getSeconds() > 10) {
 					appropriate_quips = this.quips.fast.concat(this.quips.general);
+					if (gotHint) {
+						appropriate_quips.push("Not bad, but try it without a hint this time.");
+						appropriate_quips.push("Right, you get the idea.  Now, try it with no hints.");
+					}
 					if (hasNext) {
 						appropriate_quips.push("This is getting boring.  Try one from the next level.");
-						appropriate_quips.push("Awesome!  Now, let's take this up a notch.");
+						appropriate_quips.push("Awesome!  Now, let's take this up a notch to the next level.");
 					}
 				} else {
 					appropriate_quips = this.quips.cheat;
