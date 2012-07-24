@@ -466,7 +466,7 @@
 		}	
 	}
 	
-	var pushPopUi = new PushPopUI("premium");  // "ad-supported" or "premium"
+	var pushPopUi = new PushPopUI("ad-supported");  // "ad-supported" or "premium"
 	
 	$(document).bind("mobileinit", function(){
 	  $.mobile.defaultDialogTransition = 'none';
