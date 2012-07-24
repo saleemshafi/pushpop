@@ -107,13 +107,12 @@
 	  	if (this.game != null) {
 		  	this.game.shutdown();
 	  	}
-		$("#game-stack").empty();
-		$("#game-board").empty();
-		$("#solution").empty();
 	
 		this.game = new PushPop().init(this.size, this.size, this.difficulty, puzzleId);
 // this is turned off so that changing the difficulty of a puzzle doesn't close the settings page
 //	  	window.location.hash = "puzzle?game="+this.game.id;
+		$("#game-stack").empty();
+		$("#game-board").empty();
 	  	this.render();
 	  	this.game.start(this.updateTimer);
 	  	if (!$("#puzzle").hasClass("ui-page-active")) {
@@ -128,7 +127,9 @@
 	  	// TODO: i think we can do better than this
 	  	// it probably makes more sense to generate a game ID
 	  	// independently and then redirect to it
-	  	this.resetPuzzle(null);
+		$("#game-stack").empty();
+		$("#game-board").html("<div class='puzzle-loader'>Hold on, I'm thinking of a really good one.</div>");
+		setTimeout( function() { pushPopUi.resetPuzzle(null); }, 250); 
 	  },
 	  pauseTimer: function() {
 	  	if (this.game && this.game.timer) {
@@ -354,13 +355,6 @@
 				}
 				return false;
 			},
-			goodEnoughToMoveUp: function(level, endTime, counter) {
-				if (level == "easy" || level == "medium") {
-					return endTime.getMinutes() == 0 && counter <= 20;
-				} else {
-					return endTime.getMinutes() >= 1; // less than 2 minutes
-				}
-			},
 			onPuzzleFinished: function() {
 				if (this.inDemo()) {
 		  			this.inDemo(false);
@@ -370,7 +364,7 @@
 					endTime.pause();
 					var leveledUp = false;
 					var currentLevel = levels[this.difficulty];
-					var goodEnough = currentLevel.goodEnoughForNextLevel(endTime, this.game.counter);
+					var goodEnough = !this.game.gotHint && currentLevel.goodEnoughForNextLevel(endTime, this.game.counter);
 					if (goodEnough) {
 						leveledUp = this.enableLevel(currentLevel.getNext());
 					}
@@ -388,12 +382,12 @@
 						$("#quip").text("Well done!  You've mastered the free version of PushPop.  Upgrade and try the 'Harder' and 'Insane' levels.");
 					} else {
 						var hasNext = nextLevel && this.levelsEnabled.indexOf(nextLevel.id) != -1;
-						$("#quip").text("\""+this.getComment(currentLevel, endTime, this.game.counter, goodEnough, hasNext)+"\"");
+						$("#quip").text("\""+this.getComment(currentLevel, endTime, this.game.counter, this.game.gotHint, goodEnough, hasNext)+"\"");
 					}
 					$.mobile.changePage($("#gameOver"), {transition: "slideup", changeHash: false});
 				}
 			},
-			getComment: function(level, time, counter, goodEnough, hasNext) {
+			getComment: function(level, time, counter, gotHint, goodEnough, hasNext) {
 				var appropriate_quips;
 				if (time.getHours() > 1) {
 					appropriate_quips = this.quips.really_long;
@@ -403,11 +397,21 @@
 					appropriate_quips = this.quips.difficult;
 				} else if (time.getMinutes() > 1) {
 					appropriate_quips = this.quips.medium.concat(this.quips.general);
+					if (gotHint) {
+						appropriate_quips.push("Not bad, but try it without a hint this time.");
+					}
+					if (hasNext) {
+						appropriate_quips.push("Keep practicing, then give the next level a try.");
+					}					
 				} else if (time.getSeconds() > 10) {
 					appropriate_quips = this.quips.fast.concat(this.quips.general);
+					if (gotHint) {
+						appropriate_quips.push("Not bad, but try it without a hint this time.");
+						appropriate_quips.push("Right, you get the idea.  Now, try it with no hints.");
+					}
 					if (hasNext) {
 						appropriate_quips.push("This is getting boring.  Try one from the next level.");
-						appropriate_quips.push("Awesome!  Now, let's take this up a notch.");
+						appropriate_quips.push("Awesome!  Now, let's take this up a notch to the next level.");
 					}
 				} else {
 					appropriate_quips = this.quips.cheat;
@@ -482,7 +486,7 @@
 				pushPopUi.showPremiumDLPage();
 			} else if (pushPopUi.levelsEnabled.indexOf(difficulty) > -1) {
 				pushPopUi.setDifficulty(difficulty);
-				setTimeout( function() { pushPopUi.resetPuzzle(); }, 250); 
+				pushPopUi.reallyNewPuzzle();
 			} else {
 				pushPopUi.showLockedLevelPage();
 			}
@@ -527,7 +531,7 @@
         $("#puzzle").bind('pagebeforehide', function() { pushPopUi.pauseTimer(); } );
         $("#puzzle").bind('pageshow', function() { pushPopUi.resumeTimer(); } );
         $("#gameOver").bind('pageshow', function() { pushPopUi.playSound("applause"); } );
-        $("#gameOver").bind('pagehide', function() { pushPopUi.resetPuzzle(null); } );
+        $("#gameOver").bind('pagehide', function() { pushPopUi.reallyNewPuzzle(); } );
                       
         $("#menuBtn").bind("click", function() { pushPopUi.showMenu(); } );
         $("#newBtn").bind("click", function() { pushPopUi.newPuzzle(); } );

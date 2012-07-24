@@ -217,7 +217,12 @@ h1 {
       box-shadow: 6px 0 6px -3px #333333; }
     #pushpop.large #game-stack .piece.popped {
       left: -120px;
-      opacity: 0; } }
+      opacity: 0; }
+
+  .puzzle-loader {
+    width: 80%;
+    margin-left: 10%;
+    top: 20%; } }
 @media screen and (orientation:landscape) {
   #pushpop.small #game-board .stack {
     width: 66px;
@@ -266,6 +271,8 @@ h1 {
     #pushpop.small #game-stack .piece.popped {
       top: -51px;
       opacity: 0; }
+  #pushpop.small .puzzle-loader {
+    top: 20%; }
 
   #pushpop.medium #game-board .stack {
     width: 98px;
@@ -361,7 +368,12 @@ h1 {
       box-shadow: 0 6px 6px -3px #333333; }
     #pushpop.large #game-stack .piece.popped {
       top: -100px;
-      opacity: 0; } }
+      opacity: 0; }
+
+  .puzzle-loader {
+    width: 60%;
+    margin-left: 15%;
+    top: 40%; } }
 body {
   background-color: #121212;
   font-family: Segoe UI, Arial, Helvetica, sans-serif; }
@@ -597,12 +609,14 @@ body .help-text {
   body .help-text #yellow3::before, body .help-text #red3::before {
     content: "3"; }
 
-#game-board .stack {
-  display: inline-block;
-  vertical-align: top;
-  cursor: pointer; }
-#game-board .stack:first-child {
-  margin-left: 0 !important; }
+#game-board {
+  height: 100%; }
+  #game-board .stack {
+    display: inline-block;
+    vertical-align: top;
+    cursor: pointer; }
+  #game-board .stack:first-child {
+    margin-left: 0 !important; }
 
 .demo-controls {
   display: none;
@@ -670,3 +684,8 @@ li.disabled .ui-li {
 
 p {
   margin-top: 1em; }
+
+.puzzle-loader {
+  font-size: 2em;
+  height: 100%;
+  position: relative; }

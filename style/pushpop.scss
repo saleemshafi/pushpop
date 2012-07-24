@@ -261,10 +261,19 @@ h1 { font-size: 2em; margin-bottom: 0.67em; }
   #pushpop.large {
     @include portrait_sizes(1024px, 768px, 120px, 120px, 100px, 5px);
   }
+
+  .puzzle-loader {
+    width: 80%;
+    margin-left: 10%;
+    top: 20%;
+  }
 }
 @media screen and (orientation:landscape){
   #pushpop.small {
     @include landscape_sizes(480px, 320px, 60px, 60px, 35px, 3px);
+    .puzzle-loader {
+      top: 20%;
+    }
   }
   #pushpop.medium {
     @include landscape_sizes(640px, 480px, 90px, 90px, 30px, 4px);
@@ -272,6 +281,13 @@ h1 { font-size: 2em; margin-bottom: 0.67em; }
   #pushpop.large {
     @include landscape_sizes(1024px, 768px, 120px, 120px, 100px, 5px);
   }
+  
+  .puzzle-loader {
+    width: 60%;
+    margin-left: 15%;
+    top: 40%;
+  }
+  
 }
 
 /////////////////////////////////////////////////////////
@@ -522,6 +538,7 @@ body .help-text {
 }
 
 #game-board {
+  height: 100%;
   .stack {
     display: inline-block;
     vertical-align: top;
@@ -623,5 +640,11 @@ li.disabled .ui-li {
 p {
   margin-top: 1em;
 }
-////////////////////////////////////////////////
 
+.puzzle-loader {
+  font-size: 2em;
+  height: 100%;
+  position: relative;
+}
+
+////////////////////////////////////////////////
